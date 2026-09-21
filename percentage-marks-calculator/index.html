@@ -1,1 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Percentage & Marks Calculator | Calculator.xyz</title>
+<meta name="description" content="Free Percentage and Marks Calculator. Calculate total marks, obtained marks, percentage, average and grade.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f8fc;color:#182033;font-family:Arial,sans-serif}
+.header{background:#fff;border-bottom:1px solid #e5e7eb;padding:14px 18px}
+.logo{font-size:21px;color:#2563eb;font-weight:700}
+.container{max-width:720px;margin:auto;padding:22px 16px 40px}
+h1{font-size:28px;margin:8px 0}
+.subtitle{color:#64748b;line-height:1.5;margin:0 0 22px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin-bottom:16px}
+h2{font-size:20px;margin:0 0 16px}
+.field{margin-bottom:15px}
+label{display:block;font-weight:600;margin-bottom:7px}
+input,select{width:100%;padding:13px 12px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px;background:#fff;color:#182033}
+input:focus,select:focus{outline:2px solid #bfdbfe;border-color:#2563eb}
+button{border:0;border-radius:9px;padding:13px 18px;font-size:16px;font-weight:700;cursor:pointer}
+.primary{background:#2563eb;color:#fff;width:100%}
+.secondary{background:#eef2f7;color:#1e293b;width:100%;margin-top:10px}
+.help{display:inline-flex;width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;background:#e8f0ff;color:#2563eb;font-size:13px;margin-left:5px;cursor:pointer}
+.error{color:#b91c1c;font-size:14px;margin-top:10px;min-height:18px}
+.subject-head,.subject-row{display:grid;grid-template-columns:minmax(80px,1.3fr) minmax(80px,1fr) minmax(80px,1fr) 42px;gap:8px;align-items:center}
+.subject-head{font-size:13px;color:#64748b;margin-bottom:6px}
+.subject-row{margin-bottom:9px}
+.subject-row input{min-width:0}
+.remove{background:#fee2e2;color:#991b1b;padding:10px;width:42px}
+.add{background:#e2e8f0;color:#1e293b;width:100%;margin-top:4px}
+.result{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:16px}
+.main{text-align:center;margin-bottom:15px}
+.main small{color:#475569}
+.main strong{display:block;font-size:34px;color:#1d4ed8;margin-top:5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#fff;border:1px solid #dbeafe;border-radius:10px;padding:12px}
+.stat small{display:block;color:#64748b;margin-bottom:5px}
+.stat strong{font-size:17px}
+.note{font-size:13px;color:#64748b;line-height:1.5;margin-top:14px}
+.info{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(90%,420px);background:#fff;border-radius:14px;padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.25);z-index:10}
+.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:9}
+.close{background:#eef2f7;width:100%;margin-top:10px}
+@media(max-width:480px){
+ .container{padding-left:12px;padding-right:12px}
+ h1{font-size:25px}.card{padding:15px}
+ .subject-head,.subject-row{grid-template-columns:minmax(70px,1.2fr) minmax(65px,1fr) minmax(65px,1fr) 40px}
+ .subject-head{font-size:11px}
+}
+</style>
+</head>
+<body>
+<header class="header"><div class="logo">Calculator.xyz</div></header>
 
+<main class="container">
+<h1>Percentage & Marks Calculator</h1>
+<p class="subtitle">Calculate total marks, obtained marks, percentage, average and an indicative grade.</p>
+
+<section class="card">
+<h2>Enter Your Marks</h2>
+
+<div class="field">
+<label>Number of Subjects <span class="help" data-info="subjects">?</span></label>
+<select id="subjectCount">
+<option value="1">1 Subject</option>
+<option value="2">2 Subjects</option>
+<option value="3">3 Subjects</option>
+<option value="4">4 Subjects</option>
+<option value="5" selected>5 Subjects</option>
+<option value="6">6 Subjects</option>
+<option value="7">7 Subjects</option>
+<option value="8">8 Subjects</option>
+<option value="9">9 Subjects</option>
+<option value="10">10 Subjects</option>
+<option value="11">11 Subjects</option>
+<option value="12">12 Subjects</option>
+<option value="13">13 Subjects</option>
+<option value="14">14 Subjects</option>
+<option value="15">15 Subjects</option>
+<option value="16">16 Subjects</option>
+<option value="17">17 Subjects</option>
+<option value="18">18 Subjects</option>
+<option value="19">19 Subjects</option>
+<option value="20">20 Subjects</option>
+</select>
+</div>
+
+<div class="subject-head">
+<div>Subject</div><div>Max Marks</div><div>Your Marks</div><div></div>
+</div>
+<div id="subjects"></div>
+
+<button class="add" id="addSubject" type="button">＋ Add Subject</button>
+<br><br>
+<button class="primary" id="calculate" type="button">Calculate Result</button>
+<button class="secondary" id="reset" type="button">Reset</button>
+<div class="error" id="error"></div>
+</section>
+
+<section class="card">
+<h2>Result</h2>
+<div class="result">
+<div class="main">
+<small>Overall Percentage</small>
+<strong id="percentage">0%</strong>
+</div>
+<div class="grid">
+<div class="stat"><small>Total Maximum Marks</small><strong id="maxTotal">0</strong></div>
+<div class="stat"><small>Total Obtained Marks</small><strong id="obtainedTotal">0</strong></div>
+<div class="stat"><small>Average Marks / Subject</small><strong id="average">0</strong></div>
+<div class="stat"><small>Indicative Grade</small><strong id="grade">—</strong></div>
+</div>
+<p class="note">The grade shown is an indicative general grading scale, not an official board/university grade. Different institutions may use different grading rules.</p>
+</div>
+</section>
+
+<section class="card">
+<h2>How percentage is calculated</h2>
+<p class="note" style="margin-top:0">
+Percentage = (Total Obtained Marks ÷ Total Maximum Marks) × 100.
+<br><br>
+For example, if you score 425 out of 500, your percentage is 85%.
+</p>
+</section>
+</main>
+
+<div class="overlay" id="overlay"></div>
+<div class="info" id="infoBox">
+<h3 id="infoTitle"></h3>
+<p id="infoText" style="line-height:1.5;color:#475569"></p>
+<button class="close" id="closeInfo">Close</button>
+</div>
+
+<script>
+(function(){
+const subjectsEl=document.getElementById('subjects');
+const countEl=document.getElementById('subjectCount');
+const errorEl=document.getElementById('error');
+
+function makeRow(i){
+ const row=document.createElement('div');
+ row.className='subject-row';
+ row.innerHTML=
+ '<input class="sname" type="text" placeholder="Subject '+i+'" aria-label="Subject name">'+
+ '<input class="max" type="number" min="1" step="1" value="100" inputmode="numeric" aria-label="Maximum marks">'+
+ '<input class="obt" type="number" min="0" step="0.01" value="" placeholder="0" inputmode="decimal" aria-label="Obtained marks">'+
+ '<button class="remove" type="button" title="Remove subject" aria-label="Remove subject">×</button>';
+ row.querySelector('.remove').addEventListener('click',()=>{
+   if(subjectsEl.children.length>1){row.remove();updateCount();}
+ });
+ return row;
+}
+
+function updateCount(){
+ countEl.value=String(subjectsEl.children.length);
+}
+function renderRows(n){
+ subjectsEl.innerHTML='';
+ for(let i=1;i<=n;i++)subjectsEl.appendChild(makeRow(i));
+}
+function calculate(){
+ errorEl.textContent='';
+ const rows=[...subjectsEl.querySelectorAll('.subject-row')];
+ if(!rows.length){errorEl.textContent='Please add at least one subject.';return;}
+ let maxTotal=0,obtainedTotal=0;
+ for(const row of rows){
+   const max=Number(row.querySelector('.max').value);
+   const obt=Number(row.querySelector('.obt').value);
+   if(!Number.isFinite(max)||max<=0){errorEl.textContent='Please enter valid maximum marks for every subject.';return;}
+   if(!Number.isFinite(obt)||obt<0||obt>max){errorEl.textContent='Obtained marks must be between 0 and maximum marks.';return;}
+   maxTotal+=max; obtainedTotal+=obt;
+ }
+ const pct=maxTotal?obtainedTotal/maxTotal*100:0;
+ document.getElementById('maxTotal').textContent=new Intl.NumberFormat('en-IN').format(maxTotal);
+ document.getElementById('obtainedTotal').textContent=new Intl.NumberFormat('en-IN',{maximumFractionDigits:2}).format(obtainedTotal);
+ document.getElementById('percentage').textContent=pct.toFixed(2)+'%';
+ document.getElementById('average').textContent=(obtainedTotal/rows.length).toFixed(2);
+ document.getElementById('grade').textContent=getGrade(pct);
+}
+function getGrade(p){
+ if(p>=90)return 'A+';
+ if(p>=80)return 'A';
+ if(p>=70)return 'B+';
+ if(p>=60)return 'B';
+ if(p>=50)return 'C';
+ if(p>=40)return 'D';
+ return 'F';
+}
+countEl.addEventListener('change',()=>renderRows(Number(countEl.value)));
+document.getElementById('addSubject').addEventListener('click',()=>{
+ if(subjectsEl.children.length<20){
+   subjectsEl.appendChild(makeRow(subjectsEl.children.length+1));
+   updateCount();
+ }
+});
+document.getElementById('calculate').addEventListener('click',calculate);
+document.getElementById('reset').addEventListener('click',()=>{
+ countEl.value='5';renderRows(5);errorEl.textContent='';calculate();
+});
+renderRows(5);
+
+const info={
+ subjects:['Number of Subjects','Select how many subjects you want to calculate. You can also add or remove individual subjects.'],
+};
+const overlay=document.getElementById('overlay'),box=document.getElementById('infoBox');
+document.querySelectorAll('.help').forEach(btn=>btn.addEventListener('click',()=>{
+ const x=info[btn.dataset.info];
+ document.getElementById('infoTitle').textContent=x[0];
+ document.getElementById('infoText').textContent=x[1];
+ overlay.style.display='block';box.style.display='block';
+}));
+function close(){overlay.style.display='none';box.style.display='none';}
+document.getElementById('closeInfo').addEventListener('click',close);
+overlay.addEventListener('click',close);
+})();
+</script>
+</body>
+</html>
