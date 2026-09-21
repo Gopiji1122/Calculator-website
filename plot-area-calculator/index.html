@@ -1,1 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plot Area Calculator India</title>
+<meta name="description" content="Calculate plot area for rectangular, square, triangular and circular plots and convert the result into common land units.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;color:#222}
+.container{max-width:720px;margin:auto;padding:16px}
+.card{background:#fff;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 3px 14px rgba(0,0,0,.08)}
+h1{font-size:27px;margin:3px 0 8px}
+h2{font-size:20px;margin:0 0 15px}
+p{line-height:1.5}
+.subtitle,.muted{color:#666}
+label{display:block;font-weight:600;margin:14px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:16px;background:#fff}
+.info{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#e9eef5;font-size:13px;cursor:pointer;margin-left:5px}
+.info-box{display:none;background:#f0f4f8;padding:10px;border-radius:8px;margin-top:7px;font-size:14px;color:#555}
+.field{margin-top:4px}
+.hidden{display:none}
+button{width:100%;border:0;border-radius:9px;padding:14px;font-size:17px;font-weight:700;background:#222;color:#fff;cursor:pointer;margin-top:18px}
+.warning{display:none;background:#fff4df;color:#765000;padding:10px;border-radius:8px;margin-top:10px;font-size:14px}
+.result{display:none}
+.result-main{text-align:center;padding:12px 0}
+.result-value{font-size:29px;font-weight:700;margin:7px 0}
+.result-unit{color:#666}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.metric{background:#f1f4f7;border-radius:10px;padding:14px;text-align:center;margin-top:12px}
+.metric strong{display:block;font-size:20px;margin-top:5px}
+.note{font-size:13px;color:#666;background:#f7f7f7;padding:11px;border-radius:8px;margin-top:14px}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.container{padding:12px}.card{padding:16px}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="container">
 
+<div class="card">
+<h1>Plot Area Calculator India</h1>
+<p class="subtitle">Calculate the area of a rectangular, square, triangular or circular plot and convert the result into common land units.</p>
+</div>
+
+<div class="card">
+<h2>1. Enter Plot Details</h2>
+
+<label for="shape">Plot shape
+<span class="info" onclick="toggleInfo('shapeInfo')">?</span></label>
+<div class="info-box" id="shapeInfo">Choose the shape that matches your plot. For a normal four-sided plot with equal opposite sides, use Rectangle.</div>
+<select id="shape">
+<option value="rectangle">Rectangle</option>
+<option value="square">Square</option>
+<option value="triangle">Triangle</option>
+<option value="circle">Circle</option>
+</select>
+
+<div id="rectangleFields">
+<div class="grid">
+<div class="field">
+<label for="length">Length</label>
+<input type="number" id="length" min="0" step="any" value="50">
+</div>
+<div class="field">
+<label for="width">Width</label>
+<input type="number" id="width" min="0" step="any" value="30">
+</div>
+</div>
+</div>
+
+<div id="squareFields" class="hidden">
+<label for="side">Side length</label>
+<input type="number" id="side" min="0" step="any" value="30">
+</div>
+
+<div id="triangleFields" class="hidden">
+<div class="grid">
+<div>
+<label for="base">Base</label>
+<input type="number" id="base" min="0" step="any" value="30">
+</div>
+<div>
+<label for="height">Height</label>
+<input type="number" id="height" min="0" step="any" value="20">
+</div>
+</div>
+</div>
+
+<div id="circleFields" class="hidden">
+<label for="radius">Radius</label>
+<input type="number" id="radius" min="0" step="any" value="10">
+</div>
+
+<label for="dimensionUnit">Dimension unit</label>
+<select id="dimensionUnit">
+<option value="ft">Feet (ft)</option>
+<option value="m">Metres (m)</option>
+<option value="yd">Yards (yd)</option>
+</select>
+
+<div class="warning" id="warning"></div>
+<button type="button" onclick="calculate()">Calculate Plot Area</button>
+</div>
+
+<div class="card result" id="result">
+<h2>2. Result</h2>
+
+<label for="outputUnit">Show area in</label>
+<select id="outputUnit">
+<option value="sqft">Square Feet (sq ft)</option>
+<option value="sqm">Square Metre (m²)</option>
+<option value="sqyd">Square Yard / Gaj</option>
+<option value="acre">Acre</option>
+<option value="hectare">Hectare (ha)</option>
+</select>
+
+<div class="result-main">
+<div class="result-value" id="resultValue">—</div>
+<div class="result-unit" id="resultUnit">—</div>
+</div>
+
+<div class="grid">
+<div class="metric">
+<div>Square Feet</div>
+<strong id="sqftValue">—</strong>
+<div class="result-unit">sq ft</div>
+</div>
+<div class="metric">
+<div>Square Metre</div>
+<strong id="sqmValue">—</strong>
+<div class="result-unit">m²</div>
+</div>
+</div>
+
+<div class="metric">
+<div>Hectare</div>
+<strong id="hectareValue">—</strong>
+<div class="result-unit">ha</div>
+</div>
+
+<div class="note">
+For irregular plots where opposite sides are not equal, a simple length × width calculation may not represent the true area. Use surveyed dimensions or a suitable irregular-plot method.
+</div>
+</div>
+
+<div class="card">
+<h2>Common formulas</h2>
+<p class="muted"><strong>Rectangle:</strong> length × width</p>
+<p class="muted"><strong>Square:</strong> side × side</p>
+<p class="muted"><strong>Triangle:</strong> ½ × base × height</p>
+<p class="muted"><strong>Circle:</strong> π × radius²</p>
+</div>
+
+</div>
+
+<script>
+let currentSqm=null;
+
+function toggleInfo(id){
+    const el=document.getElementById(id);
+    if(el) el.style.display=el.style.display==="block"?"none":"block";
+}
+
+const shape=document.getElementById("shape");
+shape.addEventListener("change",updateFields);
+document.getElementById("outputUnit").addEventListener("change",renderResult);
+
+function updateFields(){
+    const s=shape.value;
+    document.getElementById("rectangleFields").classList.toggle("hidden",s!=="rectangle");
+    document.getElementById("squareFields").classList.toggle("hidden",s!=="square");
+    document.getElementById("triangleFields").classList.toggle("hidden",s!=="triangle");
+    document.getElementById("circleFields").classList.toggle("hidden",s!=="circle");
+}
+updateFields();
+
+function factorToMetres(unit){
+    if(unit==="ft")return 0.3048;
+    if(unit==="m")return 1;
+    return 0.9144;
+}
+
+function fmt(n){
+    return n.toLocaleString("en-IN",{maximumFractionDigits:6});
+}
+
+function showWarning(message){
+    const w=document.getElementById("warning");
+    w.textContent=message;
+    w.style.display="block";
+}
+
+function calculate(){
+    const unit=document.getElementById("dimensionUnit").value;
+    const f=factorToMetres(unit);
+    let areaM2=0;
+
+    if(shape.value==="rectangle"){
+        const l=parseFloat(document.getElementById("length").value);
+        const w=parseFloat(document.getElementById("width").value);
+        if(!Number.isFinite(l)||!Number.isFinite(w)||l<=0||w<=0){
+            showWarning("Please enter valid length and width greater than 0.");
+            return;
+        }
+        areaM2=l*f*w*f;
+    }
+
+    if(shape.value==="square"){
+        const s=parseFloat(document.getElementById("side").value);
+        if(!Number.isFinite(s)||s<=0){
+            showWarning("Please enter a valid side length greater than 0.");
+            return;
+        }
+        areaM2=s*f*s*f;
+    }
+
+    if(shape.value==="triangle"){
+        const b=parseFloat(document.getElementById("base").value);
+        const h=parseFloat(document.getElementById("height").value);
+        if(!Number.isFinite(b)||!Number.isFinite(h)||b<=0||h<=0){
+            showWarning("Please enter valid base and height greater than 0.");
+            return;
+        }
+        areaM2=0.5*b*f*h*f;
+    }
+
+    if(shape.value==="circle"){
+        const r=parseFloat(document.getElementById("radius").value);
+        if(!Number.isFinite(r)||r<=0){
+            showWarning("Please enter a valid radius greater than 0.");
+            return;
+        }
+        areaM2=Math.PI*Math.pow(r*f,2);
+    }
+
+    if(!Number.isFinite(areaM2)||areaM2<=0){
+        showWarning("Please check your entered dimensions.");
+        return;
+    }
+
+    document.getElementById("warning").style.display="none";
+    currentSqm=areaM2;
+    renderResult();
+
+    document.getElementById("result").style.display="block";
+    document.getElementById("result").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function renderResult(){
+    if(currentSqm===null)return;
+
+    const unit=document.getElementById("outputUnit").value;
+    let value=0, name="";
+
+    if(unit==="sqft"){value=currentSqm/0.09290304;name="Square Feet (sq ft)"}
+    if(unit==="sqm"){value=currentSqm;name="Square Metre (m²)"}
+    if(unit==="sqyd"){value=currentSqm/0.83612736;name="Square Yard / Gaj"}
+    if(unit==="acre"){value=currentSqm/4046.8564224;name="Acre"}
+    if(unit==="hectare"){value=currentSqm/10000;name="Hectare (ha)"}
+
+    document.getElementById("resultValue").textContent=fmt(value);
+    document.getElementById("resultUnit").textContent=name;
+    document.getElementById("sqftValue").textContent=fmt(currentSqm/0.09290304);
+    document.getElementById("sqmValue").textContent=fmt(currentSqm);
+    document.getElementById("hectareValue").textContent=fmt(currentSqm/10000);
+}
+</script>
+</body>
+</html>
