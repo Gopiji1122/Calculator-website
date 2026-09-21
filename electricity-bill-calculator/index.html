@@ -549,19 +549,13 @@
                 </button>
 
             </div>
+<select id="discom" disabled>
+    <option value="">
+        First select your state / UT
+    </option>
+</select>
 
-
-            <select id="discom">
-
-                <option value="">
-                    Select your electricity provider
-                </option>
-
-                <option value="not-selected">
-                    I don't know my provider
-                </option>
-
-            </select>
+            
 
 
             <div class="help-text">
@@ -1027,7 +1021,234 @@
 
 
 <script>
+const discomData = {
 
+    "andhra-pradesh": [
+        ["APCPDCL", "APCPDCL"],
+        ["APEPDCL", "APEPDCL"],
+        ["APSPDCL", "APSPDCL"]
+    ],
+
+    "arunachal-pradesh": [
+        ["apdop", "Department of Power, Arunachal Pradesh"]
+    ],
+
+    "assam": [
+        ["apdcl", "Assam Power Distribution Company Limited (APDCL)"]
+    ],
+
+    "bihar": [
+        ["nbpdcl", "North Bihar Power Distribution Company Limited (NBPDCL)"],
+        ["sbpdcl", "South Bihar Power Distribution Company Limited (SBPDCL)"]
+    ],
+
+    "chhattisgarh": [
+        ["cspdcl", "Chhattisgarh State Power Distribution Company Limited (CSPDCL)"]
+    ],
+
+    "goa": [
+        ["goa-power", "Electricity Department, Government of Goa"]
+    ],
+
+    "gujarat": [
+        ["dgvcl", "Dakshin Gujarat Vij Company Limited (DGVCL)"],
+        ["mgvcl", "Madhya Gujarat Vij Company Limited (MGVCL)"],
+        ["pgvcl", "Paschim Gujarat Vij Company Limited (PGVCL)"],
+        ["ugvcl", "Uttar Gujarat Vij Company Limited (UGVCL)"],
+        ["torrent-ahmedabad", "Torrent Power – Ahmedabad"],
+        ["torrent-surat", "Torrent Power – Surat"]
+    ],
+
+    "haryana": [
+        ["dhbvnl", "Dakshin Haryana Bijli Vitran Nigam (DHBVNL)"],
+        ["uhbvnl", "Uttar Haryana Bijli Vitran Nigam (UHBVNL)"]
+    ],
+
+    "himachal-pradesh": [
+        ["hpsebl", "Himachal Pradesh State Electricity Board Limited (HPSEBL)"]
+    ],
+
+    "jharkhand": [
+        ["jbvnl", "Jharkhand Bijli Vitran Nigam Limited (JBVNL)"]
+    ],
+
+    "karnataka": [
+        ["bescom", "Bangalore Electricity Supply Company (BESCOM)"],
+        ["mescom", "Mangalore Electricity Supply Company (MESCOM)"],
+        ["hescom", "Hubli Electricity Supply Company (HESCOM)"],
+        ["gescom", "Gulbarga Electricity Supply Company (GESCOM)"],
+        ["cesc-mysuru", "Chamundeshwari Electricity Supply Corporation (CESC)"]
+    ],
+
+    "kerala": [
+        ["kseb", "Kerala State Electricity Board Limited (KSEB)"]
+    ],
+
+    "madhya-pradesh": [
+        ["mppkvvcl", "MP Paschim Kshetra Vidyut Vitaran Company (MPPKVVCL)"],
+        ["mpmkvvcl", "MP Madhya Kshetra Vidyut Vitaran Company (MPMKVVCL)"],
+        ["mppokvvcl", "MP Poorv Kshetra Vidyut Vitaran Company (MPPOKVVCL)"]
+    ],
+
+    "maharashtra": [
+        ["msedcl", "Maharashtra State Electricity Distribution Company (MSEDCL)"],
+        ["best", "BEST"],
+        ["adani-mumbai", "Adani Electricity Mumbai Limited"],
+        ["tata-mumbai", "Tata Power Mumbai"]
+    ],
+
+    "manipur": [
+        ["mspdcl", "Manipur State Power Distribution Company Limited (MSPDCL)"]
+    ],
+
+    "meghalaya": [
+        ["mepdcl", "Meghalaya Power Distribution Corporation Limited (MePDCL)"]
+    ],
+
+    "mizoram": [
+        ["mizoram-power", "Power & Electricity Department, Mizoram"]
+    ],
+
+    "nagaland": [
+        ["nagaland-power", "Department of Power, Nagaland"]
+    ],
+
+    "odisha": [
+        ["tpnodl", "TP Northern Odisha Distribution Limited (TPNODL)"],
+        ["tpwodl", "TP Western Odisha Distribution Limited (TPWODL)"],
+        ["tpcodl", "TP Central Odisha Distribution Limited (TPCODL)"],
+        ["tpsodl", "TP Southern Odisha Distribution Limited (TPSODL)"]
+    ],
+
+    "punjab": [
+        ["pspcl", "Punjab State Power Corporation Limited (PSPCL)"]
+    ],
+
+    "rajasthan": [
+        ["avvnl", "Ajmer Vidyut Vitran Nigam Limited (AVVNL)"],
+        ["jvvnl", "Jaipur Vidyut Vitran Nigam Limited (JVVNL)"],
+        ["jdvvnl", "Jodhpur Vidyut Vitran Nigam Limited (JDVVNL)"]
+    ],
+
+    "sikkim": [
+        ["sikkim-power", "Power Department, Government of Sikkim"]
+    ],
+
+    "tamil-nadu": [
+        ["tnpdcl", "Tamil Nadu Power Distribution Corporation Limited (TNPDCL)"]
+    ],
+
+    "telangana": [
+        ["tgspdcl", "TGNPDCL / TGSPDCL – Southern Telangana"],
+        ["tgnpdcl", "TGNPDCL – Northern Telangana"]
+    ],
+
+    "tripura": [
+        ["tsecl", "Tripura State Electricity Corporation Limited (TSECL)"]
+    ],
+
+    "uttar-pradesh": [
+        ["dvvnl", "Dakshinanchal Vidyut Vitran Nigam Limited (DVVNL)"],
+        ["kesco", "Kanpur Electricity Supply Company Limited (KESCO)"],
+        ["mvvnl", "Madhyanchal Vidyut Vitran Nigam Limited (MVVNL)"],
+        ["puvvnl", "Purvanchal Vidyut Vitran Nigam Limited (PuVVNL)"],
+        ["pvvnl", "Paschimanchal Vidyut Vitran Nigam Limited (PVVNL)"]
+    ],
+
+    "uttarakhand": [
+        ["upcl", "Uttarakhand Power Corporation Limited (UPCL)"]
+    ],
+
+    "west-bengal": [
+        ["wbsedcl", "West Bengal State Electricity Distribution Company Limited (WBSEDCL)"],
+        ["cesc-west-bengal", "CESC Limited"]
+    ],
+
+    "andaman-nicobar": [
+        ["andaman-power", "Electricity Department, Andaman & Nicobar Administration"]
+    ],
+
+    "chandigarh": [
+        ["chandigarh-power", "Electricity Department, Chandigarh Administration"]
+    ],
+
+    "dadra-nagar-haveli-daman-diu": [
+        ["dnhddpdcl", "DNHDD Power Distribution Corporation Limited (DNHDDPDCL)"]
+    ],
+
+    "delhi": [
+        ["brpl", "BSES Rajdhani Power Limited (BRPL)"],
+        ["bypl", "BSES Yamuna Power Limited (BYPL)"],
+        ["tpddl", "Tata Power Delhi Distribution Limited (TPDDL)"],
+        ["ndmc", "New Delhi Municipal Council (NDMC)"]
+    ],
+
+    "jammu-kashmir": [
+        ["jpdcl", "Jammu Power Distribution Corporation Limited (JPDCL)"],
+        ["kpdcl", "Kashmir Power Distribution Corporation Limited (KPDCL)"]
+    ],
+
+    "ladakh": [
+        ["ladakh-power", "Power Development Department, Ladakh"]
+    ],
+
+    "lakshadweep": [
+        ["lakshadweep-power", "Electricity Department, Lakshadweep Administration"]
+    ],
+
+    "puducherry": [
+        ["puducherry-power", "Electricity Department, Government of Puducherry"]
+    ]
+};
+
+
+document.getElementById("state").addEventListener("change", function () {
+
+    const state = this.value;
+    const discom = document.getElementById("discom");
+
+    discom.innerHTML = "";
+
+    if (!state) {
+        discom.disabled = true;
+
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "First select your state / UT";
+        discom.appendChild(option);
+
+        return;
+    }
+
+    discom.disabled = false;
+
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Select your electricity provider";
+    discom.appendChild(defaultOption);
+
+    const unknownOption = document.createElement("option");
+    unknownOption.value = "not-selected";
+    unknownOption.textContent = "I don't know my provider";
+    discom.appendChild(unknownOption);
+
+    const providers = discomData[state] || [];
+
+    providers.forEach(function (provider) {
+
+        const option = document.createElement("option");
+
+        option.value = provider[0];
+        option.textContent = provider[1];
+
+        discom.appendChild(option);
+    });
+
+    const otherOption = document.createElement("option");
+    otherOption.value = "other";
+    otherOption.textContent = "Other / My provider is not listed";
+    discom.appendChild(otherOption);
+});
 
 function toggleInfo(id) {
 
