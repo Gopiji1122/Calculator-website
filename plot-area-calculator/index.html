@@ -3,50 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plot Area Calculator India</title>
-<meta name="description" content="Calculate plot area for rectangular, square, triangular and circular plots and convert the result into common land units.">
+<title>Plot Area & Land Price Calculator India</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;color:#222}
-.container{max-width:720px;margin:auto;padding:16px}
-.card{background:#fff;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 3px 14px rgba(0,0,0,.08)}
-h1{font-size:27px;margin:3px 0 8px}
-h2{font-size:20px;margin:0 0 15px}
-p{line-height:1.5}
-.subtitle,.muted{color:#666}
-label{display:block;font-weight:600;margin:14px 0 6px}
-input,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:16px;background:#fff}
-.info{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#e9eef5;font-size:13px;cursor:pointer;margin-left:5px}
-.info-box{display:none;background:#f0f4f8;padding:10px;border-radius:8px;margin-top:7px;font-size:14px;color:#555}
-.field{margin-top:4px}
-.hidden{display:none}
-button{width:100%;border:0;border-radius:9px;padding:14px;font-size:17px;font-weight:700;background:#222;color:#fff;cursor:pointer;margin-top:18px}
-.warning{display:none;background:#fff4df;color:#765000;padding:10px;border-radius:8px;margin-top:10px;font-size:14px}
-.result{display:none}
-.result-main{text-align:center;padding:12px 0}
-.result-value{font-size:29px;font-weight:700;margin:7px 0}
-.result-unit{color:#666}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033}
+.container{max-width:760px;margin:auto;padding:18px 14px 40px}
+h1{font-size:26px;margin:5px 0 8px}
+.subtitle{color:#5c667a;margin:0 0 18px;line-height:1.5}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.tab{border:1px solid #d6dce8;background:#fff;border-radius:12px;padding:13px;text-align:center;font-weight:700;cursor:pointer}
+.tab.active{background:#172033;color:#fff}
+.card{background:#fff;border:1px solid #dfe4ed;border-radius:16px;padding:18px;margin-bottom:14px}
+.card h2{font-size:20px;margin:0 0 8px}
+.help{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#e9eef7;color:#26344d;font-size:13px;cursor:pointer}
+label{display:block;font-weight:600;margin:13px 0 6px}
+input,select,button{width:100%;min-height:46px;border-radius:10px;font-size:16px}
+input,select{border:1px solid #cbd3e1;padding:10px;background:#fff}
+button{border:0;background:#172033;color:#fff;font-weight:700;padding:10px;cursor:pointer;margin-top:15px}
+button.secondary{background:#eef2f8;color:#172033}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.metric{background:#f1f4f7;border-radius:10px;padding:14px;text-align:center;margin-top:12px}
-.metric strong{display:block;font-size:20px;margin-top:5px}
-.note{font-size:13px;color:#666;background:#f7f7f7;padding:11px;border-radius:8px;margin-top:14px}
-@media(max-width:520px){.grid{grid-template-columns:1fr}.container{padding:12px}.card{padding:16px}h1{font-size:24px}}
+.result{margin-top:15px;padding:15px;border-radius:12px;background:#f1f5fa;line-height:1.7}
+.big{font-size:23px;font-weight:800}
+.note{font-size:13px;color:#687286;line-height:1.5;margin:12px 0 0}
+.error{color:#a32323;background:#fff0f0;border:1px solid #f1caca;padding:11px;border-radius:10px;margin-top:12px}
+.tip{font-size:13px;color:#59657a;background:#f7f9fc;padding:10px;border-radius:10px;margin-top:10px}
+.hidden{display:none}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.container{padding:14px 10px 30px}h1{font-size:23px}}
 </style>
 </head>
 <body>
 <div class="container">
+<h1>Plot Area & Land Price Calculator</h1>
+<p class="subtitle">Calculate your plot area, or directly calculate land value when you already know the area and the price per unit.</p>
 
-<div class="card">
-<h1>Plot Area Calculator India</h1>
-<p class="subtitle">Calculate the area of a rectangular, square, triangular or circular plot and convert the result into common land units.</p>
+<div class="tabs">
+  <button type="button" class="tab active" id="tabArea">1. Calculate Area</button>
+  <button type="button" class="tab" id="tabPrice">2. Calculate Land Price</button>
 </div>
 
-<div class="card">
-<h2>1. Enter Plot Details</h2>
+<!-- AREA SECTION -->
+<section id="areaSection" class="card">
+<h2>Plot Area Calculator <span class="help" data-help="Choose the plot shape and enter its dimensions. You can choose feet, metres or yards.">?</span></h2>
 
-<label for="shape">Plot shape
-<span class="info" onclick="toggleInfo('shapeInfo')">?</span></label>
-<div class="info-box" id="shapeInfo">Choose the shape that matches your plot. For a normal four-sided plot with equal opposite sides, use Rectangle.</div>
+<label for="shape">Plot Shape</label>
 <select id="shape">
 <option value="rectangle">Rectangle</option>
 <option value="square">Square</option>
@@ -54,374 +53,316 @@ button{width:100%;border:0;border-radius:9px;padding:14px;font-size:17px;font-we
 <option value="circle">Circle</option>
 </select>
 
+<label for="dimensionUnit">Dimension Unit</label>
+<select id="dimensionUnit">
+<option value="feet">Feet</option>
+<option value="metres">Metres</option>
+<option value="yards">Yards</option>
+</select>
+
 <div id="rectangleFields">
-<div class="grid">
-<div class="field">
-<label for="length">Length</label>
-<input type="number" id="length" min="0" step="any" value="50">
-</div>
-<div class="field">
-<label for="width">Width</label>
-<input type="number" id="width" min="0" step="any" value="30">
-</div>
-</div>
+  <div class="grid">
+    <div><label for="length">Length</label><input id="length" type="number" min="0" step="any" placeholder="e.g. 50"></div>
+    <div><label for="width">Width</label><input id="width" type="number" min="0" step="any" placeholder="e.g. 30"></div>
+  </div>
 </div>
 
 <div id="squareFields" class="hidden">
-<label for="side">Side length</label>
-<input type="number" id="side" min="0" step="any" value="30">
+  <label for="side">Side</label>
+  <input id="side" type="number" min="0" step="any" placeholder="e.g. 40">
 </div>
 
 <div id="triangleFields" class="hidden">
-<div class="grid">
-<div>
-<label for="base">Base</label>
-<input type="number" id="base" min="0" step="any" value="30">
-</div>
-<div>
-<label for="height">Height</label>
-<input type="number" id="height" min="0" step="any" value="20">
-</div>
-</div>
+  <div class="grid">
+    <div><label for="base">Base</label><input id="base" type="number" min="0" step="any"></div>
+    <div><label for="height">Height</label><input id="height" type="number" min="0" step="any"></div>
+  </div>
 </div>
 
 <div id="circleFields" class="hidden">
-<label for="radius">Radius</label>
-<input type="number" id="radius" min="0" step="any" value="10">
+  <label for="radius">Radius</label>
+  <input id="radius" type="number" min="0" step="any">
 </div>
 
-<label for="dimensionUnit">Dimension unit</label>
-<select id="dimensionUnit">
-<option value="ft">Feet (ft)</option>
-<option value="m">Metres (m)</option>
-<option value="yd">Yards (yd)</option>
-</select>
+<button type="button" id="calculateArea">Calculate Area</button>
+<div id="areaError" class="error hidden"></div>
+<div id="areaResult" class="result hidden" aria-live="polite"></div>
 
-<div class="warning" id="warning"></div>
-<button type="button" onclick="calculate()">Calculate Plot Area</button>
-</div>
-
-<div class="card result" id="result">
-<h2>2. Result</h2>
-
-<label for="outputUnit">Show area in</label>
-<select id="outputUnit">
+<label for="areaResultUnit">Show main result in:</label>
+<select id="areaResultUnit">
 <option value="sqft">Square Feet (sq ft)</option>
 <option value="sqm">Square Metre (m²)</option>
 <option value="sqyd">Square Yard / Gaj</option>
 <option value="acre">Acre</option>
-<option value="hectare">Hectare (ha)</option>
+<option value="hectare">Hectare</option>
 </select>
+<div class="tip">The result updates when you change the result unit after calculating.</div>
+</section>
 
-<div class="result-main">
-<div class="result-value" id="resultValue">—</div>
-<div class="result-unit" id="resultUnit">—</div>
-</div>
+<!-- DIRECT PRICE SECTION -->
+<section id="priceSection" class="card hidden">
+<h2>Land Price Calculator <span class="help" data-help="Use this section when you already know your plot area. Area and price can be entered in different units. The calculator converts them to a common unit and gives the total value in rupees.">?</span></h2>
 
+<label for="knownArea">Plot Area</label>
 <div class="grid">
-<div class="metric">
-<div>Square Feet</div>
-<strong id="sqftValue">—</strong>
-<div class="result-unit">sq ft</div>
-</div>
-<div class="metric">
-<div>Square Metre</div>
-<strong id="sqmValue">—</strong>
-<div class="result-unit">m²</div>
-</div>
-</div>
-
-<div class="metric">
-<div>Hectare</div>
-<strong id="hectareValue">—</strong>
-<div class="result-unit">ha</div>
+  <input id="knownArea" type="number" min="0" step="any" placeholder="e.g. 1000">
+  <select id="knownAreaUnit">
+    <option value="sqft">Square Feet (sq ft)</option>
+    <option value="sqyd">Square Yard / Gaj</option>
+    <option value="sqm">Square Metre (m²)</option>
+    <option value="acre">Acre</option>
+    <option value="hectare">Hectare</option>
+    <option value="bigha">Bigha</option>
+    <option value="biswa">Biswa</option>
+  </select>
 </div>
 
-<div class="note">
-For irregular plots where opposite sides are not equal, a simple length × width calculation may not represent the true area. Use surveyed dimensions or a suitable irregular-plot method.
+<div id="regionalBox">
+<label for="region">Bigha/Biswa Convention <span class="help" data-help="Bigha and Biswa vary by region. Select a reference convention or use Custom if your local value is different.">?</span></label>
+<select id="region">
+<option value="rj_pucca">Rajasthan – Pucca Bigha (27,225 sq ft)</option>
+<option value="rj_kachcha">Rajasthan – Kachcha Bigha (17,424 sq ft)</option>
+<option value="up_pucca">Uttar Pradesh – Pucca Bigha (27,000 sq ft)</option>
+<option value="bihar">Bihar (27,220 sq ft)</option>
+<option value="jharkhand">Jharkhand (27,211 sq ft)</option>
+<option value="mp">Madhya Pradesh (12,000 sq ft)</option>
+<option value="gujarat">Gujarat / Vigha (17,424 sq ft)</option>
+<option value="wb">West Bengal (14,400 sq ft)</option>
+<option value="assam">Assam (14,400 sq ft)</option>
+<option value="hp">Himachal Pradesh (8,712 sq ft)</option>
+<option value="uttarakhand">Uttarakhand (6,804 sq ft)</option>
+<option value="haryana">Haryana (27,225 sq ft)</option>
+<option value="punjab">Punjab (9,070 sq ft)</option>
+<option value="custom">Custom local value</option>
+</select>
+<div id="customBigha" class="grid hidden">
+  <div><label for="customBighaValue">1 Bigha =</label><input id="customBighaValue" type="number" min="0" step="any" placeholder="e.g. 27225"></div>
+  <div><label for="customBighaUnit">Unit</label><select id="customBighaUnit"><option value="sqft">Square Feet</option><option value="sqm">Square Metre</option><option value="hectare">Hectare</option></select></div>
 </div>
 </div>
 
-<div class="card">
-<h2>Common formulas</h2>
-<p class="muted"><strong>Rectangle:</strong> length × width</p>
-<p class="muted"><strong>Square:</strong> side × side</p>
-<p class="muted"><strong>Triangle:</strong> ½ × base × height</p>
-<p class="muted"><strong>Circle:</strong> π × radius²</p>
-</div>
-
-</div>
-
-<script>
-let currentSqm=null;
-
-function toggleInfo(id){
-    const el=document.getElementById(id);
-    if(el) el.style.display=el.style.display==="block"?"none":"block";
-}
-
-const shape=document.getElementById("shape");
-shape.addEventListener("change",updateFields);
-document.getElementById("outputUnit").addEventListener("change",renderResult);
-
-function updateFields(){
-    const s=shape.value;
-    document.getElementById("rectangleFields").classList.toggle("hidden",s!=="rectangle");
-    document.getElementById("squareFields").classList.toggle("hidden",s!=="square");
-    document.getElementById("triangleFields").classList.toggle("hidden",s!=="triangle");
-    document.getElementById("circleFields").classList.toggle("hidden",s!=="circle");
-}
-updateFields();
-
-function factorToMetres(unit){
-    if(unit==="ft")return 0.3048;
-    if(unit==="m")return 1;
-    return 0.9144;
-}
-
-function fmt(n){
-    return n.toLocaleString("en-IN",{maximumFractionDigits:6});
-}
-
-function showWarning(message){
-    const w=document.getElementById("warning");
-    w.textContent=message;
-    w.style.display="block";
-}
-
-function calculate(){
-    const unit=document.getElementById("dimensionUnit").value;
-    const f=factorToMetres(unit);
-    let areaM2=0;
-
-    if(shape.value==="rectangle"){
-        const l=parseFloat(document.getElementById("length").value);
-        const w=parseFloat(document.getElementById("width").value);
-        if(!Number.isFinite(l)||!Number.isFinite(w)||l<=0||w<=0){
-            showWarning("Please enter valid length and width greater than 0.");
-            return;
-        }
-        areaM2=l*f*w*f;
-    }
-
-    if(shape.value==="square"){
-        const s=parseFloat(document.getElementById("side").value);
-        if(!Number.isFinite(s)||s<=0){
-            showWarning("Please enter a valid side length greater than 0.");
-            return;
-        }
-        areaM2=s*f*s*f;
-    }
-
-    if(shape.value==="triangle"){
-        const b=parseFloat(document.getElementById("base").value);
-        const h=parseFloat(document.getElementById("height").value);
-        if(!Number.isFinite(b)||!Number.isFinite(h)||b<=0||h<=0){
-            showWarning("Please enter valid base and height greater than 0.");
-            return;
-        }
-        areaM2=0.5*b*f*h*f;
-    }
-
-    if(shape.value==="circle"){
-        const r=parseFloat(document.getElementById("radius").value);
-        if(!Number.isFinite(r)||r<=0){
-            showWarning("Please enter a valid radius greater than 0.");
-            return;
-        }
-        areaM2=Math.PI*Math.pow(r*f,2);
-    }
-
-    if(!Number.isFinite(areaM2)||areaM2<=0){
-        showWarning("Please check your entered dimensions.");
-        return;
-    }
-
-    document.getElementById("warning").style.display="none";
-    currentSqm=areaM2;
-    renderResult();
-
-    document.getElementById("result").style.display="block";
-    document.getElementById("result").scrollIntoView({behavior:"smooth",block:"nearest"});
-}
-
-function renderResult(){
-    if(currentSqm===null)return;
-
-    const unit=document.getElementById("outputUnit").value;
-    let value=0, name="";
-
-    if(unit==="sqft"){value=currentSqm/0.09290304;name="Square Feet (sq ft)"}
-    if(unit==="sqm"){value=currentSqm;name="Square Metre (m²)"}
-    if(unit==="sqyd"){value=currentSqm/0.83612736;name="Square Yard / Gaj"}
-    if(unit==="acre"){value=currentSqm/4046.8564224;name="Acre"}
-    if(unit==="hectare"){value=currentSqm/10000;name="Hectare (ha)"}
-
-    document.getElementById("resultValue").textContent=fmt(value);
-    document.getElementById("resultUnit").textContent=name;
-    document.getElementById("sqftValue").textContent=fmt(currentSqm/0.09290304);
-    document.getElementById("sqmValue").textContent=fmt(currentSqm);
-    document.getElementById("hectareValue").textContent=fmt(currentSqm/10000);
-}
-
-// Optional land-price calculation
-(function () {
-  const priceUnit = document.getElementById("priceUnit");
-  const pricePerUnit = document.getElementById("pricePerUnit");
-  const calculatePrice = document.getElementById("calculatePrice");
-  const priceResult = document.getElementById("priceResult");
-
-  if (!priceUnit || !pricePerUnit || !calculatePrice || !priceResult) return;
-
-  const SQFT_PER_UNIT = {
-    sqft: 1,
-    sqyd: 9,
-    sqm: 10.7639104167,
-    acre: 43560,
-    hectare: 107639.104167
-  };
-
-  calculatePrice.addEventListener("click", function () {
-    const areaSqFt = getPlotAreaInSqFt();
-    const rate = Number(pricePerUnit.value);
-
-    if (!Number.isFinite(areaSqFt) || areaSqFt <= 0) {
-      priceResult.style.display = "block";
-      priceResult.innerHTML = "<strong>Please calculate a valid plot area first.</strong>";
-      return;
-    }
-
-    if (!Number.isFinite(rate) || rate < 0) {
-      priceResult.style.display = "block";
-      priceResult.innerHTML = "<strong>Please enter a valid price.</strong>";
-      return;
-    }
-
-    const unit = priceUnit.value;
-    const selectedUnitArea = areaSqFt / SQFT_PER_UNIT[unit];
-    const total = selectedUnitArea * rate;
-
-    const unitNames = {
-      sqft: "sq ft",
-      sqyd: "sq yd / gaj",
-      sqm: "m²",
-      acre: "acre",
-      hectare: "hectare"
-    };
-
-    priceResult.style.display = "block";
-    priceResult.innerHTML =
-      "<div style='font-size:1.05rem;'>Area: <strong>" +
-      formatNumber(selectedUnitArea) + " " + unitNames[unit] +
-      "</strong></div>" +
-      "<div style='margin-top:6px;'>Rate: <strong>₹" +
-      formatMoney(rate) + " / " + unitNames[unit] +
-      "</strong></div>" +
-      "<div style='margin-top:10px;font-size:1.35rem;'>Estimated Land Value: <strong>₹" +
-      formatMoney(total) + "</strong></div>";
-  });
-
-  function formatNumber(n) {
-    return new Intl.NumberFormat("en-IN", {
-      maximumFractionDigits: 4
-    }).format(n);
-  }
-
-  function formatMoney(n) {
-    return new Intl.NumberFormat("en-IN", {
-      maximumFractionDigits: 2
-    }).format(n);
-  }
-
-  // Try to use the calculator's existing area result.
-  // This function reads the visible area value when available,
-  // avoiding changes to the existing plot-area calculation logic.
-  function getPlotAreaInSqFt() {
-    if (typeof window.plotAreaSqFt === "number" && Number.isFinite(window.plotAreaSqFt)) {
-      return window.plotAreaSqFt;
-    }
-
-    const possibleIds = [
-      "areaSqFt", "squareFeet", "sqFtResult", "resultSqFt",
-      "areaInSqFt", "sqftResult", "sqft"
-    ];
-
-    for (const id of possibleIds) {
-      const el = document.getElementById(id);
-      if (!el) continue;
-      const n = Number(String(el.textContent || el.value || "").replace(/[^0-9.]/g, ""));
-      if (Number.isFinite(n) && n > 0) return n;
-    }
-
-    // Fallback: calculate directly from the existing shape/dimension fields.
-    const shapeEl = document.getElementById("shape");
-    const shape = shapeEl ? shapeEl.value : "";
-
-    const unitEl = document.getElementById("dimensionUnit");
-    const unit = unitEl ? unitEl.value : "feet";
-
-    const factorToFeet = {
-      feet: 1,
-      foot: 1,
-      metres: 3.280839895,
-      meters: 3.280839895,
-      metre: 3.280839895,
-      meter: 3.280839895,
-      yards: 3,
-      yard: 3
-    };
-
-    const factor = factorToFeet[unit] || 1;
-    const num = id => {
-      const el = document.getElementById(id);
-      return el ? Number(el.value) : NaN;
-    };
-
-    if (shape === "rectangle") {
-      return num("length") * factor * num("width") * factor;
-    }
-    if (shape === "square") {
-      const s = num("side") * factor;
-      return s * s;
-    }
-    if (shape === "triangle") {
-      return 0.5 * num("base") * factor * num("height") * factor;
-    }
-    if (shape === "circle") {
-      const r = num("radius") * factor;
-      return Math.PI * r * r;
-    }
-
-    return NaN;
-  }
-})();
-
-</script>
-
-<section class="card" style="margin-top:16px;">
-  <h2>Land Price Calculator <span class="info" title="Optional: enter the rate quoted by the seller/market and the calculator will multiply it by your plot area. This is an estimated land value, not an official market value or circle rate.">?</span></h2>
-
-  <label for="priceUnit">Price is given per:</label>
+<label for="price">Price per selected price unit (₹)</label>
+<div class="grid">
+  <input id="price" type="number" min="0" step="any" placeholder="e.g. 2000">
   <select id="priceUnit">
     <option value="sqft">Square Feet (sq ft)</option>
     <option value="sqyd">Square Yard / Gaj</option>
     <option value="sqm">Square Metre (m²)</option>
     <option value="acre">Acre</option>
     <option value="hectare">Hectare</option>
+    <option value="bigha">Bigha</option>
+    <option value="biswa">Biswa</option>
   </select>
+</div>
 
-  <label for="pricePerUnit">Price per selected unit (₹)</label>
-  <input id="pricePerUnit" type="number" min="0" step="any" placeholder="e.g. 2000">
-
-  <button type="button" id="calculatePrice">Calculate Land Value</button>
-
-  <div id="priceResult" class="result" style="display:none;"></div>
-
-  <p class="note">
-    This is an estimated land value based only on your plot area × the rate you enter.
-    It does not include stamp duty, registration, brokerage, development costs, or government circle rates.
-  </p>
+<p class="tip">Example: Area = 1,000 sq ft and price = ₹2,000 per sq ft → ₹20,00,000. Area and price units do not have to match.</p>
+<button type="button" id="calculatePrice">Calculate Land Value</button>
+<div id="priceError" class="error hidden"></div>
+<div id="priceResult" class="result hidden" aria-live="polite"></div>
+<p class="note">Estimated land value = area × user-entered rate. This is not an official circle rate, market valuation, stamp-duty value, or government valuation.</p>
 </section>
 
+<button type="button" class="secondary" id="resetAll">Reset</button>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+const regionSqft = {
+  rj_pucca:27225, rj_kachcha:17424, up_pucca:27000, bihar:27220,
+  jharkhand:27211, mp:12000, gujarat:17424, wb:14400, assam:14400,
+  hp:8712, uttarakhand:6804, haryana:27225, punjab:9070
+};
+
+const sqftPer = {
+  sqft:1,
+  sqyd:9,
+  sqm:10.7639104167,
+  acre:43560,
+  hectare:107639.104167
+};
+
+let lastAreaSqft = null;
+
+function fmt(n, max=4){
+  return new Intl.NumberFormat("en-IN",{maximumFractionDigits:max}).format(n);
+}
+function money(n){
+  return new Intl.NumberFormat("en-IN",{maximumFractionDigits:2}).format(n);
+}
+function showError(id,msg){
+  $(id).textContent=msg;
+  $(id).classList.remove("hidden");
+}
+function hide(id){$(id).classList.add("hidden");}
+
+function getBighaSqft(){
+  const r=$("region").value;
+  if(r==="custom"){
+    const v=Number($("customBighaValue").value);
+    if(!Number.isFinite(v)||v<=0) return null;
+    const u=$("customBighaUnit").value;
+    return v*(u==="sqft"?1:u==="sqm"?10.7639104167:107639.104167);
+  }
+  return regionSqft[r] || null;
+}
+
+function getUnitSqft(unit){
+  if(unit==="bigha") return getBighaSqft();
+  if(unit==="biswa"){
+    const b=getBighaSqft();
+    return b ? b/20 : null;
+  }
+  return sqftPer[unit] || null;
+}
+
+function areaToSqft(value,unit){
+  const factor=getUnitSqft(unit);
+  return factor ? value*factor : null;
+}
+
+function setShapeFields(){
+  ["rectangleFields","squareFields","triangleFields","circleFields"].forEach(id=>$(id).classList.add("hidden"));
+  $( $("shape").value+"Fields" ).classList.remove("hidden");
+}
+
+function calculateShapeSqft(){
+  const shape=$("shape").value;
+  const factor = $("dimensionUnit").value==="feet" ? 1 :
+                 $("dimensionUnit").value==="metres" ? 3.280839895 :
+                 3;
+  let sqft=null;
+
+  if(shape==="rectangle"){
+    const l=Number($("length").value), w=Number($("width").value);
+    if(l<=0||w<=0||!Number.isFinite(l)||!Number.isFinite(w)) return null;
+    sqft=(l*factor)*(w*factor);
+  }else if(shape==="square"){
+    const s=Number($("side").value);
+    if(s<=0||!Number.isFinite(s)) return null;
+    sqft=(s*factor)**2;
+  }else if(shape==="triangle"){
+    const b=Number($("base").value), h=Number($("height").value);
+    if(b<=0||h<=0||!Number.isFinite(b)||!Number.isFinite(h)) return null;
+    sqft=.5*(b*factor)*(h*factor);
+  }else{
+    const r=Number($("radius").value);
+    if(r<=0||!Number.isFinite(r)) return null;
+    sqft=Math.PI*(r*factor)**2;
+  }
+  return sqft;
+}
+
+function renderArea(){
+  if(lastAreaSqft===null) return;
+  const unit=$("areaResultUnit").value;
+  const factor=sqftPer[unit];
+  const value=lastAreaSqft/factor;
+  const name={sqft:"sq ft",sqm:"m²",sqyd:"sq yd / gaj",acre:"acre",hectare:"hectare"}[unit];
+
+  $("areaResult").innerHTML =
+    "<div>Plot Area</div><div class='big'>"+fmt(value)+" "+name+"</div>"+
+    "<hr>"+
+    "<div>Square Feet: <strong>"+fmt(lastAreaSqft)+" sq ft</strong></div>"+
+    "<div>Square Metre: <strong>"+fmt(lastAreaSqft/10.7639104167)+" m²</strong></div>"+
+    "<div>Square Yard / Gaj: <strong>"+fmt(lastAreaSqft/9)+" gaj</strong></div>"+
+    "<div>Acre: <strong>"+fmt(lastAreaSqft/43560)+"</strong></div>"+
+    "<div>Hectare: <strong>"+fmt(lastAreaSqft/107639.104167)+" ha</strong></div>";
+  $("areaResult").classList.remove("hidden");
+}
+
+$("shape").addEventListener("change",setShapeFields);
+$("areaResultUnit").addEventListener("change",renderArea);
+
+$("calculateArea").addEventListener("click",()=>{
+  hide("areaError");
+  const v=calculateShapeSqft();
+  if(v===null||!Number.isFinite(v)||v<=0){
+    showError("areaError","Please enter valid positive dimensions.");
+    return;
+  }
+  lastAreaSqft=v;
+  renderArea();
+});
+
+$("region").addEventListener("change",()=>{
+  $("customBigha").classList.toggle("hidden",$("region").value!=="custom");
+});
+
+function calculatePriceValue(){
+  const area=Number($("knownArea").value);
+  const areaUnit=$("knownAreaUnit").value;
+  const rate=Number($("price").value);
+  const priceUnit=$("priceUnit").value;
+
+  if(!Number.isFinite(area)||area<=0) throw new Error("Enter a valid plot area.");
+  if(!Number.isFinite(rate)||rate<0) throw new Error("Enter a valid land price.");
+
+  const areaSqft=areaToSqft(area,areaUnit);
+  const priceUnitSqft=getUnitSqft(priceUnit);
+
+  if(!areaSqft||!priceUnitSqft) throw new Error("Please select a valid Bigha/Biswa convention.");
+
+  const priceUnits=areaSqft/priceUnitSqft;
+  const total=priceUnits*rate;
+
+  return {areaSqft,priceUnits,total,areaUnit,priceUnit,area};
+}
+
+$("calculatePrice").addEventListener("click",()=>{
+  hide("priceError");
+  try{
+    const r=calculatePriceValue();
+    const names={sqft:"sq ft",sqyd:"sq yd / gaj",sqm:"m²",acre:"acre",hectare:"hectare",bigha:"bigha",biswa:"biswa"};
+    $("priceResult").innerHTML =
+      "<div>Plot Area: <strong>"+fmt(r.area)+" "+names[r.areaUnit]+"</strong></div>"+
+      "<div>Equivalent pricing units: <strong>"+fmt(r.priceUnits)+" "+names[r.priceUnit]+"</strong></div>"+
+      "<div style='margin-top:10px'>Estimated Land Value</div>"+
+      "<div class='big'>₹"+money(r.total)+"</div>";
+    $("priceResult").classList.remove("hidden");
+  }catch(e){
+    showError("priceError",e.message);
+  }
+});
+
+$("tabArea").addEventListener("click",()=>{
+  $("areaSection").classList.remove("hidden");
+  $("priceSection").classList.add("hidden");
+  $("tabArea").classList.add("active");
+  $("tabPrice").classList.remove("active");
+});
+$("tabPrice").addEventListener("click",()=>{
+  $("areaSection").classList.add("hidden");
+  $("priceSection").classList.remove("hidden");
+  $("tabPrice").classList.add("active");
+  $("tabArea").classList.remove("active");
+});
+
+document.querySelectorAll(".help").forEach(el=>{
+  el.addEventListener("click",()=>{
+    alert(el.dataset.help);
+  });
+});
+
+$("resetAll").addEventListener("click",()=>{
+  document.querySelectorAll("input").forEach(x=>x.value="");
+  $("shape").value="rectangle";
+  $("dimensionUnit").value="feet";
+  $("areaResultUnit").value="sqft";
+  $("knownAreaUnit").value="sqft";
+  $("priceUnit").value="sqft";
+  $("region").value="rj_pucca";
+  $("customBigha").classList.add("hidden");
+  lastAreaSqft=null;
+  hide("areaError"); hide("priceError"); hide("areaResult"); hide("priceResult");
+  setShapeFields();
+});
+
+setShapeFields();
+})();
+</script>
 </body>
 </html>
