@@ -1,1 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paint Calculator | Calculator.xyz</title>
+<meta name="description" content="Free Paint Calculator to estimate wall area, paint required, litres needed and optional paint cost.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f8fc;color:#182033;font-family:Arial,sans-serif}
+.header{background:#fff;border-bottom:1px solid #e5e7eb;padding:14px 18px}
+.logo{font-size:21px;color:#2563eb;font-weight:700}
+.container{max-width:720px;margin:auto;padding:22px 16px 40px}
+h1{font-size:28px;margin:8px 0}
+.subtitle{color:#64748b;line-height:1.5;margin:0 0 22px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;margin-bottom:16px}
+h2{font-size:20px;margin:0 0 16px}
+.field{margin-bottom:15px}
+label{display:block;font-weight:600;margin-bottom:7px}
+input,select{width:100%;padding:13px 12px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px;background:#fff;color:#182033}
+input:focus,select:focus{outline:2px solid #bfdbfe;border-color:#2563eb}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{border:0;border-radius:9px;padding:13px 18px;font-size:16px;font-weight:700;cursor:pointer}
+.primary{background:#2563eb;color:#fff;width:100%}
+.secondary{background:#eef2f7;color:#1e293b;width:100%;margin-top:10px}
+.add{background:#e2e8f0;color:#1e293b;width:100%;margin-top:5px}
+.remove{background:#fee2e2;color:#991b1b;padding:10px;width:42px}
+.help{display:inline-flex;width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;background:#e8f0ff;color:#2563eb;font-size:13px;margin-left:5px;cursor:pointer}
+.error{color:#b91c1c;font-size:14px;margin-top:10px;min-height:18px}
+.result{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:16px}
+.main{text-align:center;margin-bottom:16px}
+.main small{color:#475569}
+.main strong{display:block;font-size:34px;color:#1d4ed8;margin-top:5px}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#fff;border:1px solid #dbeafe;border-radius:10px;padding:12px}
+.stat small{display:block;color:#64748b;margin-bottom:5px}
+.stat strong{font-size:17px}
+.opening{background:#f8fafc;border-radius:10px;padding:12px;margin-bottom:14px}
+.opening strong{display:block;margin-bottom:5px}
+.note{font-size:13px;color:#64748b;line-height:1.5;margin-top:14px}
+.itemrow{display:grid;grid-template-columns:1fr 110px 42px;gap:8px;margin-bottom:9px}
+.itemrow input{min-width:0}
+.info{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(90%,420px);background:#fff;border-radius:14px;padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.25);z-index:10}
+.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:9}
+.close{background:#eef2f7;width:100%;margin-top:10px}
+@media(max-width:480px){
+.container{padding-left:12px;padding-right:12px}
+h1{font-size:25px}
+.card{padding:15px}
+.grid2{grid-template-columns:1fr}
+.itemrow{grid-template-columns:1fr 90px 40px}
+}
+</style>
+</head>
+<body>
 
+<header class="header"><div class="logo">Calculator.xyz</div></header>
+
+<main class="container">
+<h1>Paint Calculator</h1>
+<p class="subtitle">Estimate wall painting area, paint required and optional paint cost for your room or project.</p>
+
+<section class="card">
+<h2>Wall Details</h2>
+
+<div class="field">
+<label>Measurement Unit</label>
+<select id="unit">
+<option value="feet">Feet</option>
+<option value="metre">Metres</option>
+</select>
+</div>
+
+<div class="field">
+<label>Number of Walls <span class="help" data-info="walls">?</span></label>
+<select id="wallCount">
+<option value="1">1 Wall</option>
+<option value="2">2 Walls</option>
+<option value="3">3 Walls</option>
+<option value="4" selected>4 Walls</option>
+<option value="5">5 Walls</option>
+<option value="6">6 Walls</option>
+<option value="7">7 Walls</option>
+<option value="8">8 Walls</option>
+</select>
+</div>
+
+<div id="walls"></div>
+
+<button class="add" id="addWall" type="button">＋ Add Wall</button>
+</section>
+
+<section class="card">
+<h2>Doors & Windows</h2>
+
+<p class="note" style="margin-top:0">
+Enter openings that you do not want to paint. You can skip this section if there are none.
+</p>
+
+<div id="openings"></div>
+
+<button class="add" id="addOpening" type="button">＋ Add Door/Window</button>
+</section>
+
+<section class="card">
+<h2>Paint Settings</h2>
+
+<div class="field">
+<label>Number of Coats <span class="help" data-info="coats">?</span></label>
+<select id="coats">
+<option value="1">1 Coat</option>
+<option value="2" selected>2 Coats</option>
+<option value="3">3 Coats</option>
+<option value="4">4 Coats</option>
+</select>
+</div>
+
+<div class="field">
+<label>Paint Coverage (sq ft per litre) <span class="help" data-info="coverage">?</span></label>
+<input id="coverage" type="number" min="1" step="1" value="120" inputmode="decimal">
+</div>
+
+<div class="field">
+<label>Wastage (%) <span class="help" data-info="wastage">?</span></label>
+<input id="wastage" type="number" min="0" max="50" step="0.1" value="10" inputmode="decimal">
+</div>
+
+<div class="field">
+<label>Paint Price per Litre (₹) — Optional</label>
+<input id="price" type="number" min="0" step="1" value="" inputmode="decimal" placeholder="Leave blank if not needed">
+</div>
+
+<button class="primary" id="calculate" type="button">Calculate Paint</button>
+<button class="secondary" id="reset" type="button">Reset</button>
+<div class="error" id="error"></div>
+</section>
+
+<section class="card">
+<h2>Result</h2>
+
+<div class="result">
+<div class="main">
+<small>Paint Required</small>
+<strong id="paintLitres">0 L</strong>
+</div>
+
+<div class="statgrid">
+<div class="stat"><small>Total Wall Area</small><strong id="wallArea">0 sq ft</strong></div>
+<div class="stat"><small>Opening Area</small><strong id="openingArea">0 sq ft</strong></div>
+<div class="stat"><small>Paintable Area</small><strong id="paintableArea">0 sq ft</strong></div>
+<div class="stat"><small>Paint Cost</small><strong id="paintCost">Not entered</strong></div>
+</div>
+
+<p class="note">
+Paint quantity is an estimate based on the coverage, coats and wastage entered by you. Actual coverage varies by paint type, surface, application method and wall condition.
+</p>
+</div>
+</section>
+
+<section class="card">
+<h2>How it is calculated</h2>
+<p class="note" style="margin-top:0">
+Wall area = Wall width × Wall height.<br><br>
+Paintable area = Total wall area − Door/window area.<br><br>
+Paint required = Paintable area × Number of coats ÷ Coverage × (1 + wastage).
+</p>
+</section>
+</main>
+
+<div class="overlay" id="overlay"></div>
+<div class="info" id="infoBox">
+<h3 id="infoTitle"></h3>
+<p id="infoText" style="line-height:1.5;color:#475569"></p>
+<button class="close" id="closeInfo">Close</button>
+</div>
+
+<script>
+(function(){
+const wallsEl=document.getElementById('walls');
+const openingsEl=document.getElementById('openings');
+const wallCountEl=document.getElementById('wallCount');
+const errorEl=document.getElementById('error');
+
+function makeWall(i){
+ const row=document.createElement('div');
+ row.className='card';
+ row.style.padding='12px';
+ row.style.marginBottom='10px';
+ row.innerHTML=
+ '<div style="font-weight:700;margin-bottom:10px">Wall '+i+'</div>'+
+ '<div class="grid2">'+
+ '<div><label>Width</label><input class="wallWidth" type="number" min="0" step="0.01" value="10" inputmode="decimal" placeholder="Width"></div>'+
+ '<div><label>Height</label><input class="wallHeight" type="number" min="0" step="0.01" value="10" inputmode="decimal" placeholder="Height"></div>'+
+ '</div>';
+ return row;
+}
+
+function makeOpening(i){
+ const row=document.createElement('div');
+ row.className='itemrow';
+ row.innerHTML=
+ '<input class="openingName" type="text" value="Door/Window '+i+'" placeholder="Name">'+
+ '<input class="openingAreaInput" type="number" min="0" step="0.01" value="20" inputmode="decimal" placeholder="Area">'+
+ '<button class="remove" type="button" aria-label="Remove">×</button>';
+ row.querySelector('.remove').addEventListener('click',function(){
+   row.remove();
+ });
+ return row;
+}
+
+function renderWalls(n){
+ wallsEl.innerHTML='';
+ for(let i=1;i<=n;i++) wallsEl.appendChild(makeWall(i));
+}
+
+function renderOpenings(n){
+ openingsEl.innerHTML='';
+ for(let i=1;i<=n;i++) openingsEl.appendChild(makeOpening(i));
+}
+
+function toFeet(v){
+ return document.getElementById('unit').value==='metre' ? v*3.280839895 : v;
+}
+
+function fmt(v){
+ return new Intl.NumberFormat('en-IN',{maximumFractionDigits:2}).format(v);
+}
+
+function calculate(){
+ errorEl.textContent='';
+ const wallRows=[...wallsEl.querySelectorAll('.card')];
+ let totalWallArea=0;
+
+ if(!wallRows.length){
+   errorEl.textContent='Please enter at least one wall.';
+   return;
+ }
+
+ for(const row of wallRows){
+   const w=Number(row.querySelector('.wallWidth').value);
+   const h=Number(row.querySelector('.wallHeight').value);
+   if(!Number.isFinite(w)||!Number.isFinite(h)||w<=0||h<=0){
+     errorEl.textContent='Please enter valid width and height for every wall.';
+     return;
+   }
+   totalWallArea+=toFeet(w)*toFeet(h);
+ }
+
+ let totalOpeningArea=0;
+ for(const row of [...openingsEl.querySelectorAll('.itemrow')]){
+   const a=Number(row.querySelector('.openingAreaInput').value);
+   if(!Number.isFinite(a)||a<0){
+     errorEl.textContent='Please enter valid opening areas.';
+     return;
+   }
+   totalOpeningArea+=a;
+ }
+
+ const paintable=Math.max(0,totalWallArea-totalOpeningArea);
+ const coats=Number(document.getElementById('coats').value);
+ const coverage=Number(document.getElementById('coverage').value);
+ const wastage=Number(document.getElementById('wastage').value);
+ const priceValue=document.getElementById('price').value.trim();
+
+ if(!Number.isFinite(coverage)||coverage<=0){
+   errorEl.textContent='Please enter a valid paint coverage.';
+   return;
+ }
+ if(!Number.isFinite(wastage)||wastage<0||wastage>50){
+   errorEl.textContent='Wastage must be between 0% and 50%.';
+   return;
+ }
+
+ const paintLitres=(paintable*coats/coverage)*(1+wastage/100);
+
+ document.getElementById('wallArea').textContent=fmt(totalWallArea)+' sq ft';
+ document.getElementById('openingArea').textContent=fmt(totalOpeningArea)+' sq ft';
+ document.getElementById('paintableArea').textContent=fmt(paintable)+' sq ft';
+ document.getElementById('paintLitres').textContent=fmt(paintLitres)+' L';
+
+ if(priceValue===''){
+   document.getElementById('paintCost').textContent='Not entered';
+ }else{
+   const price=Number(priceValue);
+   if(!Number.isFinite(price)||price<0){
+     errorEl.textContent='Please enter a valid paint price.';
+     return;
+   }
+   document.getElementById('paintCost').textContent='₹'+fmt(paintLitres*price);
+ }
+}
+
+wallCountEl.addEventListener('change',function(){
+ renderWalls(Number(wallCountEl.value));
+});
+
+document.getElementById('addWall').addEventListener('click',function(){
+ const n=wallsEl.querySelectorAll('.card').length;
+ if(n<8){
+   wallsEl.appendChild(makeWall(n+1));
+   wallCountEl.value=String(n+1);
+ }
+});
+
+document.getElementById('addOpening').addEventListener('click',function(){
+ const n=openingsEl.querySelectorAll('.itemrow').length;
+ if(n<20) openingsEl.appendChild(makeOpening(n+1));
+});
+
+document.getElementById('calculate').addEventListener('click',calculate);
+
+document.getElementById('reset').addEventListener('click',function(){
+ wallCountEl.value='4';
+ document.getElementById('coats').value='2';
+ document.getElementById('coverage').value='120';
+ document.getElementById('wastage').value='10';
+ document.getElementById('price').value='';
+ renderWalls(4);
+ renderOpenings(1);
+ errorEl.textContent='';
+ calculate();
+});
+
+renderWalls(4);
+renderOpenings(1);
+
+const info={
+ walls:['Number of Walls','Enter the walls you want to paint. For a room, four walls are normally used.'],
+ coats:['Number of Coats','More coats require more paint. Enter the number of coats you actually plan to apply.'],
+ coverage:['Paint Coverage','Coverage differs by paint and surface. Enter the coverage printed on your paint product or your own estimate.'],
+ wastage:['Wastage','Wastage accounts for application loss, spills and remaining paint. This calculator uses the percentage you enter.']
+};
+
+const overlay=document.getElementById('overlay');
+const box=document.getElementById('infoBox');
+
+document.querySelectorAll('.help').forEach(function(btn){
+ btn.addEventListener('click',function(){
+   const x=info[btn.dataset.info];
+   document.getElementById('infoTitle').textContent=x[0];
+   document.getElementById('infoText').textContent=x[1];
+   overlay.style.display='block';
+   box.style.display='block';
+ });
+});
+
+function closeInfo(){
+ overlay.style.display='none';
+ box.style.display='none';
+}
+
+document.getElementById('closeInfo').addEventListener('click',closeInfo);
+overlay.addEventListener('click',closeInfo);
+
+calculate();
+})();
+</script>
+</body>
+</html>
