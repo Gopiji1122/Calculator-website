@@ -82,10 +82,16 @@ button{width:100%;border:0;border-radius:9px;padding:14px;font-size:17px;font-we
 </div>
 
 <div class="custom-box" id="customBox">
-<label for="customBighaSqm">1 Bigha in my area = <span class="info" onclick="toggleInfo('customInfo')">?</span></label>
-<div class="info-box" id="customInfo">Enter the local value of exactly 1 Bigha in square metres (m²). Example: if your local land record says 1 Bigha = 2,529.29 m², enter 2529.29.</div>
-<input type="number" id="customBighaSqm" min="0.000001" step="any" placeholder="Enter value in m²">
-<p class="muted" style="font-size:13px;margin-bottom:0">Use square metres (m²) for your custom Bigha value.</p>
+<label for="customBighaValue">1 Bigha in my area = <span class="info" onclick="toggleInfo('customInfo')">?</span></label>
+<div class="info-box" id="customInfo">Enter the local value of exactly 1 Bigha, then select whether your value is in square metres, square feet or hectares.</div>
+<input type="number" id="customBighaValue" min="0.000001" step="any" placeholder="Enter 1 Bigha value">
+<label for="customBighaUnit">Custom Bigha unit</label>
+<select id="customBighaUnit">
+<option value="sqm">Square Metre (m²)</option>
+<option value="sqft">Square Feet (sq ft)</option>
+<option value="hectare">Hectare (ha)</option>
+</select>
+<p class="muted" style="font-size:13px;margin-bottom:0">Choose the unit used by your local source or land record.</p>
 </div>
 
 <div class="warning" id="inputWarning"></div>
@@ -177,8 +183,13 @@ document.getElementById("outputUnit").addEventListener("change",renderResult);
 function bighaSqm(){
     const region=document.getElementById("region").value;
     if(region==="custom"){
-        const custom=parseFloat(document.getElementById("customBighaSqm").value);
-        return Number.isFinite(custom)&&custom>0?custom:null;
+        const custom=parseFloat(document.getElementById("customBighaValue").value);
+        const unit=document.getElementById("customBighaUnit").value;
+        if(!Number.isFinite(custom)||custom<=0)return null;
+        if(unit==="sqm")return custom;
+        if(unit==="sqft")return custom*0.09290304;
+        if(unit==="hectare")return custom*10000;
+        return null;
     }
     return regionData[region]/10.7639104167;
 }
@@ -241,7 +252,7 @@ function calculateArea(){
     const unit=document.getElementById("inputUnit").value;
 
     if((unit==="bigha"||unit==="biswa") && bighaSqm()===null){
-        showWarning("Please enter your local 1 Bigha value in square metres (m²).");
+        showWarning("Please enter your local 1 Bigha value and select its unit.");
         return;
     }
 
