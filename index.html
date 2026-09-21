@@ -1,348 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Calculator.xyz - Free Online Calculators</title>
-
-    <meta name="description"
-          content="Free online calculators for finance, education, electricity, vehicles, construction, conversions and everyday calculations.">
-
-    <meta name="theme-color" content="#2563eb">
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f6f8fb;
-            color: #172033;
-        }
-
-        header {
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 16px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .header-inner {
-            max-width: 1100px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            font-size: 23px;
-            font-weight: 800;
-            color: #2563eb;
-        }
-
-        .logo span {
-            color: #111827;
-        }
-
-        .hero {
-            max-width: 900px;
-            margin: auto;
-            text-align: center;
-            padding: 55px 20px 35px;
-        }
-
-        .hero h1 {
-            font-size: 38px;
-            margin-bottom: 14px;
-        }
-
-        .hero p {
-            color: #64748b;
-            font-size: 17px;
-            line-height: 1.6;
-        }
-
-        .search {
-            margin: 28px auto 0;
-            max-width: 600px;
-        }
-
-        .search input {
-            width: 100%;
-            padding: 16px 20px;
-            border: 1px solid #dbe1ea;
-            border-radius: 12px;
-            font-size: 16px;
-            outline: none;
-            background: white;
-        }
-
-        .search input:focus {
-            border-color: #2563eb;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .section-title {
-            font-size: 25px;
-            margin: 25px 0 18px;
-        }
-
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .category {
-            background: white;
-            padding: 22px;
-            border-radius: 14px;
-            border: 1px solid #e5e7eb;
-            transition: 0.2s;
-        }
-
-        .category:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
-        }
-
-
-        .category {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            cursor: pointer;
-        }
-
-        .category-link {
-            margin-top: 14px;
-            color: #2563eb;
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .category-icon {
-            font-size: 30px;
-            margin-bottom: 12px;
-        }
-
-        .category h3 {
-            margin-bottom: 7px;
-        }
-
-        .category p {
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .popular {
-            margin-top: 45px;
-        }
-
-        .calculator-list {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-        }
-
-        .calculator {
-            background: white;
-            padding: 18px;
-            border-radius: 12px;
-            border: 1px solid #e5e7eb;
-        }
-
-        .calculator h3 {
-            font-size: 16px;
-            margin-bottom: 7px;
-        }
-
-        .calculator p {
-            color: #64748b;
-            font-size: 13px;
-        }
-
-        footer {
-            margin-top: 60px;
-            background: #111827;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-        }
-
-        footer p {
-            color: #9ca3af;
-            margin-top: 8px;
-            font-size: 14px;
-        }
-
-        @media (max-width: 700px) {
-            .hero {
-                padding-top: 40px;
-            }
-
-            .hero h1 {
-                font-size: 30px;
-            }
-
-            .categories,
-            .calculator-list {
-                grid-template-columns: 1fr;
-            }
-        }
-        .calculator {
-    text-decoration: none;
-    color: inherit;
-    display: block;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator.xyz - Free Online Calculators</title>
+<meta name="description" content="Free online calculators for finance, education, electricity, vehicles, construction, conversions and everyday calculations.">
+<meta name="theme-color" content="#2563eb">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f6f8fb;color:#172033;line-height:1.5}
+header{background:#fff;border-bottom:1px solid #e5e7eb;padding:15px 20px;position:sticky;top:0;z-index:10}
+.header-inner{max-width:1100px;margin:auto}
+.logo{display:inline-block;text-decoration:none;font-size:23px;font-weight:800;color:#2563eb}
+.logo span{color:#111827}
+.hero{max-width:900px;margin:auto;text-align:center;padding:52px 20px 32px}
+.hero h1{font-size:38px;margin-bottom:12px}
+.hero p{color:#64748b;font-size:17px}
+.search{margin:25px auto 0;max-width:600px}
+.search input{width:100%;padding:15px 18px;border:1px solid #dbe1ea;border-radius:12px;font-size:16px;outline:none;background:#fff}
+.search input:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.container{max-width:1100px;margin:auto;padding:10px 20px 30px}
+.section-title{font-size:25px;margin:25px 0 17px}
+.categories,.calculator-list{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.category,.calculator{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:21px;text-decoration:none;color:inherit;display:block;transition:.2s}
+.category:hover,.calculator:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.07)}
+.category-icon{font-size:30px;margin-bottom:10px}
+.category h3,.calculator h3{margin-bottom:6px;font-size:17px}
+.category p,.calculator p{color:#64748b;font-size:14px}
+.popular{margin-top:38px}
+.no-results{display:none;text-align:center;color:#64748b;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-top:15px}
+footer{margin-top:45px;background:#111827;color:#fff;text-align:center;padding:28px 20px}
+footer p{color:#9ca3af;margin-top:7px;font-size:14px}
+@media(max-width:700px){
+.hero{padding-top:38px}.hero h1{font-size:30px}
+.categories,.calculator-list{grid-template-columns:1fr}
+.container{padding-left:15px;padding-right:15px}
 }
-
-.calculator:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-}
-    </style>
+</style>
 </head>
-
 <body>
 
 <header>
-    <div class="header-inner">
-        <div class="logo">Calculator<span>.xyz</span></div>
-    </div>
+  <div class="header-inner">
+    <a class="logo" href="./" aria-label="Calculator.xyz Home">Calculator<span>.xyz</span></a>
+  </div>
 </header>
 
 <section class="hero">
-
-    <h1>Calculate Anything. Fast. Free.</h1>
-
-    <p>
-        Simple, accurate and free online calculators
-        for everyday life, finance, education and more.
-    </p>
-
-    <div class="search">
-        <input
-            type="search"
-            placeholder="Search for a calculator..."
-            aria-label="Search calculators">
-    </div>
-
+  <h1>Calculate Anything. Fast. Free.</h1>
+  <p>Simple, accurate and free online calculators for everyday life, finance, education and more.</p>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Search for a calculator..." aria-label="Search calculators">
+  </div>
 </section>
 
 <main class="container">
 
-    <h2 class="section-title">Calculator Categories</h2>
+<h2 class="section-title">Calculator Categories</h2>
+<div class="categories" id="categories">
 
-    <div class="categories">
+<a class="category searchable" href="finance/">
+  <div class="category-icon">💰</div><h3>Finance</h3>
+  <p>Loans, EMI, GST, investments and interest calculators.</p>
+</a>
 
-        <a href="finance/" class="category">
-            <div class="category-icon">💰</div>
-            <h3>Finance</h3>
-            <p>Loans, EMI, GST, investments and interest calculators.</p>
-            <div class="category-link">Explore Finance →</div>
-        </a>
+<a class="category searchable" href="electrical-solar/">
+  <div class="category-icon">⚡</div><h3>Electrical &amp; Solar</h3>
+  <p>Electricity, EV charging, solar and battery calculations.</p>
+</a>
 
-        <a href="electrical-solar/" class="category">
-            <div class="category-icon">⚡</div>
-            <h3>Electrical & Solar</h3>
-            <p>Electricity, EV charging, solar and battery calculations.</p>
-            <div class="category-link">Explore Electrical & Solar →</div>
-        </a>
+<a class="category searchable" href="vehicle/">
+  <div class="category-icon">🚗</div><h3>Vehicle</h3>
+  <p>Fuel mileage, fuel cost and EV calculators.</p>
+</a>
 
-        <a href="vehicle/" class="category">
-            <div class="category-icon">🚗</div>
-            <h3>Vehicle</h3>
-            <p>Fuel mileage, fuel cost and EV calculators.</p>
-            <div class="category-link">Explore Vehicle →</div>
-        </a>
+<a class="category searchable" href="home-construction/">
+  <div class="category-icon">🏠</div><h3>Home &amp; Construction</h3>
+  <p>Plot, paint, water tank and construction calculators.</p>
+</a>
 
-        <a href="home-construction/" class="category">
-            <div class="category-icon">🏠</div>
-            <h3>Home & Construction</h3>
-            <p>Plot, paint, tiles and construction calculators.</p>
-            <div class="category-link">Explore Home & Construction →</div>
-        </a>
+<a class="category searchable" href="education/">
+  <div class="category-icon">🎓</div><h3>Education</h3>
+  <p>Marks, percentage and education calculators.</p>
+</a>
 
-        <a href="education/" class="category">
-            <div class="category-icon">🎓</div>
-            <h3>Education</h3>
-            <p>Marks, percentage, attendance and eligibility calculators.</p>
-            <div class="category-link">Explore Education →</div>
-        </a>
+<a class="category searchable" href="conversion/">
+  <div class="category-icon">📏</div><h3>Conversion</h3>
+  <p>Area, land and other unit conversion calculators.</p>
+</a>
 
-        <a href="conversion/" class="category">
-            <div class="category-icon">📏</div>
-            <h3>Conversion</h3>
-            <p>Area, length, weight, land and other unit conversions.</p>
-            <div class="category-link">Explore Conversion →</div>
-        </a>
+</div>
 
-    </div>
+<section class="popular">
+<h2 class="section-title">Popular Calculators</h2>
+<div class="calculator-list" id="calculatorList">
 
-    <section class="popular">
+<a class="calculator searchable" href="loan-emi-calculator/">
+<h3>Loan EMI Calculator</h3><p>Calculate monthly EMI, interest and total repayment.</p>
+</a>
 
-        <h2 class="section-title">Popular Calculators</h2>
+<a class="calculator searchable" href="electricity-bill-calculator/">
+<h3>Electricity Bill Calculator</h3><p>Estimate electricity cost using your entered tariff details.</p>
+</a>
 
-        <div class="calculator-list">
+<a class="calculator searchable" href="ev-charging-cost-calculator/">
+<h3>EV Charging Cost Calculator</h3><p>Calculate EV charging energy, cost and charging time.</p>
+</a>
 
-            <div class="calculator">
-                <h3>Electricity Bill Calculator</h3>
-                <p>Calculate electricity consumption and estimated cost.</p>
-            </div>
+<a class="calculator searchable" href="petrol-diesel-mileage-calculator/">
+<h3>Petrol/Diesel Mileage Calculator</h3><p>Calculate vehicle mileage and fuel cost.</p>
+</a>
 
-            <a href="ev-charging-cost-calculator/" class="calculator">
-    <h3>EV Charging Cost Calculator</h3>
-    <p>Calculate the cost of charging an electric vehicle.</p>
-            </a>
+<a class="calculator searchable" href="land-area-calculator/">
+<h3>Land Area Calculator</h3><p>Calculate and convert common land measurements.</p>
+</a>
 
-            <div class="calculator">
-                <h3>Petrol Mileage Calculator</h3>
-                <p>Calculate your vehicle's fuel mileage.</p>
-            </div>
+<a class="calculator searchable" href="solar-panel-savings-calculator/">
+<h3>Solar Panel Savings Calculator</h3><p>Estimate monthly and annual solar savings.</p>
+</a>
 
-            <div class="calculator">
-                <h3>Land Area Calculator</h3>
-                <p>Convert and calculate different land measurements.</p>
-            </div>
-
-            <div class="calculator">
-                <h3>Plot Area Calculator</h3>
-                <p>Calculate the area of your plot.</p>
-            </div>
-
-            <div class="calculator">
-                <h3>Solar Savings Calculator</h3>
-                <p>Estimate solar electricity savings.</p>
-            </div>
-
-        </div>
-
-    </section>
+</div>
+<div class="no-results" id="noResults">No calculator found. Try another search.</div>
+</section>
 
 </main>
 
 <footer>
-
-    <strong>Calculator.xyz</strong>
-
-    <p>
-        Free online calculators for everyday calculations.
-    </p>
-
+<strong>Calculator.xyz</strong>
+<p>Free online calculators for everyday calculations.</p>
 </footer>
+
+<script>
+(function(){
+  const input=document.getElementById('searchInput');
+  const items=[...document.querySelectorAll('.searchable')];
+  const noResults=document.getElementById('noResults');
+
+  input.addEventListener('input',function(){
+    const q=this.value.trim().toLowerCase();
+    let visible=0;
+    items.forEach(function(item){
+      const match=!q || item.textContent.toLowerCase().includes(q);
+      item.style.display=match?'block':'none';
+      if(match) visible++;
+    });
+    noResults.style.display=(q && visible===0)?'block':'none';
+  });
+})();
+</script>
 
 </body>
 </html>
