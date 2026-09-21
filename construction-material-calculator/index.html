@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Construction Material Calculator India</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033}
+.wrap{max-width:760px;margin:auto;padding:16px 12px 40px}h1{font-size:25px;margin:4px 0 8px}.sub{color:#626d80;line-height:1.5;margin:0 0 16px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}.tab{border:1px solid #d5dce8;background:#fff;color:#172033;border-radius:11px;padding:11px 6px;font-weight:700;cursor:pointer;min-height:48px}.tab.active{background:#172033;color:#fff}
+.card{background:#fff;border:1px solid #dfe4ec;border-radius:15px;padding:17px;margin-bottom:14px}.card h2{font-size:19px;margin:0 0 6px}
+label{display:block;font-weight:700;margin:12px 0 6px}input,select,button{width:100%;min-height:46px;border-radius:10px;font-size:16px}input,select{border:1px solid #cbd3df;padding:9px;background:#fff}button{border:0;background:#172033;color:#fff;font-weight:700;padding:10px;cursor:pointer;margin-top:14px}.secondary{background:#edf1f7;color:#172033}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.info{display:inline-flex;width:19px;height:19px;align-items:center;justify-content:center;border-radius:50%;background:#e9eef6;font-size:12px;cursor:pointer}.result{background:#f1f5fa;border-radius:12px;padding:14px;margin-top:14px;line-height:1.75}.big{font-size:22px;font-weight:800}.hidden{display:none}.error{background:#fff0f0;color:#9d2020;border:1px solid #efcaca;border-radius:9px;padding:10px;margin-top:11px}.note{font-size:13px;color:#687386;line-height:1.5;margin-top:10px}.check{display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:600}.check input{width:20px;min-height:20px}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.tabs{grid-template-columns:1fr}.wrap{padding-left:10px;padding-right:10px}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Construction Material Calculator</h1>
+<p class="sub">Estimate basic construction materials for concrete, brick walls and plaster. Enter your measurements and choose the material assumptions that match your work.</p>
 
+<div class="tabs">
+<button class="tab active" id="tConcrete" type="button">Concrete</button>
+<button class="tab" id="tBrick" type="button">Brick Wall</button>
+<button class="tab" id="tPlaster" type="button">Plaster</button>
+</div>
+
+<section id="concrete" class="card">
+<h2>Concrete Material Calculator <span class="info" data-info="This is an estimate based on the selected mix ratio. Actual quantities vary with aggregate size, moisture, batching method and site wastage.">?</span></h2>
+<div class="grid">
+<div><label>Length</label><input id="cL" type="number" min="0" step="any" placeholder="e.g. 20"></div>
+<div><label>Width</label><input id="cW" type="number" min="0" step="any" placeholder="e.g. 10"></div>
+</div>
+<div class="grid">
+<div><label>Thickness / Depth</label><input id="cD" type="number" min="0" step="any" placeholder="e.g. 0.5"></div>
+<div><label>Dimension Unit</label><select id="cUnit"><option value="ft">Feet</option><option value="m">Metres</option></select></div>
+</div>
+<label>Concrete Mix Ratio <span class="info" data-info="Nominal examples: 1:2:4 means cement:sand:coarse aggregate by volume. For structural RCC, use the mix/design specified by the engineer rather than selecting a nominal ratio blindly.">?</span></label>
+<select id="cMix"><option value="1:2:4">1 : 2 : 4</option><option value="1:1.5:3">1 : 1.5 : 3</option><option value="1:3:6">1 : 3 : 6</option></select>
+<label>Wastage</label><select id="cWaste"><option value="0.05">5%</option><option value="0.03">3%</option><option value="0.10">10%</option><option value="0">0%</option></select>
+<button id="calcConcrete" type="button">Calculate Concrete Materials</button>
+<div id="cErr" class="error hidden"></div><div id="cRes" class="result hidden"></div>
+<p class="note">Estimate uses dry-volume factor 1.54 and cement density about 1440 kg/m³. One 50 kg cement bag is treated as about 0.0347 m³.</p>
+</section>
+
+<section id="brick" class="card hidden">
+<h2>Brick Wall Material Calculator <span class="info" data-info="Brick count depends on actual brick dimensions and mortar joint. Enter your local brick size for a better estimate.">?</span></h2>
+<div class="grid">
+<div><label>Wall Length</label><input id="bL" type="number" min="0" step="any" placeholder="e.g. 30"></div>
+<div><label>Wall Height</label><input id="bH" type="number" min="0" step="any" placeholder="e.g. 10"></div>
+</div>
+<div class="grid">
+<div><label>Wall Thickness</label><select id="bT"><option value="4.5">4.5 inch</option><option value="9">9 inch</option><option value="13.5">13.5 inch</option></select></div>
+<div><label>Dimension Unit</label><select id="bUnit"><option value="ft">Feet</option><option value="m">Metres</option></select></div>
+</div>
+<label>Brick Length × Height × Width (mm)</label>
+<div class="grid">
+<input id="brickL" type="number" min="1" value="190"><input id="brickH" type="number" min="1" value="90">
+</div>
+<label>Brick Width (mm)</label><input id="brickW" type="number" min="1" value="90">
+<label>Mortar Joint</label><select id="mortarJoint"><option value="10">10 mm</option><option value="12">12 mm</option><option value="8">8 mm</option></select>
+<label>Wastage</label><select id="bWaste"><option value="0.05">5%</option><option value="0.10">10%</option><option value="0">0%</option></select>
+<button id="calcBrick" type="button">Calculate Brick Materials</button>
+<div id="bErr" class="error hidden"></div><div id="bRes" class="result hidden"></div>
+<p class="note">Brick quantity is estimated from wall volume ÷ brick-with-mortar volume. Mortar is estimated from total wall volume minus actual brick volume.</p>
+</section>
+
+<section id="plaster" class="card hidden">
+<h2>Plaster Material Calculator <span class="info" data-info="Enter the surface area and plaster thickness. The calculator estimates cement and sand using the selected cement:sand ratio.">?</span></h2>
+<div class="grid">
+<div><label>Area</label><input id="pA" type="number" min="0" step="any" placeholder="e.g. 500"></div>
+<div><label>Area Unit</label><select id="pUnit"><option value="sqft">Square Feet</option><option value="sqm">Square Metre</option></select></div>
+</div>
+<div class="grid">
+<div><label>Plaster Thickness</label><input id="pT" type="number" min="0" step="any" value="12"></div>
+<div><label>Thickness Unit</label><select id="pTUnit"><option value="mm">mm</option><option value="inch">inch</option></select></div>
+</div>
+<label>Cement : Sand Ratio</label>
+<select id="pMix"><option value="1:4">1 : 4</option><option value="1:5">1 : 5</option><option value="1:6">1 : 6</option></select>
+<label>Wastage</label><select id="pWaste"><option value="0.05">5%</option><option value="0.10">10%</option><option value="0">0%</option></select>
+<button id="calcPlaster" type="button">Calculate Plaster Materials</button>
+<div id="pErr" class="error hidden"></div><div id="pRes" class="result hidden"></div>
+<p class="note">Estimate uses dry-volume factor 1.33, cement density about 1440 kg/m³ and 50 kg per cement bag.</p>
+</section>
+
+<button id="reset" class="secondary" type="button">Reset</button>
+</div>
+
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const tabs={tConcrete:"concrete",tBrick:"brick",tPlaster:"plaster"};
+function show(id){$(id).classList.remove("hidden")} function hide(id){$(id).classList.add("hidden")}
+function fmt(n,d=2){return new Intl.NumberFormat("en-IN",{maximumFractionDigits:d}).format(n)}
+function info(){document.querySelectorAll(".info").forEach(x=>x.addEventListener("click",()=>alert(x.dataset.info)))}
+function err(id,msg){$(id).textContent=msg;show(id)}
+function noerr(id){hide(id)}
+
+Object.entries(tabs).forEach(([tab,sec])=>{
+$(tab).addEventListener("click",()=>{
+Object.values(tabs).forEach(x=>hide(x));show(sec);
+Object.keys(tabs).forEach(x=>$(x).classList.remove("active"));$(tab).classList.add("active");
+});
+});
+
+$("calcConcrete").addEventListener("click",()=>{
+noerr("cErr");
+const L=+$("cL").value,W=+$("cW").value,D=+$("cD").value;
+if(!(L>0&&W>0&&D>0)){err("cErr","Please enter positive length, width and depth.");return}
+const f=$("cUnit").value==="ft"?0.028316846592:1;
+const wet=L*W*D*f;
+const dry=wet*1.54;
+const parts=$("cMix").value.split(":").map(Number),sum=parts.reduce((a,b)=>a+b,0);
+const waste=1+ +$("cWaste").value;
+const cementVol=dry*(parts[0]/sum)*waste;
+const sand=dry*(parts[1]/sum)*waste;
+const agg=dry*(parts[2]/sum)*waste;
+const kg=cementVol*1440,bags=kg/50;
+$("cRes").innerHTML="<div>Wet concrete volume: <strong>"+fmt(wet,3)+" m³</strong></div><div>Dry material volume: <strong>"+fmt(dry*waste,3)+" m³</strong></div><hr><div>Cement: <strong>"+fmt(kg,1)+" kg</strong> ≈ <strong>"+fmt(bags,1)+" bags (50 kg)</strong></div><div>Sand: <strong>"+fmt(sand,3)+" m³</strong></div><div>Coarse aggregate: <strong>"+fmt(agg,3)+" m³</strong></div>";
+show("cRes");
+});
+
+$("calcBrick").addEventListener("click",()=>{
+noerr("bErr");
+const L=+$("bL").value,H=+$("bH").value;
+if(!(L>0&&H>0)){err("bErr","Please enter positive wall length and height.");return}
+const unit=$("bUnit").value, f=unit==="ft"?0.3048:1;
+const wallT=+$("bT").value*0.0254;
+const wallVol=L*f*H*f*wallT;
+const bl=+$("brickL").value/1000,bh=+$("brickH").value/1000,bw=+$("brickW").value/1000;
+const joint=+$("mortarJoint").value/1000;
+const brickWithMortar=(bl+joint)*(bh+joint)*(bw+joint);
+const count=wallVol/brickWithMortar*(1++$("bWaste").value);
+const actualBrickVol=count/(1++$("bWaste").value)*bl*bh*bw;
+const mortar=Math.max(0,wallVol-actualBrickVol)*1.33;
+const cement=mortar*(1/5)*1440/50;
+const sand=mortar*(4/5);
+$("bRes").innerHTML="<div>Wall volume: <strong>"+fmt(wallVol,3)+" m³</strong></div><hr><div>Bricks: <strong>"+fmt(count,0)+" nos</strong></div><div>Mortar volume (approx.): <strong>"+fmt(mortar,3)+" m³</strong></div><div>Cement (approx., 1:4): <strong>"+fmt(cement,1)+" bags</strong> (50 kg)</div><div>Sand (approx.): <strong>"+fmt(sand,3)+" m³</strong></div>";
+show("bRes");
+});
+
+$("calcPlaster").addEventListener("click",()=>{
+noerr("pErr");
+const A=+$("pA").value,T=+$("pT").value;
+if(!(A>0&&T>0)){err("pErr","Please enter positive area and thickness.");return}
+const area=$("pUnit").value==="sqft"?A*0.09290304:A;
+const th=$("pTUnit").value==="mm"?T/1000:T*0.0254;
+const wet=area*th,dry=wet*1.33*(1++$("pWaste").value);
+const parts=$("pMix").value.split(":").map(Number),sum=parts[0]+parts[1];
+const cement=dry*(parts[0]/sum)*1440, bags=cement/50;
+const sand=dry*(parts[1]/sum);
+$("pRes").innerHTML="<div>Plaster wet volume: <strong>"+fmt(wet,3)+" m³</strong></div><div>Dry material volume incl. wastage: <strong>"+fmt(dry,3)+" m³</strong></div><hr><div>Cement: <strong>"+fmt(cement,1)+" kg</strong> ≈ <strong>"+fmt(bags,1)+" bags (50 kg)</strong></div><div>Sand: <strong>"+fmt(sand,3)+" m³</strong></div>";
+show("pRes");
+});
+
+$("reset").addEventListener("click",()=>{
+document.querySelectorAll("input").forEach(x=>x.value="");
+$("brickL").value=190;$("brickH").value=90;$("brickW").value=90;
+$("mortarJoint").value="10";$("cD").value="";$("pT").value="12";
+document.querySelectorAll(".result,.error").forEach(x=>hide(x.id));
+});
+info();
+})();
+</script>
+</body>
+</html>
