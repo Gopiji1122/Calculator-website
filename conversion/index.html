@@ -1,1 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Conversion calculators for land area and common unit conversions.">
+<title>Conversion Calculators | Calculator.xyz</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033}
+a{text-decoration:none;color:inherit}
+.header{background:linear-gradient(135deg,#0f766e,#115e59);color:#fff;padding:18px 16px 24px}
+.top{max-width:900px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-size:24px;font-weight:800}
+.home{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);padding:9px 13px;border-radius:10px;font-size:14px}
+.hero{max-width:900px;margin:22px auto 0}
+.hero h1{margin:0 0 8px;font-size:27px}
+.hero p{margin:0;color:#ddfffb;line-height:1.5;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:20px 14px 40px}
+.section-title{font-size:19px;margin:8px 2px 12px}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+.card{background:#fff;border:1px solid #e4e8f0;border-radius:16px;padding:18px;box-shadow:0 4px 16px rgba(20,35,70,.05);transition:.15s}
+.card:active{transform:scale(.99)}
+.icon{font-size:30px;margin-bottom:8px}
+h2{margin:0 0 7px;font-size:20px}
+.desc{margin:0;color:#5c6678;line-height:1.5;font-size:14px}
+.badge{display:inline-block;margin-top:13px;background:#e3f8f5;color:#0f766e;font-weight:700;font-size:12px;padding:6px 9px;border-radius:999px}
+.info{background:#fff;border:1px solid #e4e8f0;border-radius:14px;padding:16px;color:#596477;font-size:14px;line-height:1.55;margin-top:24px}
+.footer{text-align:center;color:#7a8494;font-size:13px;padding:10px 15px 28px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
 
+<header class="header">
+  <div class="top">
+    <a class="logo" href="../">Calculator.xyz</a>
+    <a class="home" href="../">⌂ Home</a>
+  </div>
+  <div class="hero">
+    <h1>📏 Conversion Calculators</h1>
+    <p>Convert land and area measurements between commonly used units.</p>
+  </div>
+</header>
+
+<main class="container">
+  <div class="section-title">Available Calculators</div>
+
+  <div class="grid">
+    <a class="card" href="../land-area-calculator/">
+      <div class="icon">📐</div>
+      <h2>Land Area Calculator</h2>
+      <p class="desc">Convert square feet, square metre, gaj, acre, hectare, bigha and biswa using regional conventions.</p>
+      <span class="badge">Open Calculator →</span>
+    </a>
+
+    <a class="card" href="../bigha-to-biswa-gaj-calculator/">
+      <div class="icon">🌾</div>
+      <h2>Bigha to Biswa / Gaj Calculator</h2>
+      <p class="desc">Convert bigha, biswa, gaj and other land units using a selected regional convention or a custom local value.</p>
+      <span class="badge">Open Calculator →</span>
+    </a>
+  </div>
+
+  <div class="info">
+    <strong>Important:</strong> Land units such as bigha and biswa can vary by state, district and local convention. Select the appropriate regional convention or enter your local value before calculating.
+  </div>
+</main>
+
+<footer class="footer">
+  Calculator.xyz • Simple & useful calculators
+</footer>
+
+</body>
+</html>
