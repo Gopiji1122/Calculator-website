@@ -851,4 +851,294 @@
         </div>
 
 
-        <h3>Exampl
+        <h3>Example</h3>
+        <p>
+    Suppose your EV has a 75 kWh battery and you want to
+    charge it from 20% to 80%.
+</p>
+
+<p>
+    With an electricity price of ₹8 per unit and charging
+    efficiency of 90%, the calculator estimates the electricity
+    required from the grid and the approximate charging cost.
+</p>
+
+
+<h3>Important Note</h3>
+
+<p>
+    This calculator provides an estimate. Actual charging
+    consumption can vary because of charging losses,
+    battery temperature, charger efficiency, vehicle
+    electronics, battery conditioning and other factors.
+</p>
+
+<p>
+    Your actual electricity bill may also differ because
+    electricity tariffs can include slab rates, fixed charges,
+    taxes and other applicable charges.
+</p>
+
+
+<div class="faq">
+
+    <h2>Frequently Asked Questions</h2>
+
+
+    <h3>How much does it cost to charge an EV?</h3>
+
+    <p>
+        The cost depends mainly on the amount of electricity
+        required, your electricity price and charging losses.
+        Enter your values above to calculate an estimate.
+    </p>
+
+
+    <h3>What does 1 unit of electricity mean?</h3>
+
+    <p>
+        One unit of electricity is equal to
+        <strong>1 kWh</strong>.
+    </p>
+
+
+    <h3>Does charging efficiency affect the result?</h3>
+
+    <p>
+        Yes. If charging efficiency is below 100%, the EV needs
+        to draw more electricity from the grid than the energy
+        ultimately stored in the battery.
+    </p>
+
+
+    <h3>Can I use this calculator for a home EV charger?</h3>
+
+    <p>
+        Yes. Enter the rated power of your home charger,
+        such as 3.3 kW, 7.2 kW or another applicable value.
+    </p>
+
+
+    <h3>Is the charging time exact?</h3>
+
+    <p>
+        No. It is an estimate based on the charger power and
+        calculated grid energy. Real charging time can vary
+        because charging power may change during the charging
+        session, particularly at higher battery levels.
+    </p>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    © 2026 Calculator.xyz
+    <br>
+    Free online calculators for everyday use.
+
+</footer>
+
+
+<script>
+
+function toggleInfo(id) {
+
+    const info = document.getElementById(id);
+
+    if (!info) {
+        return;
+    }
+
+    if (info.style.display === "block") {
+        info.style.display = "none";
+    } else {
+        info.style.display = "block";
+    }
+
+}
+
+
+function calculate() {
+
+    const battery =
+        parseFloat(document.getElementById("battery").value);
+
+    const current =
+        parseFloat(document.getElementById("current").value);
+
+    const target =
+        parseFloat(document.getElementById("target").value);
+
+    const price =
+        parseFloat(document.getElementById("price").value);
+
+    const efficiency =
+        parseFloat(document.getElementById("efficiency").value);
+
+    const charger =
+        parseFloat(document.getElementById("charger").value);
+
+
+    if (
+        isNaN(battery) ||
+        isNaN(current) ||
+        isNaN(target) ||
+        isNaN(price) ||
+        isNaN(efficiency) ||
+        isNaN(charger)
+    ) {
+
+        alert("Please enter all required values.");
+
+        return;
+    }
+
+
+    if (battery <= 0) {
+
+        alert("Battery capacity must be greater than 0.");
+
+        return;
+    }
+
+
+    if (
+        current < 0 ||
+        current > 100 ||
+        target < 0 ||
+        target > 100
+    ) {
+
+        alert(
+            "Battery percentages must be between 0% and 100%."
+        );
+
+        return;
+    }
+
+
+    if (target <= current) {
+
+        alert(
+            "Target battery level must be higher than current level."
+        );
+
+        return;
+    }
+
+
+    if (price < 0) {
+
+        alert(
+            "Electricity price cannot be negative."
+        );
+
+        return;
+    }
+
+
+    if (
+        efficiency <= 0 ||
+        efficiency > 100
+    ) {
+
+        alert(
+            "Charging efficiency must be between 1% and 100%."
+        );
+
+        return;
+    }
+
+
+    if (charger <= 0) {
+
+        alert(
+            "Charger power must be greater than 0."
+        );
+
+        return;
+    }
+
+
+    const batteryEnergy =
+        battery * (target - current) / 100;
+
+
+    const gridEnergy =
+        batteryEnergy / (efficiency / 100);
+
+
+    const totalCost =
+        gridEnergy * price;
+
+
+    const timeHours =
+        gridEnergy / charger;
+
+
+    let hours =
+        Math.floor(timeHours);
+
+    let minutes =
+        Math.round(
+            (timeHours - hours) * 60
+        );
+
+
+    if (minutes === 60) {
+
+        hours += 1;
+
+        minutes = 0;
+
+    }
+
+
+    document.getElementById(
+        "batteryEnergy"
+    ).textContent =
+        batteryEnergy.toFixed(2) + " kWh";
+
+
+    document.getElementById(
+        "gridEnergy"
+    ).textContent =
+        gridEnergy.toFixed(2) + " kWh";
+
+
+    document.getElementById(
+        "totalCost"
+    ).textContent =
+        "₹" + totalCost.toFixed(2);
+
+
+    document.getElementById(
+        "chargingTime"
+    ).textContent =
+        hours + " hr " + minutes + " min";
+
+
+    document.getElementById(
+        "result"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "result"
+    ).scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
+
+}
+
+</script>
+
+</body>
+</html>
+        
