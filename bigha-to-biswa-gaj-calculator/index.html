@@ -1,1 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bigha to Biswa/Gaj Calculator India</title>
+<meta name="description" content="Convert Bigha, Biswa, Gaj, Square Feet, Square Metre, Acre and Hectare using regional Indian land-area conventions.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;color:#222}
+.container{max-width:720px;margin:auto;padding:16px}
+.card{background:#fff;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 3px 14px rgba(0,0,0,.08)}
+h1{font-size:27px;margin:3px 0 8px}
+h2{font-size:20px;margin:0 0 15px}
+p{line-height:1.5}
+.subtitle,.muted{color:#666}
+label{display:block;font-weight:600;margin:14px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:16px;background:#fff}
+.info{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#e9eef5;font-size:13px;cursor:pointer;margin-left:5px}
+.info-box{display:none;background:#f0f4f8;padding:10px;border-radius:8px;margin-top:7px;font-size:14px;color:#555}
+.region-box,.custom-box{display:none}
+button{width:100%;border:0;border-radius:9px;padding:14px;font-size:17px;font-weight:700;background:#222;color:#fff;cursor:pointer;margin-top:18px}
+.result{display:none}
+.result-main{text-align:center;padding:14px 0}
+.result-value{font-size:29px;font-weight:700;margin:7px 0}
+.result-unit{color:#666}
+.hectare{background:#f1f4f7;border-radius:10px;padding:14px;margin-top:12px;text-align:center}
+.hectare strong{display:block;font-size:22px;margin-top:5px}
+.note{font-size:13px;color:#666;background:#f7f7f7;padding:11px;border-radius:8px;margin-top:14px}
+.warning{display:none;background:#fff4df;color:#765000;padding:10px;border-radius:8px;margin-top:10px;font-size:14px}
+@media(max-width:420px){.container{padding:12px}.card{padding:16px}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="container">
 
+<div class="card">
+<h1>Bigha to Biswa / Gaj Calculator</h1>
+<p class="subtitle">Convert Bigha, Biswa, Gaj and other common land units using a selected regional convention.</p>
+</div>
+
+<div class="card">
+<h2>1. Enter Area</h2>
+
+<label for="inputValue">Area value
+<span class="info" onclick="toggleInfo('valueInfo')">?</span></label>
+<div class="info-box" id="valueInfo">Enter the land area you want to convert.</div>
+<input type="number" id="inputValue" min="0" step="any" value="1">
+
+<label for="inputUnit">Input unit
+<span class="info" onclick="toggleInfo('unitInfo')">?</span></label>
+<div class="info-box" id="unitInfo">Choose Bigha, Biswa, Gaj, Square Feet, Square Metre, Acre or Hectare.</div>
+<select id="inputUnit">
+<option value="bigha">Bigha</option>
+<option value="biswa">Biswa</option>
+<option value="sqyd">Gaj / Square Yard</option>
+<option value="sqft">Square Feet</option>
+<option value="sqm">Square Metre</option>
+<option value="acre">Acre</option>
+<option value="hectare">Hectare</option>
+</select>
+
+<label for="region">Region / Bigha convention
+<span class="info" onclick="toggleInfo('regionInfo')">?</span></label>
+<div class="info-box" id="regionInfo">Bigha and Biswa are not nationally standardized. Select the convention applicable to your area. Values are reference conversions, not legal land-record definitions.</div>
+<select id="region">
+<option value="rajasthan_pucca">Rajasthan — Pucca Bigha (27,225 sq ft)</option>
+<option value="rajasthan_kachcha">Rajasthan — Kachcha Bigha (17,424 sq ft)</option>
+<option value="up_pucca">Uttar Pradesh — Pucca (27,000 sq ft)</option>
+<option value="bihar">Bihar (27,220 sq ft)</option>
+<option value="jharkhand">Jharkhand (27,211 sq ft)</option>
+<option value="mp">Madhya Pradesh (12,000 sq ft)</option>
+<option value="gujarat">Gujarat — Vigha (17,424 sq ft)</option>
+<option value="west_bengal">West Bengal (14,400 sq ft)</option>
+<option value="assam">Assam (14,400 sq ft)</option>
+<option value="haryana">Haryana (27,225 sq ft)</option>
+<option value="punjab">Punjab (9,070 sq ft)</option>
+<option value="himachal">Himachal Pradesh (8,712 sq ft)</option>
+<option value="uttarakhand">Uttarakhand (6,804 sq ft)</option>
+<option value="custom">My area is not listed</option>
+</select>
+
+<div class="custom-box" id="customBox">
+<label for="customBighaSqm">1 Bigha in my area = <span class="info" onclick="toggleInfo('customInfo')">?</span></label>
+<div class="info-box" id="customInfo">Enter the local value of exactly 1 Bigha in square metres (m²).</div>
+<input type="number" id="customBighaSqm" min="0.000001" step="any" placeholder="Enter 1 Bigha in m²">
+<p class="muted" style="font-size:13px;margin-bottom:0">Example: 1 Bigha = 2529.29 m² → enter 2529.29.</p>
+</div>
+
+<div class="warning" id="warning"></div>
+<button type="button" onclick="calculate()">Calculate</button>
+</div>
+
+<div class="card result" id="result">
+<h2>2. Result</h2>
+
+<label for="outputUnit">Convert result to</label>
+<select id="outputUnit">
+<option value="bigha">Bigha</option>
+<option value="biswa">Biswa</option>
+<option value="sqyd">Gaj / Square Yard</option>
+<option value="sqft">Square Feet</option>
+<option value="sqm">Square Metre</option>
+<option value="acre">Acre</option>
+<option value="hectare">Hectare</option>
+</select>
+
+<div class="result-main">
+<div class="result-value" id="resultValue">—</div>
+<div class="result-unit" id="resultUnit">—</div>
+</div>
+
+<div class="hectare">
+<div>Area in Hectare</div>
+<strong id="hectareValue">—</strong>
+<div class="result-unit">ha</div>
+</div>
+
+<div class="note">
+<strong>Important:</strong> Bigha/Biswa values vary by region. For legal/property transactions, verify the applicable local value from your land record or revenue authority.
+</div>
+</div>
+
+<div class="card">
+<h2>About this calculator</h2>
+<p class="muted">Bigha is a regional land unit. Published Indian conversion tables show different Bigha values across states, so this calculator requires a regional convention rather than assuming one national value.</p>
+<p class="muted">The selected convention is also used when converting to or from Biswa. Where 20 Biswa = 1 Bigha is the applicable convention, the calculator uses that relationship.</p>
+</div>
+
+</div>
+
+<script>
+const regionData={
+    rajasthan_pucca:27225,
+    rajasthan_kachcha:17424,
+    up_pucca:27000,
+    bihar:27220,
+    jharkhand:27211,
+    mp:12000,
+    gujarat:17424,
+    west_bengal:14400,
+    assam:14400,
+    haryana:27225,
+    punjab:9070,
+    himachal:8712,
+    uttarakhand:6804
+};
+
+const unitNames={
+    bigha:"Bigha",
+    biswa:"Biswa",
+    sqyd:"Gaj / Square Yard",
+    sqft:"Square Feet",
+    sqm:"Square Metre",
+    acre:"Acre",
+    hectare:"Hectare"
+};
+
+let currentSqm=null;
+
+function toggleInfo(id){
+    const el=document.getElementById(id);
+    if(el) el.style.display=el.style.display==="block"?"none":"block";
+}
+
+function getBighaSqm(){
+    const region=document.getElementById("region").value;
+    if(region==="custom"){
+        const v=parseFloat(document.getElementById("customBighaSqm").value);
+        return Number.isFinite(v)&&v>0?v:null;
+    }
+    return regionData[region]/10.7639104167;
+}
+
+function updateCustom(){
+    document.getElementById("customBox").style.display=
+        document.getElementById("region").value==="custom"?"block":"none";
+}
+document.getElementById("region").addEventListener("change",updateCustom);
+document.getElementById("outputUnit").addEventListener("change",renderResult);
+updateCustom();
+
+function toSqm(value,unit){
+    switch(unit){
+        case "bigha": return value*getBighaSqm();
+        case "biswa": return value*(getBighaSqm()/20);
+        case "sqyd": return value*0.83612736;
+        case "sqft": return value*0.09290304;
+        case "sqm": return value;
+        case "acre": return value*4046.8564224;
+        case "hectare": return value*10000;
+    }
+}
+
+function fromSqm(sqm,unit){
+    switch(unit){
+        case "bigha": return sqm/getBighaSqm();
+        case "biswa": return sqm/(getBighaSqm()/20);
+        case "sqyd": return sqm/0.83612736;
+        case "sqft": return sqm/0.09290304;
+        case "sqm": return sqm;
+        case "acre": return sqm/4046.8564224;
+        case "hectare": return sqm/10000;
+    }
+}
+
+function fmt(n){
+    return n.toLocaleString("en-IN",{maximumFractionDigits:6});
+}
+
+function calculate(){
+    const value=parseFloat(document.getElementById("inputValue").value);
+    const unit=document.getElementById("inputUnit").value;
+    const warning=document.getElementById("warning");
+
+    if(!Number.isFinite(value)||value<=0){
+        warning.textContent="Please enter a valid area greater than 0.";
+        warning.style.display="block";
+        return;
+    }
+
+    const bighaSqm=getBighaSqm();
+    if(!Number.isFinite(bighaSqm)||bighaSqm<=0){
+        warning.textContent="Please enter your local 1 Bigha value in square metres (m²).";
+        warning.style.display="block";
+        return;
+    }
+
+    currentSqm=toSqm(value,unit);
+    if(!Number.isFinite(currentSqm)||currentSqm<=0){
+        warning.textContent="Please check the entered values.";
+        warning.style.display="block";
+        return;
+    }
+
+    warning.style.display="none";
+    renderResult();
+    document.getElementById("result").style.display="block";
+    document.getElementById("result").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function renderResult(){
+    if(currentSqm===null)return;
+
+    const unit=document.getElementById("outputUnit").value;
+    const result=fromSqm(currentSqm,unit);
+
+    document.getElementById("resultValue").textContent=fmt(result);
+    document.getElementById("resultUnit").textContent=unitNames[unit];
+    document.getElementById("hectareValue").textContent=fmt(currentSqm/10000);
+}
+</script>
+</body>
+</html>
