@@ -1,214 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculator.xyz - Free Online Calculators</title>
+    <title>Calculator.xyz - Free Online Calculators</title>
 
-<meta name="description" content="Free online calculators for finance, education, electricity, vehicles, construction, land, solar, conversions and everyday calculations.">
+    <meta name="description"
+          content="Free online calculators for finance, education, electricity, vehicles, construction, conversions and everyday calculations.">
 
-<meta name="theme-color" content="#2563eb">
+    <meta name="theme-color" content="#2563eb">
 
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f8fb;
+            color: #172033;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: 800;
+            color: #2563eb;
+        }
+
+        .logo span {
+            color: #111827;
+        }
+
+        .hero {
+            max-width: 900px;
+            margin: auto;
+            text-align: center;
+            padding: 55px 20px 35px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            margin-bottom: 14px;
+        }
+
+        .hero p {
+            color: #64748b;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .search {
+            margin: 28px auto 0;
+            max-width: 600px;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid #dbe1ea;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            background: white;
+        }
+
+        .search input:focus {
+            border-color: #2563eb;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 25px;
+            margin: 25px 0 18px;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .category {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            transition: 0.2s;
+        }
+
+        .category:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+        }
+
+
+        .category {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            cursor: pointer;
+        }
+
+        .category-link {
+            margin-top: 14px;
+            color: #2563eb;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .category-icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .category h3 {
+            margin-bottom: 7px;
+        }
+
+        .category p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .popular {
+            margin-top: 45px;
+        }
+
+        .calculator-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .calculator {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .calculator h3 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .calculator p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        footer {
+            margin-top: 60px;
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        footer p {
+            color: #9ca3af;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+            .hero {
+                padding-top: 40px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .categories,
+            .calculator-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        .calculator {
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
-body{
-    font-family:Arial,sans-serif;
-    background:#f6f8fb;
-    color:#172033;
+.calculator:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
-
-header{
-    background:white;
-    border-bottom:1px solid #e5e7eb;
-    padding:16px 20px;
-    position:sticky;
-    top:0;
-    z-index:10;
-}
-
-.header-inner{
-    max-width:1100px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.logo{
-    font-size:23px;
-    font-weight:800;
-    color:#2563eb;
-}
-
-.logo span{
-    color:#111827;
-}
-
-.hero{
-    max-width:900px;
-    margin:auto;
-    text-align:center;
-    padding:55px 20px 35px;
-}
-
-.hero h1{
-    font-size:38px;
-    margin-bottom:14px;
-}
-
-.hero p{
-    color:#64748b;
-    font-size:17px;
-    line-height:1.6;
-}
-
-.search{
-    margin:28px auto 0;
-    max-width:600px;
-}
-
-.search input{
-    width:100%;
-    padding:16px 20px;
-    border:1px solid #dbe1ea;
-    border-radius:12px;
-    font-size:16px;
-    outline:none;
-    background:white;
-}
-
-.search input:focus{
-    border-color:#2563eb;
-}
-
-.container{
-    max-width:1100px;
-    margin:auto;
-    padding:20px;
-}
-
-.section-title{
-    font-size:25px;
-    margin:25px 0 18px;
-}
-
-.categories{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:16px;
-}
-
-.category{
-    background:white;
-    padding:22px;
-    border-radius:14px;
-    border:1px solid #e5e7eb;
-    transition:.2s;
-    text-decoration:none;
-    color:inherit;
-    display:block;
-}
-
-.category:hover{
-    transform:translateY(-3px);
-    box-shadow:0 8px 25px rgba(0,0,0,.07);
-}
-
-.category-icon{
-    font-size:30px;
-    margin-bottom:12px;
-}
-
-.category h3{
-    margin-bottom:7px;
-}
-
-.category p{
-    color:#64748b;
-    font-size:14px;
-    line-height:1.5;
-}
-
-.category-link{
-    display:inline-block;
-    margin-top:12px;
-    color:#2563eb;
-    font-size:13px;
-    font-weight:700;
-}
-
-.popular{
-    margin-top:45px;
-}
-
-.calculator-list{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:14px;
-}
-
-.calculator{
-    background:white;
-    padding:18px;
-    border-radius:12px;
-    border:1px solid #e5e7eb;
-    text-decoration:none;
-    color:inherit;
-    display:block;
-    transition:.2s;
-}
-
-.calculator:hover{
-    transform:translateY(-2px);
-    box-shadow:0 6px 20px rgba(0,0,0,.08);
-}
-
-.calculator h3{
-    font-size:16px;
-    margin-bottom:7px;
-}
-
-.calculator p{
-    color:#64748b;
-    font-size:13px;
-    line-height:1.5;
-}
-
-footer{
-    margin-top:60px;
-    background:#111827;
-    color:white;
-    text-align:center;
-    padding:30px 20px;
-}
-
-footer p{
-    color:#9ca3af;
-    margin-top:8px;
-    font-size:14px;
-}
-
-@media(max-width:700px){
-    .hero{
-        padding-top:40px;
-    }
-
-    .hero h1{
-        font-size:30px;
-    }
-
-    .categories,
-    .calculator-list{
-        grid-template-columns:1fr;
-    }
-}
-</style>
+    </style>
 </head>
 
 <body>
@@ -224,13 +229,12 @@ footer p{
     <h1>Calculate Anything. Fast. Free.</h1>
 
     <p>
-        Simple, useful and free online calculators
+        Simple, accurate and free online calculators
         for everyday life, finance, education and more.
     </p>
 
     <div class="search">
         <input
-            id="searchInput"
             type="search"
             placeholder="Search for a calculator..."
             aria-label="Search calculators">
@@ -242,123 +246,87 @@ footer p{
 
     <h2 class="section-title">Calculator Categories</h2>
 
-    <div class="categories" id="categories">
+    <div class="categories">
 
-        <a href="loan-emi-calculator/" class="category">
+        <a href="finance/" class="category">
             <div class="category-icon">💰</div>
             <h3>Finance</h3>
             <p>Loans, EMI, GST, investments and interest calculators.</p>
-            <span class="category-link">Explore Finance →</span>
+            <div class="category-link">Explore Finance →</div>
         </a>
 
-        <a href="electricity-bill-calculator/" class="category">
+        <a href="electrical-solar/" class="category">
             <div class="category-icon">⚡</div>
             <h3>Electrical & Solar</h3>
-            <p>Electricity, EV charging, solar and energy calculations.</p>
-            <span class="category-link">Explore Electrical & Solar →</span>
+            <p>Electricity, EV charging, solar and battery calculations.</p>
+            <div class="category-link">Explore Electrical & Solar →</div>
         </a>
 
-        <a href="petrol-diesel-mileage-calculator/" class="category">
+        <a href="vehicle/" class="category">
             <div class="category-icon">🚗</div>
             <h3>Vehicle</h3>
             <p>Fuel mileage, fuel cost and EV calculators.</p>
-            <span class="category-link">Explore Vehicle →</span>
+            <div class="category-link">Explore Vehicle →</div>
         </a>
 
-        <a href="plot-area-calculator/" class="category">
+        <a href="home-construction/" class="category">
             <div class="category-icon">🏠</div>
             <h3>Home & Construction</h3>
-            <p>Plot, land, paint, water tank and construction calculators.</p>
-            <span class="category-link">Explore Home & Construction →</span>
+            <p>Plot, paint, tiles and construction calculators.</p>
+            <div class="category-link">Explore Home & Construction →</div>
         </a>
 
-        <a href="percentage-marks-calculator/" class="category">
+        <a href="education/" class="category">
             <div class="category-icon">🎓</div>
             <h3>Education</h3>
             <p>Marks, percentage, attendance and eligibility calculators.</p>
-            <span class="category-link">Explore Education →</span>
+            <div class="category-link">Explore Education →</div>
         </a>
 
-        <a href="land-area-calculator/" class="category">
+        <a href="conversion/" class="category">
             <div class="category-icon">📏</div>
             <h3>Conversion</h3>
-            <p>Area, land and other useful unit conversions.</p>
-            <span class="category-link">Explore Conversion →</span>
+            <p>Area, length, weight, land and other unit conversions.</p>
+            <div class="category-link">Explore Conversion →</div>
         </a>
 
     </div>
-
 
     <section class="popular">
 
         <h2 class="section-title">Popular Calculators</h2>
 
-        <div class="calculator-list" id="calculatorList">
+        <div class="calculator-list">
 
-            <a href="loan-emi-calculator/" class="calculator">
-                <h3>Loan EMI Calculator</h3>
-                <p>Calculate monthly EMI, total interest and total repayment.</p>
-            </a>
-
-            <a href="electricity-bill-calculator/" class="calculator">
+            <div class="calculator">
                 <h3>Electricity Bill Calculator</h3>
-                <p>Calculate an estimated electricity bill from your consumption and tariff inputs.</p>
-            </a>
+                <p>Calculate electricity consumption and estimated cost.</p>
+            </div>
 
             <a href="ev-charging-cost-calculator/" class="calculator">
-                <h3>EV Charging Cost Calculator</h3>
-                <p>Calculate the cost and approximate time required to charge an EV.</p>
+    <h3>EV Charging Cost Calculator</h3>
+    <p>Calculate the cost of charging an electric vehicle.</p>
             </a>
 
-            <a href="petrol-diesel-mileage-calculator/" class="calculator">
-                <h3>Petrol/Diesel Mileage Calculator</h3>
-                <p>Calculate vehicle mileage, fuel cost per km and fuel efficiency.</p>
-            </a>
+            <div class="calculator">
+                <h3>Petrol Mileage Calculator</h3>
+                <p>Calculate your vehicle's fuel mileage.</p>
+            </div>
 
-            <a href="ev-vs-petrol-cost-calculator/" class="calculator">
-                <h3>EV vs Petrol/Diesel Cost Calculator</h3>
-                <p>Compare running costs of EV, petrol and diesel vehicles.</p>
-            </a>
-
-            <a href="land-area-calculator/" class="calculator">
+            <div class="calculator">
                 <h3>Land Area Calculator</h3>
-                <p>Convert and calculate land measurements in different units.</p>
-            </a>
+                <p>Convert and calculate different land measurements.</p>
+            </div>
 
-            <a href="bigha-to-biswa-gaj-calculator/" class="calculator">
-                <h3>Bigha to Biswa/Gaj Calculator</h3>
-                <p>Convert Bigha, Biswa, Gaj and other land units using regional conventions.</p>
-            </a>
-
-            <a href="plot-area-calculator/" class="calculator">
+            <div class="calculator">
                 <h3>Plot Area Calculator</h3>
-                <p>Calculate plot area and estimate land value from an entered rate.</p>
-            </a>
+                <p>Calculate the area of your plot.</p>
+            </div>
 
-            <a href="construction-material-calculator/" class="calculator">
-                <h3>Construction Material Calculator</h3>
-                <p>Estimate concrete, brick wall and plaster materials.</p>
-            </a>
-
-            <a href="water-tank-capacity-calculator/" class="calculator">
-                <h3>Water Tank Capacity Calculator</h3>
-                <p>Calculate rectangular and cylindrical tank capacity in litres.</p>
-            </a>
-
-            <a href="paint-calculator/" class="calculator">
-                <h3>Paint Calculator</h3>
-                <p>Estimate paint required, wall area and optional paint cost.</p>
-            </a>
-
-            <a href="solar-panel-savings-calculator/" class="calculator">
-                <h3>Solar Panel Savings Calculator</h3>
-                <p>Estimate monthly and annual electricity savings from solar.</p>
-            </a>
-
-            <a href="percentage-marks-calculator/" class="calculator">
-                <h3>Percentage & Marks Calculator</h3>
-                <p>Calculate total marks, percentage, average and indicative grade.</p>
-            </a>
+            <div class="calculator">
+                <h3>Solar Savings Calculator</h3>
+                <p>Estimate solar electricity savings.</p>
+            </div>
 
         </div>
 
@@ -375,35 +343,6 @@ footer p{
     </p>
 
 </footer>
-
-
-<script>
-(function(){
-
-    const searchInput = document.getElementById("searchInput");
-    const calculators = [
-        ...document.querySelectorAll(".calculator")
-    ];
-
-    searchInput.addEventListener("input", function(){
-
-        const query = this.value.trim().toLowerCase();
-
-        calculators.forEach(function(card){
-
-            const text = card.textContent.toLowerCase();
-
-            card.style.display =
-                !query || text.includes(query)
-                ? "block"
-                : "none";
-
-        });
-
-    });
-
-})();
-</script>
 
 </body>
 </html>
