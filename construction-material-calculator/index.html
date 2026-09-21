@@ -7,7 +7,9 @@
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033}
 .wrap{max-width:760px;margin:auto;padding:16px 12px 40px}h1{font-size:25px;margin:4px 0 8px}.sub{color:#626d80;line-height:1.5;margin:0 0 16px}
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}.tab{border:1px solid #d5dce8;background:#fff;color:#172033;border-radius:11px;padding:11px 6px;font-weight:700;cursor:pointer;min-height:48px}.tab.active{background:#172033;color:#fff}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}
+.tab{border:1px solid #d5dce8!important;background:#fff!important;color:#172033!important;border-radius:11px;padding:11px 6px;font-weight:700;cursor:pointer;min-height:48px;display:flex;align-items:center;justify-content:center;appearance:none;-webkit-appearance:none}
+.tab.active{background:#172033!important;color:#fff!important;border-color:#172033!important}
 .card{background:#fff;border:1px solid #dfe4ec;border-radius:15px;padding:17px;margin-bottom:14px}.card h2{font-size:19px;margin:0 0 6px}
 label{display:block;font-weight:700;margin:12px 0 6px}input,select,button{width:100%;min-height:46px;border-radius:10px;font-size:16px}input,select{border:1px solid #cbd3df;padding:9px;background:#fff}button{border:0;background:#172033;color:#fff;font-weight:700;padding:10px;cursor:pointer;margin-top:14px}.secondary{background:#edf1f7;color:#172033}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.info{display:inline-flex;width:19px;height:19px;align-items:center;justify-content:center;border-radius:50%;background:#e9eef6;font-size:12px;cursor:pointer}.result{background:#f1f5fa;border-radius:12px;padding:14px;margin-top:14px;line-height:1.75}.big{font-size:22px;font-weight:800}.hidden{display:none}.error{background:#fff0f0;color:#9d2020;border:1px solid #efcaca;border-radius:9px;padding:10px;margin-top:11px}.note{font-size:13px;color:#687386;line-height:1.5;margin-top:10px}.check{display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:600}.check input{width:20px;min-height:20px}
@@ -20,9 +22,9 @@ label{display:block;font-weight:700;margin:12px 0 6px}input,select,button{width:
 <p class="sub">Estimate basic construction materials for concrete, brick walls and plaster. Enter your measurements and choose the material assumptions that match your work.</p>
 
 <div class="tabs">
-<button class="tab active" id="tConcrete" type="button">Concrete</button>
-<button class="tab" id="tBrick" type="button">Brick Wall</button>
-<button class="tab" id="tPlaster" type="button">Plaster</button>
+<button class="tab active" id="tConcrete" type="button" aria-selected="true">Concrete</button>
+<button class="tab" id="tBrick" type="button" aria-selected="false">Brick Wall</button>
+<button class="tab" id="tPlaster" type="button" aria-selected="false">Plaster</button>
 </div>
 
 <section id="concrete" class="card">
@@ -91,16 +93,26 @@ label{display:block;font-weight:700;margin:12px 0 6px}input,select,button{width:
 "use strict";
 const $=id=>document.getElementById(id);
 const tabs={tConcrete:"concrete",tBrick:"brick",tPlaster:"plaster"};
-function show(id){$(id).classList.remove("hidden")} function hide(id){$(id).classList.add("hidden")}
+function show(id){$(id).classList.remove("hidden")}
+function hide(id){$(id).classList.add("hidden")}
+function setSection(tabId){
+  Object.keys(tabs).forEach(k=>{
+    $(tabs[k]).classList.add("hidden");
+    $(k).classList.remove("active");
+    $(k).setAttribute("aria-selected","false");
+  });
+  const section=tabs[tabId];
+  $(section).classList.remove("hidden");
+  $(tabId).classList.add("active");
+  $(tabId).setAttribute("aria-selected","true");
+}
 function fmt(n,d=2){return new Intl.NumberFormat("en-IN",{maximumFractionDigits:d}).format(n)}
 function info(){document.querySelectorAll(".info").forEach(x=>x.addEventListener("click",()=>alert(x.dataset.info)))}
 function err(id,msg){$(id).textContent=msg;show(id)}
 function noerr(id){hide(id)}
 
-Object.entries(tabs).forEach(([tab,sec])=>{
-$(tab).addEventListener("click",()=>{
-Object.values(tabs).forEach(x=>hide(x));show(sec);
-Object.keys(tabs).forEach(x=>$(x).classList.remove("active"));$(tab).classList.add("active");
+Object.keys(tabs).forEach(tabId=>{
+$(tabId).addEventListener("click",()=>setSection(tabId));
 });
 });
 
@@ -161,6 +173,7 @@ $("mortarJoint").value="10";$("cD").value="";$("pT").value="12";
 document.querySelectorAll(".result,.error").forEach(x=>hide(x.id));
 });
 info();
+setSection("tConcrete");
 })();
 </script>
 </body>
