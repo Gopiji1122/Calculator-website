@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Electricity Bill Calculator India | Calculator.xyz</title>
+
+    <meta name="description"
+          content="Calculate your estimated electricity bill in India using your state, electricity provider and monthly electricity consumption.">
+
+    <meta name="theme-color"
+          content="#2563eb">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+            line-height: 1.6;
+        }
+
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 20px;
+        }
+
+
+        .header-inner {
+            max-width: 900px;
+            margin: auto;
+        }
+
+
+        .logo {
+            text-decoration: none;
+            color: #2563eb;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+
+        .breadcrumb {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+
+        .breadcrumb a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+
+        h1 {
+            font-size: 32px;
+            margin: 0 0 10px;
+        }
+
+
+        .intro {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+
+        .calculator-box {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+        }
+
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+
+        .label-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 7px;
+        }
+
+
+        label {
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+
+        .info-button {
+            width: 22px;
+            height: 22px;
+            padding: 0;
+            border-radius: 50%;
+            border: 1px solid #94a3b8;
+            background: white;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+
+        .info-button:hover {
+            background: #f1f5f9;
+        }
+
+
+        select,
+        input {
+            width: 100%;
+            min-height: 48px;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            background: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+
+        select:focus,
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.10);
+        }
+
+
+        .help-text {
+            margin-top: 6px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+
+        .info-popup {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #475569;
+        }
+
+
+        .info-popup strong {
+            color: #172033;
+        }
+
+
+        .info-popup p {
+            margin: 7px 0;
+        }
+
+
+        .close-info {
+            width: auto;
+            padding: 8px 14px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+
+        .advanced-toggle {
+            width: 100%;
+            padding: 14px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            color: #172033;
+            font-size: 15px;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            margin-bottom: 18px;
+        }
+
+
+        .advanced-toggle:hover {
+            background: #f1f5f9;
+        }
+
+
+        .advanced-section {
+            display: none;
+            padding: 18px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+
+        .optional {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+
+        .calculate-btn {
+            width: 100%;
+            min-height: 50px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+
+        .calculate-btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        .result {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+        }
+
+
+        .result h2 {
+            margin-top: 0;
+            font-size: 21px;
+        }
+
+
+        .estimated-bill {
+            font-size: 30px;
+            font-weight: 800;
+            color: #2563eb;
+            margin: 8px 0 18px;
+        }
+
+
+        .notice {
+            padding: 13px;
+            background: #fff;
+            border: 1px solid #dbeafe;
+            border-radius: 9px;
+            color: #475569;
+            font-size: 13px;
+        }
+
+
+        .content {
+            background: white;
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+        }
+
+
+        .content h2 {
+            font-size: 23px;
+            margin-top: 0;
+        }
+
+
+        .content h3 {
+            font-size: 18px;
+            margin-top: 25px;
+        }
+
+
+        .content p {
+            color: #475569;
+        }
+
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .calculator-box,
+            .content {
+                padding: 19px;
+            }
+
+        }
+
+    
+
+.manual-tariff-section {
+    margin: 24px 0;
+    padding: 20px;
+    border: 1px solid #e3e7ee;
+    border-radius: 14px;
+    background: #fafbfc;
+}
+
+.manual-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.manual-title-row h3 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.manual-badge {
+    font-size: 12px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: #eef2ff;
+    white-space: nowrap;
+}
+
+.input-with-prefix {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.input-with-prefix span {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.input-with-prefix input {
+    flex: 1;
+    min-width: 0;
+}
+
+.manual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.manual-note {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+    .manual-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .manual-tariff-section {
+        padding: 16px;
+    }
+}
+
+
+.bill-breakdown {
+    margin-top: 12px;
+    border-top: 1px solid #ddd;
+}
+
+.bill-breakdown > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 7px 0;
+}
+
+.bill-breakdown > div:last-child {
+    border-top: 1px solid #ddd;
+    margin-top: 4px;
+    padding-top: 10px;
+}
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-inner">
+
+        <a class="logo" href="../index.html">
+            Calculator.xyz
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+    <div class="breadcrumb">
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        &nbsp;›&nbsp;
+
+        Electricity Bill Calculator
+
+    </div>
+
+
+
+    <h1>
+        Electricity Bill Calculator India
+    </h1>
+
+
+    <p class="intro">
+
+        Estimate your electricity bill using your state,
+        electricity provider and monthly electricity consumption.
+
+        You don't need to know technical electricity terms
+        to use this calculator.
+
+    </p>
+
+
+
+    <div class="calculator-box">
+
+
+        <!-- STATE -->
+
+        <div class="form-group">
+
+
+            <div class="label-row">
+
+                <label for="state">
+                    1. Select Your State / UT
+                </label>
+
+
+                <button
+                    type="button"
+                    class="info-button"
+                    onclick="toggleInfo('stateInfo')"
+                    aria-label="Information about state selection">
+
+                    ?
+
+                </button>
+
+            </div>
+
+
+            <select id="state">
+
+    <option value="">
+        Select your state / UT
+    </option>
+
+    <option value="andhra-pradesh">Andhra Pradesh</option>
+    <option value="arunachal-pradesh">Arunachal Pradesh</option>
+    <option value="assam">Assam</option>
+    <option value="bihar">Bihar</option>
+    <option value="chhattisgarh">Chhattisgarh</option>
+    <option value="goa">Goa</option>
+    <option value="gujarat">Gujarat</option>
+    <option value="haryana">Haryana</option>
+    <option value="himachal-pradesh">Himachal Pradesh</option>
+    <option value="jharkhand">Jharkhand</option>
+    <option value="karnataka">Karnataka</option>
+    <option value="kerala">Kerala</option>
+    <option value="madhya-pradesh">Madhya Pradesh</option>
+    <option value="maharashtra">Maharashtra</option>
+    <option value="manipur">Manipur</option>
+    <option value="meghalaya">Meghalaya</option>
+    <option value="mizoram">Mizoram</option>
+    <option value="nagaland">Nagaland</option>
+    <option value="odisha">Odisha</option>
+    <option value="punjab">Punjab</option>
+    <option value="rajasthan">Rajasthan</option>
+    <option value="sikkim">Sikkim</option>
+    <option value="tamil-nadu">Tamil Nadu</option>
+    <option value="telangana">Telangana</option>
+    <option value="tripura">Tripura</option>
+    <option value="uttar-pradesh">Uttar Pradesh</option>
+    <option value="uttarakhand">Uttarakhand</option>
+    <option value="west-bengal">West Bengal</option>
+
+    <option value="andaman-nicobar">
+        Andaman & Nicobar Islands
+    </option>
+
+    <option value="chandigarh">
+        Chandigarh
+    </option>
+
+    <option value="dadra-nagar-haveli-daman-diu">
+        Dadra & Nagar Haveli and Daman & Diu
+    </option>
+
+    <option value="delhi">
+        Delhi
+    </option>
+
+    <option value="jammu-kashmir">
+        Jammu & Kashmir
+    </option>
+
+    <option value="ladakh">
+        Ladakh
+    </option>
+
+    <option value="lakshadweep">
+        Lakshadweep
+    </option>
+
+    <option value="puducherry">
+        Puducherry
+    </option>
+
+            </select>
+
+
+
+
+            <div class="info-popup" id="stateInfo">
+
+                <strong>
+                    Why do we need your state?
+                </strong>
+
+                <p>
+                    Electricity tariffs in India are not the same
+                    everywhere. Your state helps us identify the
+                    electricity regulatory authority and applicable
+                    distribution company.
+                </p>
+
+                <p>
+                    We will use the applicable tariff information
+                    instead of using one generic electricity rate
+                    for all of India.
+                </p>
+
+
+                <button
+                    type="button"
+                    class="close-info"
+                    onclick="toggleInfo('stateInfo')">
+
+                    Got it
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- DISCOM -->
+
+        <div class="form-group">
+
+
+            <div class="label-row">
+
+                <label for="discom">
+                    2. Electricity Provider / DISCOM
+                </label>
+
+
+                <button
+                    type="button"
+                    class="info-button"
+                    onclick="toggleInfo('discomInfo')"
+                    aria-label="Information about electricity provider">
+
+                    ?
+
+                </button>
+
+            </div>
+<select id="discom" disabled>
+    <option value="">
+        First select your state / UT
+    </option>
+</select>
+
+            
+
+
+            <div class="help-text">
+
+                Don't know your provider?
+                You can usually find its name or logo on your
+                electricity bill.
+
+            </div>
+
+
+            <div class="info-popup" id="discomInfo">
+
+                <strong>
+                    What is an electricity provider / DISCOM?
+                </strong>
+
+                <p>
+                    DISCOM means Distribution Company.
+                    It is the company or utility that supplies
+                    electricity to your home or business.
+                </p>
+
+                <p>
+                    Different DISCOMs can have different applicable
+                    tariff structures.
+                </p>
+
+                <p>
+                    If you don't know the name, don't worry.
+                    We will provide an option to continue where
+                    possible.
+                </p>
+
+
+                <button
+                    type="button"
+                    class="close-info"
+                    onclick="toggleInfo('discomInfo')">
+
+                    Got it
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CONNECTION TYPE -->
+
+        <div class="form-group">
+
+
+            <div class="label-row">
+
+                <label for="connectionType">
+                    3. Connection Type
+                </label>
+
+
+                <button
+                    type="button"
+                    class="info-button"
+                    onclick="toggleInfo('connectionInfo')"
+                    aria-label="Information about connection type">
+
+                    ?
+
+                </button>
+
+            </div>
+
+
+            <select id="connectionType">
+
+                <option value="domestic">
+                    🏠 Home / Domestic
+                </option>
+
+                <option value="commercial">
+                    🏪 Shop / Commercial
+                </option>
+
+                <option value="industrial">
+                    🏭 Industrial
+                </option>
+
+                <option value="agriculture">
+                    🌾 Agriculture
+                </option>
+
+                <option value="other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <div class="info-popup" id="connectionInfo">
+
+                <strong>
+                    What is Connection Type?
+                </strong>
+
+                <p>
+                    This tells us how the electricity connection
+                    is being used.
+                </p>
+
+                <p>
+                    For a normal household, select
+                    <strong>Home / Domestic</strong>.
+                </p>
+
+                <p>
+                    Shops, factories, farms and other users may have
+                    different tariff categories.
+                </p>
+
+
+                <button
+                    type="button"
+                    class="close-info"
+                    onclick="toggleInfo('connectionInfo')">
+
+                    Got it
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MONTHLY UNITS -->
+
+        <div class="form-group">
+
+
+            <div class="label-row">
+
+                <label for="units">
+                    4. Monthly Electricity Usage
+                </label>
+
+
+                <button
+                    type="button"
+                    class="info-button"
+                    onclick="toggleInfo('unitsInfo')"
+                    aria-label="Information about electricity units">
+
+                    ?
+
+                </button>
+
+            </div>
+
+
+            <input
+                type="number"
+                id="units"
+                placeholder="Example: 250"
+                min="0"
+                step="1">
+
+
+            <div class="help-text">
+
+                Enter the number of units shown on your electricity bill.
+
+            </div>
+
+
+            <div class="info-popup" id="unitsInfo">
+
+                <strong>
+                    What is an electricity unit?
+                </strong>
+
+                <p>
+                    One unit of electricity is equal to
+                    <strong>1 kWh (kilowatt-hour)</strong>.
+                </p>
+
+                <p>
+                    Look at your electricity bill for terms such as
+                    <strong>Units Consumed</strong>,
+                    <strong>Consumption</strong> or
+                    <strong>kWh</strong>.
+                </p>
+
+                <p>
+                    Example:
+                    If your bill shows 250 units consumed,
+                    enter <strong>250</strong>.
+                </p>
+
+
+                <button
+                    type="button"
+                    class="close-info"
+                    onclick="toggleInfo('unitsInfo')">
+
+                    Got it
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ADVANCED OPTIONS -->
+
+        <button
+            type="button"
+            class="advanced-toggle"
+            onclick="toggleAdvanced()">
+
+            ＋ Improve accuracy with more details
+
+        </button>
+
+
+        <div
+            class="advanced-section"
+            id="advancedSection">
+
+
+            <div class="form-group">
+
+
+                <div class="label-row">
+
+                    <label for="load">
+
+                        Sanctioned Load
+
+                        <span class="optional">
+                            (Optional)
+                        </span>
+
+                    </label>
+
+
+                    <button
+                        type="button"
+                        class="info-button"
+                        onclick="toggleInfo('loadInfo')"
+                        aria-label="Information about sanctioned load">
+
+                        ?
+
+                    </button>
+
+                </div>
+
+
+                <input
+                    type="number"
+                    id="load"
+                    placeholder="Example: 2">
+
+                <div class="help-text">
+                    Enter in kW if you know it.
+                    Otherwise, leave it blank.
+                </div>
+
+
+                <div class="info-popup" id="loadInfo">
+
+                    <strong>
+                        What is Sanctioned Load?
+                    </strong>
+
+                    <p>
+                        It is the electrical load approved for
+                        your connection by your electricity provider.
+                    </p>
+
+                    <p>
+                        You may find it on your electricity bill under
+                        terms such as <strong>Sanctioned Load</strong>,
+                        <strong>Connected Load</strong> or similar wording.
+                    </p>
+
+                    <p>
+                        <strong>Don't know it?</strong>
+                        No problem. Leave this field blank.
+                    </p>
+
+
+                    <button
+                        type="button"
+                        class="close-info"
+                        onclick="toggleInfo('loadInfo')">
+
+                        Got it
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <p class="help-text">
+
+                Advanced information is optional.
+                We will only use it when the selected tariff
+                requires it.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- MANUAL TARIFF MODE -->
+        <div class="manual-tariff-section">
+
+            <div class="manual-title-row">
+                <h3>Need an estimate now?</h3>
+                <span class="manual-badge">Manual tariff</span>
+            </div>
+
+            <p class="help-text">
+                If automatic tariff data is not available yet, enter the charges shown on your electricity bill.
+            </p>
+
+            <div class="form-group">
+                <div class="label-row">
+                    <label for="energyRate">Energy Charge</label>
+                    <button type="button" class="info-button" onclick="toggleInfo('energyRateInfo')" aria-label="Information about energy charge">?</button>
+                </div>
+                <div class="input-with-prefix">
+                    <span>₹</span>
+                    <input type="number" id="energyRate" min="0" step="0.01" value="8" placeholder="Example: 8">
+                    <span>/ unit</span>
+                </div>
+                <div class="help-text">Enter the energy rate if your bill shows one single rate per unit.</div>
+                <div class="info-popup" id="energyRateInfo">
+                    <strong>What is Energy Charge?</strong>
+                    <p>This is the amount charged for the electricity you used. It is usually shown as an energy charge, energy rate or per-unit charge on a bill.</p>
+                    <p>If your tariff uses different rates for different slabs, this simple manual mode may not match your bill exactly.</p>
+                    <button type="button" class="close-info" onclick="toggleInfo('energyRateInfo')">Got it</button>
+                </div>
+            </div>
+
+            <div class="manual-grid">
+                <div class="form-group">
+                    <div class="label-row">
+                        <label for="fixedCharge">Fixed Charge</label>
+                        <button type="button" class="info-button" onclick="toggleInfo('fixedChargeInfo')" aria-label="Information about fixed charge">?</button>
+                    </div>
+                    <div class="input-with-prefix">
+                        <span>₹</span>
+                        <input type="number" id="fixedCharge" min="0" step="0.01" value="0" placeholder="Example: 100">
+                    </div>
+                    <div class="help-text">For the billing period.</div>
+                    <div class="info-popup" id="fixedChargeInfo">
+                        <strong>What is Fixed Charge?</strong>
+                        <p>A fixed charge is a charge applied for the connection or sanctioned load, separate from units consumed.</p>
+                        <button type="button" class="close-info" onclick="toggleInfo('fixedChargeInfo')">Got it</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label-row">
+                        <label for="otherCharge">Other Charges</label>
+                        <button type="button" class="info-button" onclick="toggleInfo('otherChargeInfo')" aria-label="Information about other charges">?</button>
+                    </div>
+                    <div class="input-with-prefix">
+                        <span>₹</span>
+                        <input type="number" id="otherCharge" min="0" step="0.01" value="0" placeholder="Example: 50">
+                    </div>
+                    <div class="help-text">Optional: taxes or other charges.</div>
+                    <div class="info-popup" id="otherChargeInfo">
+                        <strong>What are Other Charges?</strong>
+                        <p>Enter additional charges from your bill that you want included in this estimate.</p>
+                        <button type="button" class="close-info" onclick="toggleInfo('otherChargeInfo')">Got it</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label-row">
+                    <label for="subsidy">Subsidy / Rebate</label>
+                    <button type="button" class="info-button" onclick="toggleInfo('subsidyInfo')" aria-label="Information about subsidy or rebate">?</button>
+                </div>
+                <div class="input-with-prefix">
+                    <span>₹</span>
+                    <input type="number" id="subsidy" min="0" step="0.01" value="0" placeholder="Example: 100">
+                </div>
+                <div class="help-text">Optional: enter any subsidy or rebate shown on your bill.</div>
+                <div class="info-popup" id="subsidyInfo">
+                    <strong>What is Subsidy / Rebate?</strong>
+                    <p>This is an amount deducted from the bill because of an applicable government subsidy, rebate or adjustment.</p>
+                    <button type="button" class="close-info" onclick="toggleInfo('subsidyInfo')">Got it</button>
+                </div>
+            </div>
+
+            <div class="manual-note">
+                <strong>Important:</strong> This mode uses the values you enter. It does not guess your state's tariff.
+            </div>
+        </div>
+
+        <button
+            type="button"
+            class="calculate-btn"
+            onclick="calculateBill()">
+
+            Calculate Electricity Bill
+
+        </button>
+
+
+
+        <!-- RESULT -->
+
+        <div
+            class="result"
+            id="result">
+
+            <h2>
+                Estimated Electricity Bill
+            </h2>
+
+
+            <div
+                class="estimated-bill"
+                id="estimatedBill">
+
+                —
+
+            </div>
+
+
+            <div class="notice">
+
+    <strong>
+        Calculator status:
+    </strong>
+
+    The India-wide tariff database is being connected
+    to this calculator. No generic or guessed electricity
+    rate is being used at this stage.
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CONTENT -->
+
+<section class="content">
+
+
+    <h2>
+        How to Use This Electricity Bill Calculator
+    </h2>
+
+
+    <p>
+        Select your state, electricity provider and connection
+        type, then enter the number of electricity units consumed
+        during the billing period.
+    </p>
+
+
+    <h3>
+        Why does the calculator ask for your state?
+    </h3>
+
+
+    <p>
+        Electricity tariffs in India are determined through the
+        applicable regulatory framework and can vary by state,
+        distribution company and consumer category.
+        State regulators publish tariff orders for their
+        respective jurisdictions.
+    </p>
+
+
+    <h3>
+        Do I need to know my sanctioned load?
+    </h3>
+
+
+    <p>
+        No. For the normal calculation, we want to keep the
+        calculator simple. Sanctioned load will be an optional
+        advanced field where it is relevant to the applicable
+        tariff.
+    </p>
+
+
+    <h3>
+        Why can my actual bill be different?
+    </h3>
+
+
+    <p>
+        An electricity bill can contain several components besides
+        energy consumption. Depending on the applicable tariff,
+        these can include fixed charges, adjustments, duties,
+        subsidies or other charges.
+    </p>
+
+
+    <p>
+        Therefore, our calculator will show an
+        <strong>estimated bill</strong> and clearly identify the
+        tariff source and effective period used for the calculation.
+    </p>
+
+
+    <h3>
+        Tariff Information
+    </h3>
+
+
+    <p>
+        We will use official tariff orders and regulatory sources
+        wherever possible. Tariff information will be connected
+        to the calculator after it has been verified.
+    </p>
+
+
+</section>
+
+
+</main>
+
+
+<footer>
+
+    © 2026 Calculator.xyz
+
+    <br>
+
+    Free online calculators for everyday use.
+
+</footer>
+
+
+<script>
+const discomData = {
+
+    "andhra-pradesh": [
+        ["APCPDCL", "APCPDCL"],
+        ["APEPDCL", "APEPDCL"],
+        ["APSPDCL", "APSPDCL"]
+    ],
+
+    "arunachal-pradesh": [
+        ["apdop", "Department of Power, Arunachal Pradesh"]
+    ],
+
+    "assam": [
+        ["apdcl", "Assam Power Distribution Company Limited (APDCL)"]
+    ],
+
+    "bihar": [
+        ["nbpdcl", "North Bihar Power Distribution Company Limited (NBPDCL)"],
+        ["sbpdcl", "South Bihar Power Distribution Company Limited (SBPDCL)"]
+    ],
+
+    "chhattisgarh": [
+        ["cspdcl", "Chhattisgarh State Power Distribution Company Limited (CSPDCL)"]
+    ],
+
+    "goa": [
+        ["goa-power", "Electricity Department, Government of Goa"]
+    ],
+
+    "gujarat": [
+        ["dgvcl", "Dakshin Gujarat Vij Company Limited (DGVCL)"],
+        ["mgvcl", "Madhya Gujarat Vij Company Limited (MGVCL)"],
+        ["pgvcl", "Paschim Gujarat Vij Company Limited (PGVCL)"],
+        ["ugvcl", "Uttar Gujarat Vij Company Limited (UGVCL)"],
+        ["torrent-ahmedabad", "Torrent Power – Ahmedabad"],
+        ["torrent-surat", "Torrent Power – Surat"]
+    ],
+
+    "haryana": [
+        ["dhbvnl", "Dakshin Haryana Bijli Vitran Nigam (DHBVNL)"],
+        ["uhbvnl", "Uttar Haryana Bijli Vitran Nigam (UHBVNL)"]
+    ],
+
+    "himachal-pradesh": [
+        ["hpsebl", "Himachal Pradesh State Electricity Board Limited (HPSEBL)"]
+    ],
+
+    "jharkhand": [
+        ["jbvnl", "Jharkhand Bijli Vitran Nigam Limited (JBVNL)"]
+    ],
+
+    "karnataka": [
+        ["bescom", "Bangalore Electricity Supply Company (BESCOM)"],
+        ["mescom", "Mangalore Electricity Supply Company (MESCOM)"],
+        ["hescom", "Hubli Electricity Supply Company (HESCOM)"],
+        ["gescom", "Gulbarga Electricity Supply Company (GESCOM)"],
+        ["cesc-mysuru", "Chamundeshwari Electricity Supply Corporation (CESC)"]
+    ],
+
+    "kerala": [
+        ["kseb", "Kerala State Electricity Board Limited (KSEB)"]
+    ],
+
+    "madhya-pradesh": [
+        ["mppkvvcl", "MP Paschim Kshetra Vidyut Vitaran Company (MPPKVVCL)"],
+        ["mpmkvvcl", "MP Madhya Kshetra Vidyut Vitaran Company (MPMKVVCL)"],
+        ["mppokvvcl", "MP Poorv Kshetra Vidyut Vitaran Company (MPPOKVVCL)"]
+    ],
+
+    "maharashtra": [
+        ["msedcl", "Maharashtra State Electricity Distribution Company (MSEDCL)"],
+        ["best", "BEST"],
+        ["adani-mumbai", "Adani Electricity Mumbai Limited"],
+        ["tata-mumbai", "Tata Power Mumbai"]
+    ],
+
+    "manipur": [
+        ["mspdcl", "Manipur State Power Distribution Company Limited (MSPDCL)"]
+    ],
+
+    "meghalaya": [
+        ["mepdcl", "Meghalaya Power Distribution Corporation Limited (MePDCL)"]
+    ],
+
+    "mizoram": [
+        ["mizoram-power", "Power & Electricity Department, Mizoram"]
+    ],
+
+    "nagaland": [
+        ["nagaland-power", "Department of Power, Nagaland"]
+    ],
+
+    "odisha": [
+        ["tpnodl", "TP Northern Odisha Distribution Limited (TPNODL)"],
+        ["tpwodl", "TP Western Odisha Distribution Limited (TPWODL)"],
+        ["tpcodl", "TP Central Odisha Distribution Limited (TPCODL)"],
+        ["tpsodl", "TP Southern Odisha Distribution Limited (TPSODL)"]
+    ],
+
+    "punjab": [
+        ["pspcl", "Punjab State Power Corporation Limited (PSPCL)"]
+    ],
+
+    "rajasthan": [
+        ["avvnl", "Ajmer Vidyut Vitran Nigam Limited (AVVNL)"],
+        ["jvvnl", "Jaipur Vidyut Vitran Nigam Limited (JVVNL)"],
+        ["jdvvnl", "Jodhpur Vidyut Vitran Nigam Limited (JDVVNL)"]
+    ],
+
+    "sikkim": [
+        ["sikkim-power", "Power Department, Government of Sikkim"]
+    ],
+
+    "tamil-nadu": [
+        ["tnpdcl", "Tamil Nadu Power Distribution Corporation Limited (TNPDCL)"]
+    ],
+
+    "telangana": [
+        ["tgspdcl", "TGNPDCL / TGSPDCL – Southern Telangana"],
+        ["tgnpdcl", "TGNPDCL – Northern Telangana"]
+    ],
+
+    "tripura": [
+        ["tsecl", "Tripura State Electricity Corporation Limited (TSECL)"]
+    ],
+
+    "uttar-pradesh": [
+        ["dvvnl", "Dakshinanchal Vidyut Vitran Nigam Limited (DVVNL)"],
+        ["kesco", "Kanpur Electricity Supply Company Limited (KESCO)"],
+        ["mvvnl", "Madhyanchal Vidyut Vitran Nigam Limited (MVVNL)"],
+        ["puvvnl", "Purvanchal Vidyut Vitran Nigam Limited (PuVVNL)"],
+        ["pvvnl", "Paschimanchal Vidyut Vitran Nigam Limited (PVVNL)"]
+    ],
+
+    "uttarakhand": [
+        ["upcl", "Uttarakhand Power Corporation Limited (UPCL)"]
+    ],
+
+    "west-bengal": [
+        ["wbsedcl", "West Bengal State Electricity Distribution Company Limited (WBSEDCL)"],
+        ["cesc-west-bengal", "CESC Limited"]
+    ],
+
+    "andaman-nicobar": [
+        ["andaman-power", "Electricity Department, Andaman & Nicobar Administration"]
+    ],
+
+    "chandigarh": [
+        ["chandigarh-power", "Electricity Department, Chandigarh Administration"]
+    ],
+
+    "dadra-nagar-haveli-daman-diu": [
+        ["dnhddpdcl", "DNHDD Power Distribution Corporation Limited (DNHDDPDCL)"]
+    ],
+
+    "delhi": [
+        ["brpl", "BSES Rajdhani Power Limited (BRPL)"],
+        ["bypl", "BSES Yamuna Power Limited (BYPL)"],
+        ["tpddl", "Tata Power Delhi Distribution Limited (TPDDL)"],
+        ["ndmc", "New Delhi Municipal Council (NDMC)"]
+    ],
+
+    "jammu-kashmir": [
+        ["jpdcl", "Jammu Power Distribution Corporation Limited (JPDCL)"],
+        ["kpdcl", "Kashmir Power Distribution Corporation Limited (KPDCL)"]
+    ],
+
+    "ladakh": [
+        ["ladakh-power", "Power Development Department, Ladakh"]
+    ],
+
+    "lakshadweep": [
+        ["lakshadweep-power", "Electricity Department, Lakshadweep Administration"]
+    ],
+
+    "puducherry": [
+        ["puducherry-power", "Electricity Department, Government of Puducherry"]
+    ]
+};
+
+const tariffYear = "2026-27";
+document.getElementById("state").addEventListener("change", function () {
+
+    const state = this.value;
+    const discom = document.getElementById("discom");
+
+    discom.innerHTML = "";
+
+    if (!state) {
+        discom.disabled = true;
+
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "First select your state / UT";
+        discom.appendChild(option);
+
+        return;
+    }
+
+    discom.disabled = false;
+
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Select your electricity provider";
+    discom.appendChild(defaultOption);
+
+    const unknownOption = document.createElement("option");
+    unknownOption.value = "not-selected";
+    unknownOption.textContent = "I don't know my provider";
+    discom.appendChild(unknownOption);
+
+    const providers = discomData[state] || [];
+
+    providers.forEach(function (provider) {
+
+        const option = document.createElement("option");
+
+        option.value = provider[0];
+        option.textContent = provider[1];
+
+        discom.appendChild(option);
+    });
+
+    const otherOption = document.createElement("option");
+    otherOption.value = "other";
+    otherOption.textContent = "Other / My provider is not listed";
+    discom.appendChild(otherOption);
+});
+
+function toggleInfo(id) {
+
+    const info =
+        document.getElementById(id);
+
+    if (!info) {
+        return;
+    }
+
+
+    if (info.style.display === "block") {
+
+        info.style.display = "none";
+
+    } else {
+
+        info.style.display = "block";
+
+    }
+
+}
+
+
+
+function toggleAdvanced() {
+
+    const section =
+        document.getElementById("advancedSection");
+
+
+    if (section.style.display === "block") {
+
+        section.style.display = "none";
+
+    } else {
+
+        section.style.display = "block";
+
+    }
+
+}
+
+
+
+function calculateBill() {
+
+    const units = parseFloat(document.getElementById("units").value);
+    const energyRate = parseFloat(document.getElementById("energyRate").value);
+    const fixedCharge = parseFloat(document.getElementById("fixedCharge").value) || 0;
+    const otherCharge = parseFloat(document.getElementById("otherCharge").value) || 0;
+    const subsidy = parseFloat(document.getElementById("subsidy").value) || 0;
+
+    if (isNaN(units) || units < 0) {
+        alert("Please enter a valid number of electricity units.");
+        return;
+    }
+
+    if (isNaN(energyRate) || energyRate < 0) {
+        alert("Please enter a valid energy charge per unit.");
+        return;
+    }
+
+    const energyCharges = units * energyRate;
+    const estimatedBill = Math.max(0, energyCharges + fixedCharge + otherCharge - subsidy);
+
+    document.getElementById("estimatedBill").textContent =
+        "₹" + estimatedBill.toLocaleString("en-IN", { maximumFractionDigits: 2 });
+
+    const result = document.getElementById("result");
+    result.querySelector(".notice").innerHTML = `
+        <strong>Manual tariff estimate</strong>
+        <div class="bill-breakdown">
+            <div><span>Energy Charges</span><strong>₹${energyCharges.toLocaleString("en-IN", {maximumFractionDigits:2})}</strong></div>
+            <div><span>Fixed Charges</span><strong>₹${fixedCharge.toLocaleString("en-IN", {maximumFractionDigits:2})}</strong></div>
+            <div><span>Other Charges</span><strong>₹${otherCharge.toLocaleString("en-IN", {maximumFractionDigits:2})}</strong></div>
+            <div><span>Subsidy / Rebate</span><strong>−₹${subsidy.toLocaleString("en-IN", {maximumFractionDigits:2})}</strong></div>
+        </div>
+        <p>Calculated from the tariff values entered by you. Actual bills can differ because many tariffs use slabs and may include additional taxes, adjustments or other charges.</p>
+    `;
+
+    result.style.display = "block";
+    result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+}
+
+
+
+</script>
+
+
+</body>
+
+</html>
