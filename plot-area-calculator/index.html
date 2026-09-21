@@ -36,9 +36,9 @@ button.secondary{background:#eef2f8;color:#172033}
 <h1>Plot Area & Land Price Calculator</h1>
 <p class="subtitle">Calculate your plot area, or directly calculate land value when you already know the area and the price per unit.</p>
 
-<div class="tabs">
-  <button type="button" class="tab active" id="tabArea"><span>1. Calculate Area</span></button>
-  <button type="button" class="tab" id="tabPrice"><span>2. Calculate Land Price</span></button>
+<div class="tabs" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+  <button type="button" id="tabArea" class="tab" style="color:#fff!important;background:#172033!important;border:1px solid #172033!important;display:flex!important;align-items:center;justify-content:center;min-height:52px;">1. Calculate Area</button>
+  <button type="button" id="tabPrice" class="tab" style="color:#172033!important;background:#fff!important;border:1px solid #d6dce8!important;display:flex!important;align-items:center;justify-content:center;min-height:52px;">2. Calculate Land Price</button>
 </div>
 
 <!-- AREA SECTION -->
@@ -117,8 +117,9 @@ button.secondary{background:#eef2f8;color:#172033}
   </select>
 </div>
 
-<div id="regionalBox">
-<label for="region">Bigha/Biswa Convention <span class="help" data-help="Bigha and Biswa vary by region. Select a reference convention or use Custom if your local value is different.">?</span></label>
+<div id="bighaHint" class="tip hidden">Only needed when Area or Price uses Bigha/Biswa.</div>
+<div id="regionalBox" class="hidden">
+<label for="region">Bigha/Biswa Convention <span class="help" data-help="This setting is only needed when Area or Price is entered as Bigha/Biswa. Bigha and Biswa vary by region.">?</span></label>
 <select id="region">
 <option value="rj_pucca">Rajasthan – Pucca Bigha (27,225 sq ft)</option>
 <option value="rj_kachcha">Rajasthan – Kachcha Bigha (17,424 sq ft)</option>
@@ -288,9 +289,28 @@ $("calculateArea").addEventListener("click",()=>{
   renderArea();
 });
 
+function updateBighaSection(){
+  const needsBigha =
+    $("knownAreaUnit").value==="bigha" ||
+    $("knownAreaUnit").value==="biswa" ||
+    $("priceUnit").value==="bigha" ||
+    $("priceUnit").value==="biswa";
+
+  $("regionalBox").classList.toggle("hidden", !needsBigha);
+
+  if(!needsBigha){
+    $("customBigha").classList.add("hidden");
+  } else {
+    $("customBigha").classList.toggle("hidden",$("region").value!=="custom");
+  }
+}
+
 $("region").addEventListener("change",()=>{
   $("customBigha").classList.toggle("hidden",$("region").value!=="custom");
 });
+
+$("knownAreaUnit").addEventListener("change", updateBighaSection);
+$("priceUnit").addEventListener("change", updateBighaSection);
 
 function calculatePriceValue(){
   const area=Number($("knownArea").value);
@@ -328,18 +348,29 @@ $("calculatePrice").addEventListener("click",()=>{
   }
 });
 
-$("tabArea").addEventListener("click",()=>{
-  $("areaSection").classList.remove("hidden");
-  $("priceSection").classList.add("hidden");
-  $("tabArea").classList.add("active");
-  $("tabPrice").classList.remove("active");
-});
-$("tabPrice").addEventListener("click",()=>{
-  $("areaSection").classList.add("hidden");
-  $("priceSection").classList.remove("hidden");
-  $("tabPrice").classList.add("active");
-  $("tabArea").classList.remove("active");
-});
+function setTab(areaActive){
+  if(areaActive){
+    $("areaSection").classList.remove("hidden");
+    $("priceSection").classList.add("hidden");
+    $("tabArea").style.setProperty("color","#fff","important");
+    $("tabArea").style.setProperty("background","#172033","important");
+    $("tabArea").style.setProperty("border-color","#172033","important");
+    $("tabPrice").style.setProperty("color","#172033","important");
+    $("tabPrice").style.setProperty("background","#fff","important");
+    $("tabPrice").style.setProperty("border-color","#d6dce8","important");
+  }else{
+    $("areaSection").classList.add("hidden");
+    $("priceSection").classList.remove("hidden");
+    $("tabPrice").style.setProperty("color","#fff","important");
+    $("tabPrice").style.setProperty("background","#172033","important");
+    $("tabPrice").style.setProperty("border-color","#172033","important");
+    $("tabArea").style.setProperty("color","#172033","important");
+    $("tabArea").style.setProperty("background","#fff","important");
+    $("tabArea").style.setProperty("border-color","#d6dce8","important");
+  }
+}
+$("tabArea").addEventListener("click",()=>setTab(true));
+$("tabPrice").addEventListener("click",()=>setTab(false));
 
 document.querySelectorAll(".help").forEach(el=>{
   el.addEventListener("click",()=>{
@@ -359,9 +390,13 @@ $("resetAll").addEventListener("click",()=>{
   lastAreaSqft=null;
   hide("areaError"); hide("priceError"); hide("areaResult"); hide("priceResult");
   setShapeFields();
+  updateBighaSection();
+  setTab(true);
 });
 
 setShapeFields();
+updateBighaSection();
+setTab(true);
 })();
 </script>
 </body>
