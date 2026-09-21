@@ -1,1 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petrol & Diesel Mileage Calculator | Fuel Cost & Trip Calculator</title>
+<meta name="description" content="Calculate petrol or diesel vehicle mileage using odometer readings or trip distance and fuel used. Optionally calculate fuel cost and cost per kilometre.">
+<meta name="keywords" content="mileage calculator, petrol mileage calculator, diesel mileage calculator, fuel cost calculator, km per litre calculator, trip fuel calculator">
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f7fa;
+    color:#17212b;
+    line-height:1.5;
+}
+.container{
+    width:min(760px,calc(100% - 28px));
+    margin:28px auto 50px;
+}
+.header{
+    background:#fff;
+    border:1px solid #e1e7ee;
+    border-radius:18px;
+    padding:25px 20px;
+    text-align:center;
+    box-shadow:0 4px 18px rgba(0,0,0,.05);
+}
+.brand{
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:.5px;
+    color:#2563eb;
+    margin-bottom:7px;
+}
+h1{margin:0;font-size:28px}
+.subtitle{
+    margin:9px 0 0;
+    color:#64707d;
+    font-size:15px;
+}
+.card{
+    background:#fff;
+    margin-top:18px;
+    padding:20px;
+    border:1px solid #e1e7ee;
+    border-radius:18px;
+    box-shadow:0 4px 18px rgba(0,0,0,.04);
+}
+.mode-tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:18px;
+}
+.mode-tab{
+    border:1px solid #ccd6e2;
+    background:#fff;
+    border-radius:12px;
+    padding:13px 10px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+}
+.mode-tab.active{
+    background:#2563eb;
+    color:#fff;
+    border-color:#2563eb;
+}
+.mode-description{
+    background:#f4f7fb;
+    border-radius:12px;
+    padding:12px 14px;
+    color:#56616d;
+    font-size:14px;
+    margin-bottom:18px;
+}
+.form-group{margin-bottom:17px}
+.label-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+label{font-weight:700;font-size:15px}
+.info-button{
+    flex:0 0 auto;
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    border:1px solid #b8c5d3;
+    background:#fff;
+    cursor:pointer;
+    font-weight:700;
+}
+input,select{
+    width:100%;
+    margin-top:7px;
+    padding:13px 12px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    font-size:16px;
+    background:#fff;
+    outline:none;
+}
+input:focus,select:focus{border-color:#2563eb}
+.help-text{
+    color:#687482;
+    font-size:13px;
+    margin-top:5px;
+}
+.optional{
+    font-weight:400;
+    color:#6b7280;
+    font-size:13px;
+}
+.calculate-btn{
+    width:100%;
+    border:0;
+    border-radius:12px;
+    padding:15px;
+    background:#2563eb;
+    color:#fff;
+    font-size:17px;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:3px;
+}
+.calculate-btn:hover{opacity:.94}
+.info-popup{
+    display:none;
+    margin-top:10px;
+    padding:14px;
+    border-radius:12px;
+    background:#f1f5f9;
+    border:1px solid #d8e1ea;
+    font-size:14px;
+}
+.info-popup p{margin:8px 0}
+.close-info{
+    margin-top:7px;
+    border:1px solid #cbd5e1;
+    background:#fff;
+    padding:8px 13px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+}
+.result{
+    display:none;
+    margin-top:18px;
+    background:#fff;
+    border:1px solid #dbe4ee;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 4px 18px rgba(0,0,0,.05);
+}
+.result h2{margin:0 0 10px;font-size:21px}
+.main-result{
+    text-align:center;
+    padding:15px 10px 20px;
+}
+.main-result .value{
+    font-size:36px;
+    font-weight:800;
+    margin-top:3px;
+}
+.main-result .label{
+    color:#65717e;
+    font-size:14px;
+}
+.result-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+.result-item{
+    background:#f6f8fb;
+    border-radius:12px;
+    padding:13px;
+}
+.result-item .name{font-size:13px;color:#65717e}
+.result-item .number{font-size:19px;font-weight:750;margin-top:3px}
+.cost-section{
+    border-top:1px solid #e1e7ee;
+    margin-top:18px;
+    padding-top:15px;
+}
+.cost-section h3{margin:0 0 10px;font-size:17px}
+.cost-note{
+    background:#f8fafc;
+    border-radius:10px;
+    padding:10px 12px;
+    color:#5d6874;
+    font-size:13px;
+}
+.notice{
+    margin-top:15px;
+    background:#fff8e8;
+    border:1px solid #f1dfb0;
+    border-radius:11px;
+    padding:12px 13px;
+    font-size:13px;
+    color:#654f1c;
+}
+.content{
+    margin-top:18px;
+    background:#fff;
+    border:1px solid #e1e7ee;
+    border-radius:18px;
+    padding:20px;
+}
+.content h2{font-size:21px;margin-top:0}
+.content h3{font-size:17px;margin-bottom:5px}
+.content p,.content li{color:#596572;font-size:14px}
+.footer{
+    text-align:center;
+    color:#77818d;
+    font-size:13px;
+    padding:22px 0;
+}
+@media(max-width:560px){
+    .container{width:min(100% - 18px,760px);margin-top:12px}
+    h1{font-size:24px}
+    .card,.header,.result,.content{padding:17px}
+    .result-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
 
+<body>
+<div class="container">
+
+<header class="header">
+    <div class="brand">CALCULATOR.XYZ</div>
+    <h1>Petrol & Diesel Mileage Calculator</h1>
+    <p class="subtitle">
+        Calculate mileage, fuel usage, trip fuel cost and cost per kilometre.
+    </p>
+</header>
+
+<section class="card">
+
+    <div class="mode-tabs">
+        <button type="button" class="mode-tab active" id="odometerTab" onclick="setMode('odometer')">
+            Odometer Method
+        </button>
+        <button type="button" class="mode-tab" id="tripTab" onclick="setMode('trip')">
+            Trip Method
+        </button>
+    </div>
+
+    <div class="mode-description" id="modeDescription">
+        Use this method when you know your previous and current odometer readings
+        and the amount of fuel used or filled between them.
+    </div>
+
+    <div id="odometerMode">
+
+        <div class="form-group">
+            <div class="label-row">
+                <label for="previousOdometer">Previous Odometer Reading (km)</label>
+                <button type="button" class="info-button" onclick="toggleInfo('previousInfo')">?</button>
+            </div>
+            <input type="number" id="previousOdometer" min="0" step="0.1" placeholder="Example: 12500">
+            <div class="help-text">Reading before the trip or fuel measurement.</div>
+
+            <div class="info-popup" id="previousInfo">
+                <strong>Previous Odometer Reading</strong>
+                <p>Enter the vehicle's odometer reading at the beginning of the measurement period.</p>
+                <button type="button" class="close-info" onclick="toggleInfo('previousInfo')">Got it</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="label-row">
+                <label for="currentOdometer">Current Odometer Reading (km)</label>
+                <button type="button" class="info-button" onclick="toggleInfo('currentInfo')">?</button>
+            </div>
+            <input type="number" id="currentOdometer" min="0" step="0.1" placeholder="Example: 12850">
+            <div class="help-text">Reading at the end of the measurement period.</div>
+
+            <div class="info-popup" id="currentInfo">
+                <strong>Current Odometer Reading</strong>
+                <p>Enter the odometer reading after driving. It must be greater than the previous reading.</p>
+                <button type="button" class="close-info" onclick="toggleInfo('currentInfo')">Got it</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="tripMode" style="display:none">
+
+        <div class="form-group">
+            <div class="label-row">
+                <label for="tripDistance">Trip Distance (km)</label>
+                <button type="button" class="info-button" onclick="toggleInfo('tripInfo')">?</button>
+            </div>
+            <input type="number" id="tripDistance" min="0" step="0.1" placeholder="Example: 350">
+            <div class="help-text">Enter the total distance covered during the trip.</div>
+
+            <div class="info-popup" id="tripInfo">
+                <strong>Trip Distance</strong>
+                <p>Use the actual distance travelled. You can get it from your trip meter, GPS or route measurement.</p>
+                <button type="button" class="close-info" onclick="toggleInfo('tripInfo')">Got it</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="label-row">
+            <label for="fuelUsed">Fuel Used / Filled (litres)</label>
+            <button type="button" class="info-button" onclick="toggleInfo('fuelInfo')">?</button>
+        </div>
+        <input type="number" id="fuelUsed" min="0.001" step="0.001" placeholder="Example: 25">
+        <div class="help-text">
+            Enter litres used or litres added for the same distance measurement.
+        </div>
+
+        <div class="info-popup" id="fuelInfo">
+            <strong>Fuel Used / Filled</strong>
+            <p>For a full-tank method, fill the tank to the same level at the start and end. The litres added at the end approximate the fuel consumed.</p>
+            <p>Do not enter the vehicle's tank capacity unless that is actually the amount of fuel used.</p>
+            <button type="button" class="close-info" onclick="toggleInfo('fuelInfo')">Got it</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="label-row">
+            <label for="fuelPrice">
+                Fuel Price (₹/litre)
+                <span class="optional">(Optional)</span>
+            </label>
+            <button type="button" class="info-button" onclick="toggleInfo('priceInfo')">?</button>
+        </div>
+        <input type="number" id="fuelPrice" min="0" step="0.01" placeholder="Example: 100">
+        <div class="help-text">
+            Leave blank if you only want mileage and fuel-use results.
+        </div>
+
+        <div class="info-popup" id="priceInfo">
+            <strong>Fuel Price</strong>
+            <p>This field is optional. Enter the exact petrol or diesel price you paid per litre.</p>
+            <p>No automatic or current fuel price is used.</p>
+            <button type="button" class="close-info" onclick="toggleInfo('priceInfo')">Got it</button>
+        </div>
+    </div>
+
+    <button type="button" class="calculate-btn" onclick="calculateMileage()">
+        Calculate Mileage
+    </button>
+
+</section>
+
+<section class="result" id="result">
+
+    <h2>Your Mileage Result</h2>
+
+    <div class="main-result">
+        <div class="label">Vehicle Mileage</div>
+        <div class="value" id="mileageResult">—</div>
+    </div>
+
+    <div class="result-grid">
+
+        <div class="result-item">
+            <div class="name">Distance Travelled</div>
+            <div class="number" id="distanceResult">—</div>
+        </div>
+
+        <div class="result-item">
+            <div class="name">Fuel Used</div>
+            <div class="number" id="fuelResult">—</div>
+        </div>
+
+        <div class="result-item">
+            <div class="name">Fuel Consumption</div>
+            <div class="number" id="consumptionResult">—</div>
+        </div>
+
+        <div class="result-item">
+            <div class="name">Fuel Needed per 100 km</div>
+            <div class="number" id="litres100Result">—</div>
+        </div>
+
+    </div>
+
+    <div class="cost-section" id="costSection" style="display:none">
+        <h3>Fuel Cost</h3>
+
+        <div class="result-grid">
+
+            <div class="result-item">
+                <div class="name">Fuel Price</div>
+                <div class="number" id="priceResult">—</div>
+            </div>
+
+            <div class="result-item">
+                <div class="name">Total Fuel Cost</div>
+                <div class="number" id="totalCostResult">—</div>
+            </div>
+
+            <div class="result-item">
+                <div class="name">Fuel Cost per km</div>
+                <div class="number" id="costPerKmResult">—</div>
+            </div>
+
+            <div class="result-item">
+                <div class="name">Cost per 100 km</div>
+                <div class="number" id="costPer100Result">—</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="notice">
+        <strong>Note:</strong>
+        Real-world mileage can vary because of traffic, speed, road conditions,
+        tyre pressure, load, driving style, weather and vehicle condition.
+    </div>
+
+</section>
+
+<section class="content">
+
+    <h2>How to Use This Mileage Calculator</h2>
+
+    <h3>1. Odometer Method</h3>
+    <p>
+        Enter the odometer reading before and after the measurement period,
+        then enter the fuel used or filled. The calculator determines the
+        distance travelled and mileage.
+    </p>
+
+    <h3>2. Trip Method</h3>
+    <p>
+        If you already know the trip distance, select Trip Method and enter
+        the distance and fuel used. You do not need odometer readings.
+    </p>
+
+    <h3>Fuel Price is Optional</h3>
+    <p>
+        You can calculate mileage without entering any fuel price. If you enter
+        the exact price you paid per litre, the calculator also calculates
+        total fuel cost, cost per kilometre and cost per 100 km.
+    </p>
+
+    <h3>Basic Formula</h3>
+    <p>
+        <strong>Mileage = Distance travelled ÷ Fuel used</strong>
+    </p>
+    <p>
+        Fuel cost = Fuel used × Fuel price
+    </p>
+    <p>
+        Cost per km = Total fuel cost ÷ Distance travelled
+    </p>
+
+</section>
+
+<div class="footer">
+    Free online calculators for everyday use.
+</div>
+
+</div>
+
+<script>
+let currentMode = "odometer";
+
+function setMode(mode) {
+
+    currentMode = mode;
+
+    const odometerTab = document.getElementById("odometerTab");
+    const tripTab = document.getElementById("tripTab");
+    const odometerMode = document.getElementById("odometerMode");
+    const tripMode = document.getElementById("tripMode");
+    const description = document.getElementById("modeDescription");
+
+    if (mode === "odometer") {
+
+        odometerTab.classList.add("active");
+        tripTab.classList.remove("active");
+
+        odometerMode.style.display = "block";
+        tripMode.style.display = "none";
+
+        description.textContent =
+            "Use this method when you know your previous and current odometer readings and the amount of fuel used or filled between them.";
+
+    } else {
+
+        tripTab.classList.add("active");
+        odometerTab.classList.remove("active");
+
+        odometerMode.style.display = "none";
+        tripMode.style.display = "block";
+
+        description.textContent =
+            "Use this method when you already know the distance travelled and the amount of fuel used.";
+
+    }
+}
+
+function toggleInfo(id) {
+
+    const info = document.getElementById(id);
+
+    if (!info) return;
+
+    info.style.display =
+        info.style.display === "block"
+            ? "none"
+            : "block";
+}
+
+function calculateMileage() {
+
+    let distance;
+
+    const fuel =
+        parseFloat(
+            document.getElementById("fuelUsed").value
+        );
+
+    const priceText =
+        document.getElementById("fuelPrice").value.trim();
+
+    const price =
+        priceText === ""
+            ? null
+            : parseFloat(priceText);
+
+    if (currentMode === "odometer") {
+
+        const previous =
+            parseFloat(
+                document.getElementById("previousOdometer").value
+            );
+
+        const current =
+            parseFloat(
+                document.getElementById("currentOdometer").value
+            );
+
+        if (
+            isNaN(previous) ||
+            isNaN(current) ||
+            previous < 0 ||
+            current < 0
+        ) {
+            alert("Please enter valid odometer readings.");
+            return;
+        }
+
+        if (current <= previous) {
+            alert("Current odometer reading must be greater than the previous reading.");
+            return;
+        }
+
+        distance = current - previous;
+
+    } else {
+
+        distance =
+            parseFloat(
+                document.getElementById("tripDistance").value
+            );
+
+        if (isNaN(distance) || distance <= 0) {
+            alert("Please enter a valid trip distance.");
+            return;
+        }
+    }
+
+    if (isNaN(fuel) || fuel <= 0) {
+        alert("Please enter a valid amount of fuel used or filled.");
+        return;
+    }
+
+    if (price !== null && (isNaN(price) || price < 0)) {
+        alert("Please enter a valid fuel price or leave it blank.");
+        return;
+    }
+
+    const mileage = distance / fuel;
+    const litresPer100 = (fuel / distance) * 100;
+    const fuelCost = price === null ? null : fuel * price;
+    const costPerKm = price === null ? null : fuelCost / distance;
+    const costPer100 = price === null ? null : costPerKm * 100;
+
+    document.getElementById("mileageResult").textContent =
+        formatNumber(mileage, 2) + " km/L";
+
+    document.getElementById("distanceResult").textContent =
+        formatNumber(distance, 2) + " km";
+
+    document.getElementById("fuelResult").textContent =
+        formatNumber(fuel, 3) + " L";
+
+    document.getElementById("consumptionResult").textContent =
+        formatNumber(litresPer100, 2) + " L/100 km";
+
+    document.getElementById("litres100Result").textContent =
+        formatNumber(litresPer100, 2) + " L";
+
+    const costSection =
+        document.getElementById("costSection");
+
+    if (price === null) {
+
+        costSection.style.display = "none";
+
+    } else {
+
+        costSection.style.display = "block";
+
+        document.getElementById("priceResult").textContent =
+            formatRupees(price) + "/L";
+
+        document.getElementById("totalCostResult").textContent =
+            formatRupees(fuelCost);
+
+        document.getElementById("costPerKmResult").textContent =
+            formatRupees(costPerKm);
+
+        document.getElementById("costPer100Result").textContent =
+            formatRupees(costPer100);
+    }
+
+    document.getElementById("result").style.display = "block";
+
+    document.getElementById("result").scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
+}
+
+function formatNumber(value, decimals) {
+    return value.toLocaleString("en-IN", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+    });
+}
+
+function formatRupees(value) {
+    return "₹" + value.toLocaleString("en-IN", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    });
+}
+</script>
+
+</body>
+</html>
