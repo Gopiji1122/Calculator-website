@@ -1,1 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Solar Panel Savings Calculator India</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033}
+.wrap{max-width:760px;margin:auto;padding:16px 12px 40px}
+h1{font-size:25px;margin:4px 0 8px}.sub{color:#626d80;line-height:1.5;margin:0 0 16px}
+.card{background:#fff;border:1px solid #dfe4ec;border-radius:15px;padding:17px;margin-bottom:14px}
+h2{font-size:19px;margin:0 0 6px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-weight:700;margin:12px 0 6px}
+input,select,button{width:100%;min-height:46px;border-radius:10px;font-size:16px}
+input,select{border:1px solid #cbd3df;padding:9px;background:#fff}
+button{border:0;background:#172033;color:#fff;font-weight:700;padding:10px;cursor:pointer;margin-top:14px}
+.secondary{background:#edf1f7;color:#172033}
+.info{display:inline-flex;width:19px;height:19px;align-items:center;justify-content:center;border-radius:50%;background:#e9eef6;font-size:12px;cursor:pointer}
+.result{background:#f1f5fa;border-radius:12px;padding:14px;margin-top:14px;line-height:1.75}
+.big{font-size:23px;font-weight:800}.hidden{display:none}
+.error{background:#fff0f0;color:#9d2020;border:1px solid #efcaca;border-radius:9px;padding:10px;margin-top:11px}
+.note{font-size:13px;color:#687386;line-height:1.5;margin-top:10px}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.wrap{padding-left:10px;padding-right:10px}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Solar Panel Savings Calculator</h1>
+<p class="sub">Estimate how much an on-grid solar system could reduce your electricity cost using your own system size, generation and tariff assumptions.</p>
 
+<section class="card">
+<h2>Solar System & Electricity Details <span class="info" data-info="For a more accurate result, use your actual electricity tariff and your installer/DISCOM's expected generation. Solar generation varies by location, season, weather, system orientation and losses.">?</span></h2>
+
+<div class="grid">
+<div>
+<label for="systemSize">Solar System Size (kW)</label>
+<input id="systemSize" type="number" min="0.1" step="0.1" value="3" placeholder="e.g. 3">
+</div>
+<div>
+<label for="generation">Generation per kW / month (units)</label>
+<input id="generation" type="number" min="1" step="1" value="120" placeholder="e.g. 120">
+</div>
+</div>
+
+<div class="grid">
+<div>
+<label for="tariff">Electricity Rate (₹/unit)</label>
+<input id="tariff" type="number" min="0" step="0.01" value="8" placeholder="e.g. 8">
+</div>
+<div>
+<label for="selfUse">Solar Used Directly (%)</label>
+<input id="selfUse" type="number" min="0" max="100" step="1" value="70" placeholder="e.g. 70">
+</div>
+</div>
+
+<label for="exportRate">Export / Net-Meter Credit (₹/unit)</label>
+<input id="exportRate" type="number" min="0" step="0.01" value="3" placeholder="Enter your applicable rate">
+
+<label for="monthlyUse">Current Monthly Electricity Use (units)</label>
+<input id="monthlyUse" type="number" min="0" step="1" value="300" placeholder="e.g. 300">
+
+<button id="calculate" type="button">Calculate Solar Savings</button>
+<div id="error" class="error hidden"></div>
+<div id="result" class="result hidden" aria-live="polite"></div>
+
+<p class="note">
+The default generation value of 120 units/kW/month is only an illustrative estimate, not an official Rajasthan/DISCOM figure.
+Change it to your actual or installer-provided estimate. Export credit is also user-entered and should match your applicable metering/tariff arrangement.
+</p>
+</section>
+
+<section class="card">
+<h2>What is included?</h2>
+<div class="note" style="font-size:14px">
+<strong>Included:</strong> estimated solar generation, direct-consumption savings, export credit and combined monthly/annual savings.<br><br>
+<strong>Not included:</strong> system purchase price, subsidy, loan interest, maintenance, battery cost, fixed charges, demand charges, taxes, tariff-slab changes or future electricity-price changes.
+</div>
+</section>
+
+<button id="reset" class="secondary" type="button">Reset</button>
+</div>
+
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+function fmt(n,d=2){return new Intl.NumberFormat("en-IN",{maximumFractionDigits:d}).format(n)}
+function money(n){return new Intl.NumberFormat("en-IN",{maximumFractionDigits:2}).format(n)}
+function show(id){$(id).classList.remove("hidden")}
+function hide(id){$(id).classList.add("hidden")}
+function error(msg){$("error").textContent=msg;show("error")}
+document.querySelectorAll(".info").forEach(x=>x.addEventListener("click",()=>alert(x.dataset.info)));
+
+$("calculate").addEventListener("click",()=>{
+hide("error");
+const size=+$("systemSize").value;
+const genPerKw=+$("generation").value;
+const tariff=+$("tariff").value;
+const selfPct=+$("selfUse").value;
+const exportRate=+$("exportRate").value;
+const monthlyUse=+$("monthlyUse").value;
+
+if(!(size>0)&&size!==0){error("Please enter a valid solar system size.");return}
+if(!(genPerKw>0)){error("Please enter expected solar generation per kW per month.");return}
+if(tariff<0||!Number.isFinite(tariff)){error("Please enter a valid electricity rate.");return}
+if(selfPct<0||selfPct>100||!Number.isFinite(selfPct)){error("Direct solar use must be between 0% and 100%.");return}
+if(exportRate<0||!Number.isFinite(exportRate)){error("Please enter a valid export/net-meter credit.");return}
+if(monthlyUse<0||!Number.isFinite(monthlyUse)){error("Please enter valid monthly electricity use.");return}
+
+const solarUnits=size*genPerKw;
+const directPotential=solarUnits*selfPct/100;
+const directUnits=Math.min(directPotential,monthlyUse);
+const excess=Math.max(0,solarUnits-directUnits);
+const directSaving=directUnits*tariff;
+const exportCredit=excess*exportRate;
+const totalMonthly=directSaving+exportCredit;
+const annual=totalMonthly*12;
+const solarShare=monthlyUse>0?Math.min(100,(directUnits+excess)/monthlyUse*100):0;
+
+$("result").innerHTML=
+"<div>Estimated solar generation</div><div class='big'>"+fmt(solarUnits,1)+" units/month</div>"+
+"<hr>"+
+"<div>Solar used directly: <strong>"+fmt(directUnits,1)+" units</strong></div>"+
+"<div>Estimated direct-use saving: <strong>₹"+money(directSaving)+" / month</strong></div>"+
+"<div>Estimated exported units: <strong>"+fmt(excess,1)+" units</strong></div>"+
+"<div>Estimated export credit: <strong>₹"+money(exportCredit)+" / month</strong></div>"+
+"<hr>"+
+"<div>Estimated total saving</div><div class='big'>₹"+money(totalMonthly)+" / month</div>"+
+"<div>Estimated annual saving: <strong>₹"+money(annual)+" / year</strong></div>"+
+"<div>Solar generation compared with entered monthly use: <strong>"+fmt(solarShare,1)+"%</strong></div>";
+show("result");
+});
+
+$("reset").addEventListener("click",()=>{
+$("systemSize").value=3;
+$("generation").value=120;
+$("tariff").value=8;
+$("selfUse").value=70;
+$("exportRate").value=3;
+$("monthlyUse").value=300;
+hide("error");hide("result");
+});
+})();
+</script>
+</body>
+</html>
