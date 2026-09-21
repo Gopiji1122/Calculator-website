@@ -188,6 +188,16 @@
                 grid-template-columns: 1fr;
             }
         }
+        .calculator {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.calculator:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
     </style>
 </head>
 
@@ -272,10 +282,10 @@
                 <p>Calculate electricity consumption and estimated cost.</p>
             </div>
 
-            <div class="calculator">
-                <h3>EV Charging Cost Calculator</h3>
-                <p>Calculate the cost of charging an electric vehicle.</p>
-            </div>
+            <a href="ev-charging-cost-calculator/" class="calculator">
+    <h3>EV Charging Cost Calculator</h3>
+    <p>Calculate the cost of charging an electric vehicle.</p>
+            </a>
 
             <div class="calculator">
                 <h3>Petrol Mileage Calculator</h3>
