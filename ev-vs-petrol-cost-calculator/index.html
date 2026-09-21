@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EV vs Petrol vs Diesel Cost Calculator | Calculator.xyz</title>
+<meta name="description" content="Compare EV, petrol and diesel vehicle running costs using your own efficiency, energy price and distance.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033}
+.container{max-width:760px;margin:auto;padding:20px}
+.header{background:#fff;padding:20px;border-bottom:1px solid #e5e7eb}
+.header h1{margin:0;font-size:24px}
+.header p{margin:7px 0 0;color:#667085}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:20px;margin:16px 0}
+.section-title{font-size:18px;font-weight:700;margin-bottom:14px}
+.field{margin-bottom:15px}
+label{display:flex;align-items:center;gap:6px;font-weight:600;margin-bottom:7px}
+input,select{width:100%;padding:13px;border:1px solid #cfd5df;border-radius:9px;font-size:16px;background:#fff}
+input:focus,select:focus{outline:2px solid #b9cdfc;border-color:#4776e6}
+.info-btn{width:22px;height:22px;border:0;border-radius:50%;background:#eef2ff;color:#3158b5;font-weight:bold;cursor:pointer;padding:0}
+.info{display:none;background:#f4f7ff;border-left:3px solid #4776e6;padding:10px 12px;margin-top:7px;border-radius:6px;font-size:14px;color:#475467;line-height:1.45}
+.note{font-size:13px;color:#667085;line-height:1.45;margin-top:5px}
+.estimate{font-size:12px;color:#8a5a00;background:#fff8e6;border-radius:6px;padding:6px 8px;margin-top:6px}
+button.calculate{width:100%;padding:14px;border:0;border-radius:9px;background:#315ee8;color:white;font-size:17px;font-weight:700;cursor:pointer}
+button.calculate:hover{background:#244dcc}
+.error{display:none;color:#b42318;background:#fff1f0;padding:10px;border-radius:8px;margin-bottom:14px}
+.result{display:none;background:#f8fafc;border:1px solid #dce2ea;border-radius:12px;padding:18px;margin-top:16px}
+.result h2{margin:0 0 14px;font-size:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric{background:white;border:1px solid #e5e7eb;border-radius:9px;padding:12px}
+.metric span{display:block;font-size:13px;color:#667085}
+.metric strong{display:block;font-size:20px;margin-top:4px}
+.comparison{margin-top:15px;border-top:1px solid #e5e7eb;padding-top:15px}
+.small{font-size:12px;color:#667085}
+@media(max-width:520px){.container{padding:12px}.card{padding:16px}.grid{grid-template-columns:1fr}.header{padding:16px}.header h1{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="container">
+    <h1>EV vs Petrol vs Diesel Cost Calculator</h1>
+    <p>Compare running cost using your vehicle's actual efficiency and current energy/fuel prices.</p>
+  </div>
+</div>
+
+<main class="container">
+<div class="card">
+  <div class="section-title">1. Distance</div>
+  <div class="field">
+    <label for="distance">Distance to compare (km)
+      <button class="info-btn" type="button" onclick="toggleInfo('iDistance')">?</button>
+    </label>
+    <input id="distance" type="number" min="0.1" step="0.1" value="100">
+    <div id="iDistance" class="info">Enter the distance you want to compare. 100 km is provided as a simple example and can be changed.</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-title">2. EV details</div>
+  <div class="field">
+    <label for="evEfficiency">EV efficiency (km/kWh)
+      <button class="info-btn" type="button" onclick="toggleInfo('iEvEff')">?</button>
+    </label>
+    <input id="evEfficiency" type="number" min="0.1" step="0.1" value="6">
+    <div id="iEvEff" class="info">Enter your EV's real-world efficiency. If you do not know it, 6 km/kWh is an estimated example value. Your actual efficiency can vary with speed, weather, load, tyres and driving style.</div>
+    <div class="estimate">Estimated example value: 6 km/kWh. Replace it with your vehicle's actual average if available.</div>
+  </div>
+  <div class="field">
+    <label for="electricityPrice">Electricity price (₹/kWh)
+      <button class="info-btn" type="button" onclick="toggleInfo('iElec')">?</button>
+    </label>
+    <input id="electricityPrice" type="number" min="0" step="0.01" value="8">
+    <div id="iElec" class="info">Enter the electricity price you actually pay. ₹8/kWh is only an estimated example, not a live tariff.</div>
+    <div class="estimate">Estimated example value: ₹8/kWh. Enter your actual charging electricity rate for a better result.</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-title">3. Petrol vehicle details</div>
+  <div class="field">
+    <label for="petrolEfficiency">Petrol efficiency (km/L)
+      <button class="info-btn" type="button" onclick="toggleInfo('iPetEff')">?</button>
+    </label>
+    <input id="petrolEfficiency" type="number" min="0.1" step="0.1" value="15">
+    <div id="iPetEff" class="info">Enter the petrol vehicle's real-world mileage. 15 km/L is an estimated example value; actual mileage depends on vehicle and driving conditions.</div>
+    <div class="estimate">Estimated example value: 15 km/L. Replace with your actual average mileage.</div>
+  </div>
+  <div class="field">
+    <label for="petrolPrice">Petrol price (₹/L)
+      <button class="info-btn" type="button" onclick="toggleInfo('iPetPrice')">?</button>
+    </label>
+    <input id="petrolPrice" type="number" min="0" step="0.01" value="95">
+    <div id="iPetPrice" class="info">Enter your actual petrol price per litre. This value is user-editable and is not fetched automatically.</div>
+    <div class="estimate">Estimated example value: ₹95/L. Enter the current price from your fuel station for accuracy.</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-title">4. Diesel vehicle details</div>
+  <div class="field">
+    <label for="dieselEfficiency">Diesel efficiency (km/L)
+      <button class="info-btn" type="button" onclick="toggleInfo('iDiesEff')">?</button>
+    </label>
+    <input id="dieselEfficiency" type="number" min="0.1" step="0.1" value="18">
+    <div id="iDiesEff" class="info">Enter the diesel vehicle's real-world mileage. 18 km/L is an estimated example value; actual mileage varies by vehicle and conditions.</div>
+    <div class="estimate">Estimated example value: 18 km/L. Replace with your actual average mileage.</div>
+  </div>
+  <div class="field">
+    <label for="dieselPrice">Diesel price (₹/L)
+      <button class="info-btn" type="button" onclick="toggleInfo('iDiesPrice')">?</button>
+    </label>
+    <input id="dieselPrice" type="number" min="0" step="0.01" value="87">
+    <div id="iDiesPrice" class="info">Enter your actual diesel price per litre. This value is not fetched automatically.</div>
+    <div class="estimate">Estimated example value: ₹87/L. Enter the current price from your fuel station for accuracy.</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-title">5. Optional long-term distance</div>
+  <div class="field">
+    <label for="monthlyDistance">Monthly distance (km)
+      <button class="info-btn" type="button" onclick="toggleInfo('iMonthly')">?</button>
+    </label>
+    <input id="monthlyDistance" type="number" min="0" step="1" value="1000">
+    <div id="iMonthly" class="info">Optional. If entered, the calculator will also show estimated monthly and yearly running costs. 1,000 km/month is only an example.</div>
+    <div class="note">Leave 0 if you only want the cost for the distance above.</div>
+  </div>
+</div>
+
+<div class="card">
+  <div id="error" class="error"></div>
+  <button class="calculate" type="button" onclick="calculate()">Calculate running cost</button>
+  <div id="result" class="result" aria-live="polite"></div>
+</div>
+
+<div class="card">
+  <div class="section-title">How this calculator works</div>
+  <p class="note">The calculator uses fixed mathematical formulas. It does not use an API, live price feed or database.</p>
+  <p class="note"><strong>Important:</strong> Default values shown above are estimates/examples only. For a more accurate comparison, enter your actual vehicle efficiency and current electricity, petrol and diesel prices.</p>
+</div>
+</main>
+
+<script>
+function toggleInfo(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.style.display=el.style.display==="block"?"none":"block";
+}
+function val(id){return parseFloat(document.getElementById(id).value);}
+function money(n){return "₹"+n.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});}
+function calculate(){
+  const d=val("distance"), ee=val("evEfficiency"), ep=val("electricityPrice");
+  const pe=val("petrolEfficiency"), pp=val("petrolPrice");
+  const de=val("dieselEfficiency"), dp=val("dieselPrice");
+  const md=val("monthlyDistance");
+  const error=document.getElementById("error");
+  const result=document.getElementById("result");
+  error.style.display="none";
+  if(![d,ee,ep,pe,pp,de,dp,md].every(Number.isFinite) || d<=0 || ee<=0 || ep<0 || pe<=0 || pp<0 || de<=0 || dp<0 || md<0){
+    error.textContent="Please enter valid values. Distance and efficiency must be greater than 0.";
+    error.style.display="block"; result.style.display="none"; return;
+  }
+
+  const evPerKm=ep/ee;
+  const petPerKm=pp/pe;
+  const diePerKm=dp/de;
+  const evCost=d*evPerKm, petCost=d*petPerKm, dieCost=d*diePerKm;
+  let html=`<h2>Running Cost Comparison</h2>
+  <div class="grid">
+    <div class="metric"><span>EV cost / km</span><strong>${money(evPerKm)}</strong></div>
+    <div class="metric"><span>Petrol cost / km</span><strong>${money(petPerKm)}</strong></div>
+    <div class="metric"><span>Diesel cost / km</span><strong>${money(diePerKm)}</strong></div>
+    <div class="metric"><span>Comparison distance</span><strong>${d.toLocaleString("en-IN")} km</strong></div>
+  </div>
+  <div class="comparison">
+    <div class="grid">
+      <div class="metric"><span>EV cost for distance</span><strong>${money(evCost)}</strong></div>
+      <div class="metric"><span>Petrol cost for distance</span><strong>${money(petCost)}</strong></div>
+      <div class="metric"><span>Diesel cost for distance</span><strong>${money(dieCost)}</strong></div>
+      <div class="metric"><span>EV energy required</span><strong>${(d/ee).toFixed(2)} kWh</strong></div>
+    </div>
+  </div>`;
+
+  if(md>0){
+    html+=`<div class="comparison"><strong>For ${md.toLocaleString("en-IN")} km/month</strong>
+    <div class="grid" style="margin-top:10px">
+      <div class="metric"><span>EV monthly</span><strong>${money(md*evPerKm)}</strong></div>
+      <div class="metric"><span>Petrol monthly</span><strong>${money(md*petPerKm)}</strong></div>
+      <div class="metric"><span>Diesel monthly</span><strong>${money(md*diePerKm)}</strong></div>
+      <div class="metric"><span>EV yearly</span><strong>${money(md*12*evPerKm)}</strong></div>
+      <div class="metric"><span>Petrol yearly</span><strong>${money(md*12*petPerKm)}</strong></div>
+      <div class="metric"><span>Diesel yearly</span><strong>${money(md*12*diePerKm)}</strong></div>
+    </div></div>`;
+  }
+  html+=`<p class="small" style="margin-top:14px">Running-cost comparison only. Vehicle purchase price, financing, insurance, maintenance, battery degradation and resale value are not included.</p>`;
+  result.innerHTML=html; result.style.display="block";
+  result.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+</script>
+</body>
+</html>
