@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EV Charging Cost Calculator - Calculate EV Charging Cost</title>
+
+    <meta name="description"
+        content="Calculate electric vehicle charging cost, electricity units required and charging time using battery capacity, battery percentage and electricity price.">
+
+    <meta name="theme-color" content="#2563eb">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f8fb;
+            color: #172033;
+            line-height: 1.5;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 20px;
+        }
+
+        .header-inner {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: 800;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #111827;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 25px 16px 50px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .intro {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .calculator-box {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+        }
+
+        .unit {
+            min-width: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f5f9;
+            border-radius: 9px;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            display: none;
+            margin-top: 22px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .result h2 {
+            font-size: 21px;
+            margin-bottom: 15px;
+        }
+
+        .main-result {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #2563eb;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 9px 0;
+            border-bottom: 1px solid #dbeafe;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: #475569;
+        }
+
+        .result-value {
+            font-weight: 700;
+        }
+
+        .content {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 22px;
+            margin-top: 25px;
+        }
+
+        .content h2 {
+            font-size: 22px;
+            margin: 22px 0 10px;
+        }
+
+        .content h2:first-child {
+            margin-top: 0;
+        }
+
+        .content p {
+            color: #475569;
+            margin-bottom: 12px;
+        }
+
+        .content ul {
+            padding-left: 22px;
+            color: #475569;
+        }
+
+        .content li {
+            margin-bottom: 7px;
+        }
+
+        .formula {
+            background: #f8fafc;
+            border-left: 4px solid #2563eb;
+            padding: 14px;
+            margin: 12px 0;
+            overflow-x: auto;
+        }
+
+        .faq {
+            border-top: 1px solid #e5e7eb;
+            padding: 15px 0;
+        }
+
+        .faq strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 28px 20px;
+        }
+
+        footer p {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 27px;
+            }
+
+            .calculator-box,
+            .content {
+                padding: 18px;
+            }
+
+            .main-result {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+        <a class="logo" href="../index.html">
+            Calculator<span>.xyz</span>
+        </a>
+    </div>
+</header>
+
+<main class="container">
+
+    <div class="breadcrumb">
+        <a href="../index.html">Home</a> /
+        EV Charging Cost Calculator
+    </div>
+
+    <h1>EV Charging Cost Calculator</h1>
+
+    <p class="intro">
+        Calculate the estimated electricity cost and energy required
+        to charge your electric vehicle.
+    </p>
+
+    <div class="calculator-box">
+
+        <div class="input-group">
+            <label for="battery">Battery Capacity</label>
+
+            <div class="input-row">
+                <input
+                    type="number"
+                    id="battery"
+                    value="75"
+                    min="0.1"
+                    step="0.1">
+
+                <div class="unit">kWh</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="current">Current Battery Level</label>
+
+            <div class="input-row">
+                <input
+                    type="number"
+                    id="current"
+                    value="20"
+                    min="0"
+                    max="100"
+                    step="1">
+
+                <div class="unit">%</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="target">Target Battery Level</label>
+
+            <div class="input-row">
+                <input
+                    type="number"
+                    id="target"
+                    value="80"
+                    min="0"
+                    max="100"
+                    step="1">
+
+                <div class="unit">%</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="price">Electricity Price</label>
+
+            <div class="input-row">
+                <input
+                    type="number"
+                    id="price"
+                    value="8"
+                    min="0"
+                    step="0.01">
+
+                <div class="unit">₹ / unit</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="efficiency">Charging Efficiency</label>
+
+            <div class="input-row">
+                <input
+                    type="number"
+                    id="efficiency"
+                    value="90"
+                    min="1"
+                    max="100"
+                    step="1">
+
+                <div class="unit">%</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="charger">Charger Power (Optional)</label>
+
+            <div class="input-row">
+                <input
+                    type="number"
+                    id="charger"
+                    value="7.2"
+                    min="0"
+                    step="0.1">
+
+                <div class="unit">kW</div>
+            </div>
+        </div>
+
+        <button onclick="calculate()">Calculate Charging Cost</button>
+
+        <div class="result" id="result">
+
+            <h2>Charging Estimate</h2>
+
+            <div class="main-result" id="cost">₹0</div>
+
+            <div class="result-row">
+                <span class="result-label">Battery energy needed</span>
+                <span class="result-value" id="batteryEnergy">0 kWh</span>
+            </div>
+
+            <div class="result-row">
+                <span class="result-label">Electricity from grid</span>
+                <span class="result-value" id="gridEnergy">0 kWh</span>
+            </div>
+
+            <div class="result-row">
+                <span class="result-label">Estimated charging cost</span>
+                <span class="result-value" id="totalCost">₹0</span>
+            </div>
+
+            <div class="result-row" id="timeRow">
+                <span class="result-label">Estimated charging time</span>
+                <span class="result-value" id="chargingTime">-</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="content">
+
+        <h2>How to use this EV charging calculator</h2>
+
+        <p>
+            Enter your EV battery capacity, current battery percentage,
+            desired charging percentage and electricity price.
+        </p>
+
+        <p>
+            The calculator estimates how many units of electricity
+            your vehicle will consume and the approximate charging cost.
+        </p>
+
+        <h2>Calculation formula</h2>
+
+        <div class="formula">
+            Battery Energy Needed =
+            Battery Capacity × (Target % − Current %) ÷ 100
+        </div>
+
+        <div class="formula">
+            Grid Energy =
+            Battery Energy Needed ÷ Charging Efficiency
+        </div>
+
+        <div class="formula">
+            Charging Cost =
+            Grid Energy × Electricity Price
+        </div>
+
+        <h2>Example</h2>
+
+        <p>
+            Suppose your EV has a 75 kWh battery and you want to
+            charge it from 20% to 80%.
+        </p>
+
+        <p>
+            The battery needs 45 kWh of energy. With 90% charging
+            efficiency, approximately 50 kWh may be drawn from the grid.
+            At ₹8 per unit, the estimated cost is about ₹400.
+        </p>
+
+        <h2>Important note</h2>
+
+        <p>
+            Actual electricity consumption can vary because of charging
+            losses, temperature, charger efficiency, battery management
+            and other factors. Your electricity bill may also use
+            different tariff slabs or fixed charges.
+        </p>
+
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq">
+            <strong>How much does it cost to charge an EV?</strong>
+            <p>
+                It depends mainly on battery capacity, the amount of
+                energy being added and your electricity tariff.
+            </p>
+        </div>
+
+        <div class="faq">
+            <strong>What is charging efficiency?</strong>
+            <p>
+                Charging efficiency accounts for energy lost between
+                the electricity supply and the energy stored in the battery.
+            </p>
+        </div>
+
+        <div class="faq">
+            <strong>Does the calculator include charging losses?</strong>
+            <p>
+                Yes. The efficiency field allows you to account for
+                charging losses.
+            </p>
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+    <strong>Calculator.xyz</strong>
+    <p>Free online calculators for everyday calculations.</p>
+</footer>
+
+<script>
+function calculate() {
+
+    const battery = parseFloat(document.getElementById("battery").value);
+    const current = parseFloat(document.getElementById("current").value);
+    const target = parseFloat(document.getElementById("target").value);
+    const price = parseFloat(document.getElementById("price").value);
+    const efficiency = parseFloat(document.getElementById("efficiency").value);
+    const charger = parseFloat(document.getElementById("charger").value);
+
+    if (
+        isNaN(battery) ||
+        isNaN(current) ||
+        isNaN(target) ||
+        isNaN(price) ||
+        isNaN(efficiency)
+    ) {
+        alert("Please enter all required values.");
+        return;
+    }
+
+    if (current < 0 || current > 100 ||
+        target < 0 || target > 100) {
+        alert("Battery percentages must be between 0% and 100%.");
+        return;
+    }
+
+    if (target <= current) {
+        alert("Target battery level must be higher than current level.");
+        return;
+    }
+
+    if (efficiency <= 0 || efficiency > 100) {
+        alert("Charging efficiency must be between 1% and 100%.");
+        return;
+    }
+
+    const batteryEnergy =
+        battery * (target - current) / 100;
+
+    const gridEnergy =
+        batteryEnergy / (efficiency / 100);
+
+    const totalCost =
+        gridEnergy * price;
+
+    document.getElementById("batteryEnergy").textContent =
+        batteryEnergy.toFixed(2) + " kWh";
+
+    document.getElementById("gridEnergy").textContent =
+        gridEnergy.toFixed(2) + " kWh";
+
+    document.getElementById("totalCost").textContent =
+        "₹" + totalCost.toFixed(2);
+
+    document.getElementById("cost").textContent =
+        "₹" + totalCost.toFixed(2);
+
+    if (charger > 0) {
+
+        const timeHours = gridEnergy / charger;
+
+        const hours = Math.floor(timeHours);
+        const minutes = Math.round((timeHours - hours) * 60);
+
+        document.getElementById("chargingTime").textContent =
+            hours + " hr " + minutes + " min";
+
+    } else {
+
+        document.getElementById("chargingTime").textContent =
+            "Enter charger power";
+
+    }
+
+    document.getElementById("result").style.display = "block";
+}
+</script>
+
+</body>
+</html>
