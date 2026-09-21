@@ -1099,12 +1099,12 @@
 
                 <div class="form-group">
                     <div class="label-row">
-                        <label for="otherCharge">Other Charges</label>
+                        <label for="otherCharges">Other Charges</label>
                         <button type="button" class="info-button" onclick="toggleInfo('otherChargeInfo')" aria-label="Information about other charges">?</button>
                     </div>
                     <div class="input-with-prefix">
                         <span>₹</span>
-                        <input type="number" id="otherCharge" min="0" step="0.01" value="0" placeholder="Example: 50">
+                        <input type="number" id="otherCharges" min="0" step="0.01" value="0" placeholder="Example: 50">
                     </div>
                     <div class="help-text">Optional: taxes or other charges.</div>
                     <div class="info-popup" id="otherChargeInfo">
@@ -1135,112 +1135,6 @@
             <div class="manual-note">
                 <strong>Important:</strong> This mode uses the values you enter. It does not guess your state's tariff.
             </div>
-        </div>
-
-
-        <!-- MANUAL TARIFF MODE -->
-        <div class="manual-tariff-section">
-
-            <div class="label-row">
-                <h3>Manual Tariff Calculation</h3>
-                <button
-                    type="button"
-                    class="info-button"
-                    onclick="toggleInfo('manualTariffInfo')"
-                    aria-label="Information about manual tariff calculation">
-                    ?
-                </button>
-            </div>
-
-            <p class="manual-intro">
-                If your verified tariff is not available yet, enter the charges
-                shown on your electricity tariff or bill. No generic electricity
-                rate is assumed.
-            </p>
-
-            <div class="manual-grid">
-
-                <div class="manual-field">
-                    <label for="energyRate">
-                        Energy Charge (₹/unit)
-                    </label>
-                    <input
-                        type="number"
-                        id="energyRate"
-                        min="0"
-                        step="0.01"
-                        placeholder="Example: 7.50">
-                </div>
-
-                <div class="manual-field">
-                    <label for="fixedCharge">
-                        Fixed Charge (₹)
-                    </label>
-                    <input
-                        type="number"
-                        id="fixedCharge"
-                        min="0"
-                        step="0.01"
-                        value="0"
-                        placeholder="Example: 100">
-                </div>
-
-                <div class="manual-field">
-                    <label for="otherCharges">
-                        Other Charges (₹)
-                    </label>
-                    <input
-                        type="number"
-                        id="otherCharges"
-                        min="0"
-                        step="0.01"
-                        value="0"
-                        placeholder="Example: 50">
-                </div>
-
-                <div class="manual-field">
-                    <label for="subsidy">
-                        Subsidy / Rebate (₹)
-                    </label>
-                    <input
-                        type="number"
-                        id="subsidy"
-                        min="0"
-                        step="0.01"
-                        value="0"
-                        placeholder="Example: 100">
-                </div>
-
-            </div>
-
-            <p class="manual-note">
-                <strong>Important:</strong>
-                This mode currently uses one energy rate for all entered units.
-                If your tariff uses different slab rates, the result may differ
-                from your actual bill.
-            </p>
-
-            <div class="info-popup" id="manualTariffInfo">
-                <strong>How does Manual Tariff Calculation work?</strong>
-                <p>
-                    Energy Charges = electricity units × energy charge per unit.
-                </p>
-                <p>
-                    The fixed charge and other charges are then added, and any
-                    subsidy or rebate entered by you is deducted.
-                </p>
-                <p>
-                    Use the rate and charges from your own tariff/bill whenever
-                    possible. Do not enter the average national electricity rate.
-                </p>
-                <button
-                    type="button"
-                    class="close-info"
-                    onclick="toggleInfo('manualTariffInfo')">
-                    Got it
-                </button>
-            </div>
-
         </div>
 
 
